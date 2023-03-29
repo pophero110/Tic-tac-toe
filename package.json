@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "dat.gui": "^0.7.9",
+    "three": "^0.150.1"
+  },
+  "scripts": {
+    "webpack": "npx webpack --watch --mode=development",
+    "sass": "sass --watch ./src/style.scss ./dist/main.css"
+  },
+  "devDependencies": {
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
+  }
+}
