@@ -17,7 +17,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ## UI Wireframe
 
-![image](ui_wireframe.png)
+![ui_wireframe image](ui_wireframe.png)
 
 ## Tech
 
