@@ -4,7 +4,6 @@
 }
 * {
   box-sizing: border-box;
-  color: white;
 }
 
 body {
@@ -13,6 +12,7 @@ body {
 .title {
   text-align: center;
   font-size: 4rem;
+  color: white;
 }
 .playGameButton {
   color: red;

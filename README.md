@@ -63,7 +63,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
     - check if there is a winning, losing or tie condition by comparing the board variable with winningCondition variable
     - display winning, losing, tie or whose turn message
   - public instance method startNewGame
-    - assign a new array with 9 empty strings to the 'board' variable
+    - empty the board object
     - clear message and each cell
 - Add click event listener to the '.playGameButton' element
   - call startNewGame
