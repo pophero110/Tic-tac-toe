@@ -3,21 +3,24 @@ const board = document.querySelector(".board");
 const playGameButton = document.querySelector(".playGameButton");
 const message = document.querySelector(".message");
 const game = new Game();
-console.log(game);
 
-board.addEventListener("click", (event) => {
-  console.log(event.target.id);
+function boardClickEventHandler(event) {
   const clickCell = event.target;
-  const player = game.whoseTurn;
   const markEle = document.createElement("div");
-  markEle.innerText = player;
-  markEle.classList.add("markedCell");
-  markEle.style.fontSize = "2rem";
-  game.checkGameOver(clickCell.id);
+  markEle.innerText = game.whoseTurn;
+  markEle.classList.add("board__cell-marked");
   clickCell.appendChild(markEle);
-});
+  let gameOverMessage = game.checkGameOver(clickCell.id);
+  if (gameOverMessage) {
+    message.innerText = gameOverMessage;
+  } else {
+    message.innerText = "Turn: " + game.whoseTurn;
+  }
+}
+board.addEventListener("click", boardClickEventHandler);
+
 playGameButton.addEventListener("click", (event) => {
-  const markedCells = document.querySelectorAll(".markedCell");
+  const markedCells = document.querySelectorAll(".board__cell-marked");
   markedCells.forEach((cell) => cell.remove());
   game.startNewGame();
 });
