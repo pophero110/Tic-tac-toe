@@ -51,7 +51,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 - Create a 'Game' class
   - private instance variable 'board' empty object to represent the 3 x 3 board
-    - the key represents the player and the value represents the position of the marked cell; ex: `{'O': 1, 'X': 2...}`
+    - the key represents the position of the marked cell and the value represents the player; ex: `{1: 'O', 2: 'X'...}`
   - private instance variables player1 as "X" and player2 as "O"
   - private instance variable whoseTurn
     - default value: player1

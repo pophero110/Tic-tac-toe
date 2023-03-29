@@ -16,6 +16,8 @@ board.addEventListener("click", (event) => {
   game.checkGameOver(clickCell.id);
   clickCell.appendChild(markEle);
 });
-playerGameButton.addEventListener("click", (event) => {
-  board.chil;
+playGameButton.addEventListener("click", (event) => {
+  const markedCells = document.querySelectorAll(".markedCell");
+  markedCells.forEach((cell) => cell.remove());
+  game.startNewGame();
 });
