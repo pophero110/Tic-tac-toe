@@ -5,12 +5,13 @@ const message = document.querySelector(".message");
 const game = new Game();
 
 function boardClickEventHandler(event) {
-  const clickCell = event.target;
+  const clickedCell = event.target;
+  if (clickedCell.childNodes.length) return;
   const markEle = document.createElement("div");
   markEle.innerText = game.whoseTurn;
   markEle.classList.add("board__cell-marked");
-  clickCell.appendChild(markEle);
-  let gameOverMessage = game.checkGameOver(clickCell.id);
+  clickedCell.appendChild(markEle);
+  let gameOverMessage = game.checkGameOver(clickedCell.id);
   if (gameOverMessage) {
     message.innerText = gameOverMessage;
   } else {

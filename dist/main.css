@@ -38,6 +38,7 @@ body {
   grid-gap: 0.5rem;
   justify-content: center;
   padding: 0 20%;
+  cursor: pointer;
 }
 .board__cell {
   width: 10rem;
@@ -46,6 +47,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.board__cell:hover {
+  background-color: gray;
 }
 .board__cell-marked {
   font-size: 10rem;
