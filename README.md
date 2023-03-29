@@ -3,27 +3,27 @@
 Developer: Jeff Ou  
 Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web development
 
-# MVP - Bronze
-
-## User stories
-
-- As a user, I should be able to start a new tic-tac-toe game ✅
-- As a user, I should be able to click on a square to add X first and then O, and so on ✅
-- As a user, I should be shown a message after each turn for if I win, lose, tie or whose turn it is next ✅
-- As a user, I should not be able to click the same square twice ✅
-- As a user, I should be shown a message when I win, lose or tie ✅
-- As a user, I should not be able to continue playing once I win, lose, or tie ✅
-- As a user, I should be able to play the game again without refreshing the page ✅
-
-## UI Wireframe
-
-![ui_wireframe image](ui_wireframe.png)
-
-## Tech
+# Technologies
 
 - **Webpack**: to combine multiple JS files into one JS file 'main.js'
 - **Sass**: improves the workflow and efficiency of CSS development, also combines multiple CSS files into one CSS file 'main.css'
 - **Figma**: Design [UI wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=0%3A1&t=ZF6JZwuBHaZpcvQp-1)
+
+# MVP - Bronze
+
+## User stories
+
+- As a player, I should be able to start a new tic-tac-toe game ✅
+- As a player, I should be able to click on a square to add X first and then O, and so on ✅
+- As a player, I should be shown a message after each turn for if I win, lose, tie or whose turn it is next ✅
+- As a player, I should not be able to click the same square twice ✅
+- As a player, I should be shown a message when I win, lose or tie ✅
+- As a player, I should not be able to continue playing once I win, lose, or tie ✅
+- As a player, I should be able to play the game again without refreshing the page ✅
+
+## UI Wireframe
+
+![ui_wireframe image](ui_wireframe.png)
 
 ## Bronze Pseudocode
 
@@ -71,6 +71,23 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
   - call checkGameOver(clickedCell)
   - fill the clicked cell with "O" or "X" based on whose turn
 
-# MVP - Sliver
+# MVP - Silver
+
+## User stories
+
+- As a player, I want to keep track of multiple game rounds so that I can see how many times I have won, lost, or tied, and keep track of my progress in the game.
+- As a player, I want to be able to customize my game token (X, O, name, picture, etc.) so that I can personalize my gaming experience and make it more enjoyable.
+- As a player, I want my game data to be saved locally using localStorage so that I can continue playing even if I lose internet connectivity or refresh the page.
+- As a player, I want audio to be included in the game so that I can have an immersive and enjoyable gaming experience.
+- As a player, I want to be able to play against an AI opponent that is programmed to play an unbeatable game so that I can challenge myself and improve my skills.
+- As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.
+
+### UI Design
 
 # MVP - Gold
+
+# MVP - Diamond
+
+# TODO
+
+1. add page title and icon
