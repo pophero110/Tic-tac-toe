@@ -14,14 +14,19 @@ function boardClickEventHandler(event) {
   let gameOverMessage = game.checkGameOver(clickedCell.id);
   if (gameOverMessage) {
     message.innerText = gameOverMessage;
+    board.removeEventListener("click", boardClickEventHandler);
   } else {
     message.innerText = "Turn: " + game.whoseTurn;
   }
 }
-board.addEventListener("click", boardClickEventHandler);
-
-playGameButton.addEventListener("click", (event) => {
+function clearGameState() {
   const markedCells = document.querySelectorAll(".board__cell-marked");
   markedCells.forEach((cell) => cell.remove());
+  message.innerText = "";
+}
+
+playGameButton.addEventListener("click", (event) => {
+  board.addEventListener("click", boardClickEventHandler);
+  clearGameState();
   game.startNewGame();
 });
