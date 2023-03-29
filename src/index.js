@@ -11,7 +11,11 @@ board.addEventListener("click", (event) => {
   const player = game.whoseTurn;
   const markEle = document.createElement("div");
   markEle.innerText = player;
+  markEle.classList.add("markedCell");
   markEle.style.fontSize = "2rem";
   game.checkGameOver(clickCell.id);
   clickCell.appendChild(markEle);
+});
+playerGameButton.addEventListener("click", (event) => {
+  board.chil;
 });

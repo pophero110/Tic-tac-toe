@@ -64,7 +64,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
     - display winning, losing, tie or whose turn message
   - public instance method startNewGame
     - empty the board object
-    - clear message and each cell
+    - clear message and marked cells
 - Add click event listener to the '.playGameButton' element
   - call startNewGame
 - Add click event listener to the '.board' element
