@@ -1,0 +1,44 @@
+:root {
+  // 1rem = 10px
+  font-size: 10px;
+}
+* {
+  box-sizing: border-box;
+  color: white;
+}
+
+body {
+  background-color: black;
+}
+.title {
+  text-align: center;
+  font-size: 4rem;
+}
+.playGameButton {
+  color: red;
+  margin: 3rem auto;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  width: fit-content;
+  &:hover {
+    background-color: white;
+  }
+  &:active {
+    color: black;
+  }
+}
+
+.board {
+  display: grid;
+  grid-template-rows: repeat(3, 100px);
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  justify-content: center;
+  padding: 0 20%;
+  &__cell {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+  }
+}
