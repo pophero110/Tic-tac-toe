@@ -13,7 +13,6 @@ class Game {
   #player1;
   #player2;
   constructor() {
-    console.log("constructed");
     this.#board = {};
     this.#player1 = "X";
     this.#player2 = "O";

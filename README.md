@@ -23,7 +23,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=0%3A1&t=ZF6JZwuBHaZpcvQp-1)
 
-![ui_wireframe image](ui_wireframe.png)
+![ui_wireframe image](./resources/ui_wireframe.png)
 
 ## Bronze Pseudocode
 
@@ -33,7 +33,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
   - Add class 'board'
 - Create 9 div inside of the board to represent the cells
   - Add a unique id to each div: 1 to 9
-  - ![board](board_with_id.png)
+  - ![board](./resources/board_with_id.png)
   - Add a class 'cell' to each div
 - Create a header for the title 'Tic-Tac-Toe'
 - Create a 'Play game' button
@@ -72,30 +72,62 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 # MVP - Silver
 
-## User stories
+## User stories (include Pseudocode)
 
-- As a player, I want to keep track of multiple game rounds so that I can see how many times I have won, lost, or tied, and keep track of my progress in the game.
-- As a player, I want to be able to customize my game token (X, O, name, picture, etc.) so that I can personalize my gaming experience and make it more enjoyable.
-- As a player, I want my game data to be saved locally using localStorage so that I can continue playing even if I lose internet connectivity or refresh the page.
-- As a player, I want audio to be included in the game so that I can have an immersive and enjoyable gaming experience.
-- As a player, I want to be able to play against an AI opponent that is programmed to play an unbeatable game so that I can challenge myself and improve my skills.
-- As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.
+<details>
+  <summary>As a player, I want to keep track of multiple game rounds so that I can see how many times I have won, lost, or tied, and keep track of my progress in the game. ✅</summary>
 
-## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
+### Pseudocode
 
-![sliver_ui_wireframe](sliver_ui_wireframe.png)
-
-## Silver Pseudocode
-
-### HTML:
+#### HTML:
 
 - Create a header element
   - Create a scoreboard element
   - Include the title element
 
-### JS:
+#### JS:
 
 - Add **player1WinCount** and **player2WinCount** private instance variables to the _Game_ class
+- Update the scoreboard after any player win
+</details>
+
+<details>
+<summary>As a player, I want to be able to customize my game token (X, O, name, picture, etc.) so that I can personalize my gaming experience and make it more enjoyable.</summary>
+
+### Pseudocode
+
+#### HTML:
+
+- create a form element
+  - create a text input for a name
+  - create a text input for a marker
+  - create a file input for uploading an image
+  - create a button to submit the change
+
+#### JS
+
+- create a function to update the name, marker and image in the HTML
+
+</details>
+
+<details>
+<summary>As a player, I want my game data to be saved locally using localStorage so that I can continue playing even if I lose internet connectivity or refresh the page.</summary>
+</details>
+<details>
+<summary>As a player, I want audio to be included in the game so that I can have an immersive and enjoyable gaming experience.</summary>
+</details>
+<details>
+<summary>As a player, I want to be able to play against an AI opponent that is programmed to play an unbeatable game so that I can challenge myself and improve my skills.</summary>
+</details>
+<details>
+<summary>As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.</summary>
+</details>
+
+## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
+
+![sliver_ui_wireframe](./resources/sliver_ui_wireframe.png)
+
+## Silver Pseudocode
 
 # MVP - Gold
 
