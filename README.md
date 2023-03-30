@@ -49,24 +49,25 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ### JS:
 
-- [Create a 'Game' class](./src/Game.js)
-  - private instance variable **'board'** empty object to represent the 3 x 3 board
-    - the key represents the position of the marked cell and the value represents the player; ex: `{1: 'O', 2: 'X'...}`
-  - private instance variables **player1** as "X" and **player2** as "O"
-  - private instance variable **whoseTurn**
-    - default value: player1
-  - private instance variables **winningCondition** array
-    - Contain 8 arrays and each array contains 3 values to represent all possible combinations in placing three of their marks in a horizontal, vertical, or diagonal row; ex: `[[1,2,3], [4,5,6]...]`
-  - public instance method **checkGameOver**(clickedCell: number)
-    - update **whoseTurn** variable
-    - update the corresponding cell of clickedCell in the board variable
-    - check if there is a winning, losing or tie condition by comparing the board variable with **winningCondition** variable
-    - display winning, losing, tie or whose turn message
-  - public instance method **resetBoard**
-    - empty the board object
-    - clear message and marked cells
-- Add click event listener to the '.playGameButton' element
-- Add click event listener to the '.board' element
+#### Create a Game class with the following private instance variables:
+
+- board: an empty object to represent the 3 x 3 board, where the key represents the position of the marked cell and the value represents the player; ex: {1: 'O', 2: 'X', ...}.
+  player1 and player2: strings representing the markers for each player.
+- whoseTurn: a string representing the current player's marker, with a default value of player1.
+- winningCondition: an array containing 8 sub-arrays, each representing a possible winning combination in the game. Each sub-array contains 3 values that represent the positions of the cells that need to be marked in order to win; ex: [[1,2,3], [4,5,6], ...].
+
+#### The Game class should also have the following public instance methods:
+
+- checkGameOver(positionOfMarkedCell: number): string: a method that checks if the game is over after a player marks a cell. It takes a number representing the position of the newly marked cell and returns a message indicating the winner of the game, a tie, or that the game is not over. The method does the following:
+  - Switches turn to the next player.
+  - Saves the player and position of the marked cell to board.
+  - Checks if there is a winning, losing, or tie condition based on the current state of the board and returns the appropriate message.
+- resetBoard(): void: a method that resets the game board by emptying the board object and clearing any messages and marked cells.
+
+#### Add the following event listeners to the UI:
+
+- A click event listener to the .playGameButton element that creates a new instance of the Game class and starts the game.
+- A click event listener to the .board element that calls the checkGameOver method of the current Game instance and updates the UI accordingly.
 
 # MVP - Silver
 
