@@ -7,7 +7,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 - **Webpack**: to combine multiple JS files into one JS file 'main.js'
 - **Sass**: improves the workflow and efficiency of CSS development, also combines multiple CSS files into one CSS file 'main.css'
-- **Figma**: Design UI wireframe
+- **Figma**: Design [UI wireframes](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
 
 # MVP - Bronze
 
@@ -96,11 +96,9 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ### JS:
 
-- Add **player1WinCount** and **player2WinCount** private instance variable to _Game_ class
+- Add **player1WinCount** and **player2WinCount** private instance variables to _Game_ class
 
 # MVP - Gold
-
-# MVP - Diamond
 
 # TODO
 
