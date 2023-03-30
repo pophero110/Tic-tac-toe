@@ -3,7 +3,7 @@ const board = document.querySelector(".board");
 const playGameButton = document.querySelector(".playGameButton");
 const message = document.querySelector(".message");
 const scoreboardPlayers = document.querySelectorAll(".scoreboard__player");
-const game = new Game();
+let game;
 
 function clearBoard() {
   board.addEventListener("click", boardClickEventHandler);
@@ -45,6 +45,7 @@ function boardClickEventHandler(event) {
 }
 
 playGameButton.addEventListener("click", (event) => {
+  game ||= new Game();
   clearBoard();
   game.resetBoard();
 });
