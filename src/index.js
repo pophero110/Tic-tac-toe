@@ -35,6 +35,7 @@ function checkGameOver(clickedCell) {
     message.innerText = "Turn: " + game.whoseTurn;
   }
 }
+
 function boardClickEventHandler(event) {
   const clickedCell = event.target;
   // disable user to click on same cell twice
@@ -45,5 +46,21 @@ function boardClickEventHandler(event) {
 
 playGameButton.addEventListener("click", (event) => {
   clearBoard();
-  game.startNewGame();
+  game.resetBoard();
 });
+
+// const fileInput = document.getElementById("fileInput");
+// const saveButton = document.getElementById("saveButton");
+// const image = document.querySelector("img");
+// image.src = localStorage.getItem("myImage");
+// saveButton.addEventListener("click", () => {
+//   const file = fileInput.files[0];
+//   const reader = new FileReader();
+
+//   reader.readAsDataURL(file);
+//   reader.onload = () => {
+//     const imgData = reader.result;
+//     localStorage.setItem("myImage", imgData);
+//     alert("Image saved successfully!");
+//   };
+// });

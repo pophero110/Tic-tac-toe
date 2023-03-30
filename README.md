@@ -62,14 +62,11 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
     - update the corresponding cell of clickedCell in the board variable
     - check if there is a winning, losing or tie condition by comparing the board variable with **winningCondition** variable
     - display winning, losing, tie or whose turn message
-  - public instance method **startNewGame**
+  - public instance method **resetBoard**
     - empty the board object
     - clear message and marked cells
 - Add click event listener to the '.playGameButton' element
-  - call startNewGame
 - Add click event listener to the '.board' element
-  - call checkGameOver(clickedCell)
-  - fill the clicked cell with "O" or "X" based on whose turn
 
 # MVP - Silver
 
@@ -96,7 +93,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ### JS:
 
-- Add **player1WinCount** and **player2WinCount** private instance variables to _Game_ class
+- Add **player1WinCount** and **player2WinCount** private instance variables to the _Game_ class
 
 # MVP - Gold
 
