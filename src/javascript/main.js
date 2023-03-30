@@ -9,17 +9,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _javascript_Game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./javascript/Game */ \"./src/javascript/Game.js\");\n/* harmony import */ var _javascript_Game__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_javascript_Game__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _javascript_GameUI__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./javascript/GameUI */ \"./src/javascript/GameUI.js\");\n/* harmony import */ var _javascript_GameUI__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_javascript_GameUI__WEBPACK_IMPORTED_MODULE_1__);\n\n\nconst board = document.querySelector(\".board\");\nconst playGameButton = document.querySelector(\".playGameButton\");\nconst message = document.querySelector(\".message\");\nconst scoreboardPlayers = document.querySelectorAll(\".scoreboard__player\");\nconst game = new (_javascript_Game__WEBPACK_IMPORTED_MODULE_0___default())();\n\nfunction clearBoard() {\n  board.addEventListener(\"click\", boardClickEventHandler);\n  const markedCells = document.querySelectorAll(\".board__cell-marked\");\n  markedCells.forEach((cell) => cell.remove());\n  message.innerText = \"\";\n}\n\nfunction updateBoard(clickedCell) {\n  const markEle = document.createElement(\"div\");\n  markEle.innerText = game.currentPlayerMarker();\n  markEle.classList.add(\"board__cell-marked\");\n  clickedCell.appendChild(markEle);\n}\n\nfunction updateScoreboard() {\n  scoreboardPlayers.forEach((playerEle, index) => {\n    playerEle.children[1].innerText =\n      index === 0 ? game.player1WinCount : game.player2WinCount;\n  });\n}\n\nfunction checkGameOver(clickedCell) {\n  let gameOverMessage = game.checkGameOver(clickedCell.id);\n  if (gameOverMessage) {\n    message.innerText = gameOverMessage;\n    board.removeEventListener(\"click\", boardClickEventHandler);\n    updateScoreboard();\n  } else {\n    message.innerText = \"Turn: \" + game.currentPlayerMarker();\n  }\n}\n\nfunction boardClickEventHandler(event) {\n  const clickedCell = event.target;\n  // disable user to click on same cell twice\n  if (clickedCell.childNodes.length) return;\n  updateBoard(clickedCell);\n  checkGameOver(clickedCell);\n}\n\nplayGameButton.addEventListener(\"click\", (event) => {\n  clearBoard();\n  game.resetBoard();\n});\n\nconst form = document.querySelector(\".form\");\nconst inputs = form.querySelectorAll(\"input\");\nconst body = document.body;\nconst reader = new FileReader();\nfunction updatePlayerCustomziation() {\n  const name = inputs[0].value;\n  const marker = inputs[1].value;\n  const file = inputs[2].files[0];\n  reader.readAsDataURL(file);\n  reader.onload = () => {\n    const imgData = reader.result;\n    game.customizePlayer(name, marker);\n    scoreboardPlayers[0].children[0].innerText = name;\n    body.style.backgroundImage = `url(${imgData})`;\n    body.style.backgroundSize = \"cover\";\n  };\n}\n\nform.addEventListener(\"submit\", (event) => {\n  event.preventDefault();\n  updatePlayerCustomziation();\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
-
-/***/ }),
-
 /***/ "./src/javascript/Game.js":
 /*!********************************!*\
   !*** ./src/javascript/Game.js ***!
@@ -34,9 +23,21 @@ eval("class Game {\n  #winningCondition = [\n    [1, 2, 3],\n    [4, 5, 6],\n   
 /*!**********************************!*\
   !*** ./src/javascript/GameUI.js ***!
   \**********************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("\n\n//# sourceURL=webpack:///./src/javascript/GameUI.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Game */ \"./src/javascript/Game.js\");\n/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Game__WEBPACK_IMPORTED_MODULE_0__);\n\nconst board = document.querySelector(\".board\");\nconst playGameButton = document.querySelector(\".playGameButton\");\nconst message = document.querySelector(\".message\");\nconst scoreboardPlayers = document.querySelectorAll(\".scoreboard__player\");\nconst game = new (_Game__WEBPACK_IMPORTED_MODULE_0___default())();\n\n// Board\nfunction clearBoard() {\n  board.addEventListener(\"click\", boardClickEventHandler);\n  const markedCells = document.querySelectorAll(\".board__cell-marked\");\n  markedCells.forEach((cell) => cell.remove());\n  message.innerText = \"\";\n}\n\nfunction updateBoard(clickedCell) {\n  const markEle = document.createElement(\"div\");\n  markEle.innerText = game.currentPlayerMarker();\n  markEle.classList.add(\"board__cell-marked\");\n  clickedCell.appendChild(markEle);\n}\n\nfunction updateScoreboard() {\n  scoreboardPlayers.forEach((playerEle, index) => {\n    playerEle.children[1].innerText =\n      index === 0 ? game.player1WinCount : game.player2WinCount;\n  });\n}\n\nfunction checkGameOver(clickedCell) {\n  let gameOverMessage = game.checkGameOver(clickedCell.id);\n  if (gameOverMessage) {\n    message.innerText = gameOverMessage;\n    board.removeEventListener(\"click\", boardClickEventHandler);\n    updateScoreboard();\n  } else {\n    message.innerText = \"Turn: \" + game.currentPlayerMarker();\n  }\n}\n\nfunction boardClickEventHandler(event) {\n  const clickedCell = event.target;\n  // disable user to click on same cell twice\n  if (clickedCell.childNodes.length) return;\n  updateBoard(clickedCell);\n  checkGameOver(clickedCell);\n}\n\nplayGameButton.addEventListener(\"click\", (event) => {\n  clearBoard();\n  game.resetBoard();\n});\n\n// CustomziationForm\nconst form = document.querySelector(\".form\");\nconst inputs = form.querySelectorAll(\"input\");\nconst body = document.body;\nconst playerNameTextBox = scoreboardPlayers[0].children[0];\nconst reader = new FileReader();\nfunction updatePlayerCustomziation() {\n  const name = inputs[0].value;\n  const marker = inputs[1].value;\n  const file = inputs[2].files[0];\n  if (file) {\n    reader.readAsDataURL(file);\n    reader.onload = () => {\n      const imgData = reader.result;\n      body.style.backgroundImage = `url(${imgData})`;\n      body.style.backgroundSize = \"cover\";\n    };\n  }\n  game.customizePlayer(name, marker);\n  playerNameTextBox.innerText = name;\n}\n\nform.addEventListener(\"submit\", (event) => {\n  event.preventDefault();\n  updatePlayerCustomziation();\n});\n\n\n//# sourceURL=webpack:///./src/javascript/GameUI.js?");
+
+/***/ }),
+
+/***/ "./src/javascript/index.js":
+/*!*********************************!*\
+  !*** ./src/javascript/index.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GameUI__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameUI */ \"./src/javascript/GameUI.js\");\n\n\n\n//# sourceURL=webpack:///./src/javascript/index.js?");
 
 /***/ })
 
@@ -112,7 +113,7 @@ eval("\n\n//# sourceURL=webpack:///./src/javascript/GameUI.js?");
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/javascript/index.js");
 /******/ 	
 /******/ })()
 ;

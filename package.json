@@ -4,7 +4,7 @@
     "three": "^0.150.1"
   },
   "scripts": {
-    "webpack": "npx webpack --watch --mode=development --output-path=./src/javascript",
+    "webpack": "npx webpack --watch --mode=development --entry=./src/javascript/index.js --output-path=./src/javascript",
     "sass": "sass --watch ./src/css/style.scss ./src/css/main.css"
   },
   "devDependencies": {
