@@ -50,10 +50,10 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ### JS:
 
-#### Create a Game class with the following private instance variables:
+#### Create [a Game class](./src/Game.js) with the following private instance variables:
 
 - board: an empty object to represent the 3 x 3 board, where the key represents the position of the marked cell and the value represents the player; ex: `{1: 'O', 2: 'X', ...}`.
-  player1 and player2: strings representing the markers for each player.
+- player1 and player2: strings representing the markers for each player.
 - whoseTurn: a string representing the current player's marker, with a default value of player1.
 - winningCondition: an array containing 8 sub-arrays, each representing a possible winning combination in the game. Each sub-array contains 3 values that represent the positions of the cells that need to be marked in order to win; ex: `[[1,2,3], [4,5,6], ...]`.
 
