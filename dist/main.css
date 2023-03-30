@@ -4,16 +4,12 @@
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
   background-color: black;
-}
-
-.title {
-  text-align: center;
-  font-size: 4rem;
-  color: white;
 }
 
 .playGameButton {
@@ -60,6 +56,34 @@ body {
   text-align: center;
   font-size: 2rem;
   margin-top: 1rem;
+}
+
+header {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4rem;
+}
+header .title {
+  margin-bottom: 2rem;
+  font-size: 4rem;
+}
+header .scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 25rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+header .scoreboard__player {
+  display: flex;
+  padding: 1rem;
+}
+header .scoreboard__player__name {
+  margin-right: 1rem;
 }
 
 /*# sourceMappingURL=main.css.map */

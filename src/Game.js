@@ -16,13 +16,14 @@ class Game {
     this.#board = {};
     this.#player1 = "X";
     this.#player2 = "O";
+    this.player1WinCount = 0;
+    this.player2WinCount = 0;
     this.whoseTurn = this.#player1;
   }
   checkGameOver(clickedCell) {
     let gameOver = false;
     // save the player and position of clicked cell to board
     this.#board[clickedCell] = this.whoseTurn;
-    console.log(this.#board);
     // check if game is over
     if (this.whoseTurn === this.#player1) {
       // check if player1 win
@@ -30,7 +31,10 @@ class Game {
         gameOver = condition.every(
           (cell) => this.#board[cell] === this.#player1
         );
-        if (gameOver) return this.#player1 + " Won!";
+        if (gameOver) {
+          this.player1WinCount++;
+          return this.#player1 + " Won!";
+        }
       }
     } else {
       // check if player2 win
@@ -38,7 +42,10 @@ class Game {
         gameOver = condition.every(
           (cell) => this.#board[cell] === this.#player2
         );
-        if (gameOver) return this.#player2 + " Won!";
+        if (gameOver) {
+          this.player2WinCount++;
+          return this.#player2 + " Won!";
+        }
       }
     }
     // check if it is a tie by checking number of marked cells

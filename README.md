@@ -7,7 +7,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 - **Webpack**: to combine multiple JS files into one JS file 'main.js'
 - **Sass**: improves the workflow and efficiency of CSS development, also combines multiple CSS files into one CSS file 'main.css'
-- **Figma**: Design [UI wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=0%3A1&t=ZF6JZwuBHaZpcvQp-1)
+- **Figma**: Design UI wireframe
 
 # MVP - Bronze
 
@@ -21,7 +21,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 - As a player, I should not be able to continue playing once I win, lose, or tie ✅
 - As a player, I should be able to play the game again without refreshing the page ✅
 
-## UI Wireframe
+## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=0%3A1&t=ZF6JZwuBHaZpcvQp-1)
 
 ![ui_wireframe image](ui_wireframe.png)
 
@@ -50,19 +50,19 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 ### JS:
 
 - [Create a 'Game' class](./src/Game.js)
-  - private instance variable 'board' empty object to represent the 3 x 3 board
+  - private instance variable **'board'** empty object to represent the 3 x 3 board
     - the key represents the position of the marked cell and the value represents the player; ex: `{1: 'O', 2: 'X'...}`
-  - private instance variables player1 as "X" and player2 as "O"
-  - private instance variable whoseTurn
+  - private instance variables **player1** as "X" and **player2** as "O"
+  - private instance variable **whoseTurn**
     - default value: player1
-  - private instance variables winningCondition array
+  - private instance variables **winningCondition** array
     - Contain 8 arrays and each array contains 3 values to represent all possible combinations in placing three of their marks in a horizontal, vertical, or diagonal row; ex: `[[1,2,3], [4,5,6]...]`
-  - public instance method checkGameOver(clickedCell: number)
-    - update whoseTurn variable
+  - public instance method **checkGameOver**(clickedCell: number)
+    - update **whoseTurn** variable
     - update the corresponding cell of clickedCell in the board variable
-    - check if there is a winning, losing or tie condition by comparing the board variable with winningCondition variable
+    - check if there is a winning, losing or tie condition by comparing the board variable with **winningCondition** variable
     - display winning, losing, tie or whose turn message
-  - public instance method startNewGame
+  - public instance method **startNewGame**
     - empty the board object
     - clear message and marked cells
 - Add click event listener to the '.playGameButton' element
@@ -82,7 +82,21 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 - As a player, I want to be able to play against an AI opponent that is programmed to play an unbeatable game so that I can challenge myself and improve my skills.
 - As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.
 
-### UI Design
+## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
+
+![sliver_ui_wireframe](sliver_ui_wireframe.png)
+
+## Silver Pseudocode
+
+### HTML:
+
+- Create a header element
+  - Create a scoreboard element
+  - Include the title element
+
+### JS:
+
+- Add **player1WinCount** and **player2WinCount** private instance variable to _Game_ class
 
 # MVP - Gold
 
