@@ -33,6 +33,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
   - Add class 'board'
 - Create 9 div inside of the board to represent the cells
   - Add a unique id to each div: 1 to 9
+  - ![board](board_with_id.png)
   - Add a class 'cell' to each div
 - Create a header for the title 'Tic-Tac-Toe'
 - Create a 'Play game' button
