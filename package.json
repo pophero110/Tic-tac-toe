@@ -4,8 +4,8 @@
     "three": "^0.150.1"
   },
   "scripts": {
-    "webpack": "npx webpack --watch --mode=development",
-    "sass": "sass --watch ./src/style.scss ./dist/main.css"
+    "webpack": "npx webpack --watch --mode=development --output-path=./src/javascript",
+    "sass": "sass --watch ./src/css/style.scss ./src/css/main.css"
   },
   "devDependencies": {
     "webpack": "^5.76.3",

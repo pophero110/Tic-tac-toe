@@ -1,4 +1,5 @@
-import Game from "./Game";
+import Game from "./javascript/Game";
+import GameUI from "./javascript/GameUI";
 const board = document.querySelector(".board");
 const playGameButton = document.querySelector(".playGameButton");
 const message = document.querySelector(".message");
