@@ -23,6 +23,8 @@ class Game {
     this.player1WinCount = 0;
     this.player2WinCount = 0;
     this.whoseTurn = true; // true means player 1, false means player2
+
+    this.#loadGameDate();
   }
   /**
    * Determines whether the game is over based on the marked cells on board.
@@ -47,29 +49,75 @@ class Game {
     }
     if (this.#isTieGame()) return messages[1];
     this.#switchTurn();
+    this.saveGameData();
     return messages[2];
   }
 
   resetBoard() {
     this.#board = {};
     this.whoseTurn = true;
+    this.saveGameData(true);
   }
 
-  customizePlayer(name, marker) {
+  customizePlayer(name, marker, image = null) {
     this.#player1Marker = marker;
     this.#player1Name = name;
+    this.saveGameData(false, image);
   }
 
   currentPlayerMarker() {
     return this.whoseTurn ? this.#player1Marker : this.#player2Marker;
   }
 
+  currentPlayerName() {
+    return this.whoseTurn ? this.#player1Name : this.#player2Name;
+  }
+
+  saveGameData(resetBoard = false, image = null) {
+    if (resetBoard) {
+      localStorage.setItem(
+        "player1",
+        JSON.stringify({
+          name: this.#player1Name,
+          marker: this.#player1Marker,
+          score: this.player1WinCount,
+          board: {},
+          whoseTurn: true,
+          image: image,
+        })
+      );
+    } else {
+      localStorage.setItem(
+        "player1",
+        JSON.stringify({
+          name: this.#player1Name,
+          marker: this.#player1Marker,
+          score: this.player1WinCount,
+          board: this.#board,
+          whoseTurn: this.whoseTurn,
+          image: image,
+        })
+      );
+    }
+
+    console.log("save game", JSON.parse(localStorage.getItem("player1")));
+  }
+
+  #loadGameDate() {
+    const player = JSON.parse(localStorage.getItem("player1"));
+    console.log("load game", player);
+    if (!player) return;
+    this.whoseTurn = player.whoseTurn;
+    if (player.name) this.#player1Name = player.name;
+    if (player.marker) this.#player1Marker = player.marker;
+    if (player.score) this.player1WinCount = player.score;
+    if (Object.keys(player.board)) this.#board = player.board;
+  }
   #isTieGame() {
     return Object.keys(this.#board).length === 9;
   }
 
   #isCurrentPlayerWinning() {
-    console.log(this.#board);
     for (const condition of this.#winningCondition) {
       let matchWinningCondition = condition.every(
         (cell) => this.#board[cell] === this.whoseTurn

@@ -12,7 +12,7 @@ body {
   background-color: black;
 }
 
-.playGameButton {
+.resetGameButton {
   color: red;
   margin: 3rem auto;
   font-size: 2rem;
@@ -20,10 +20,10 @@ body {
   cursor: pointer;
   width: fit-content;
 }
-.playGameButton:hover {
+.resetGameButton:hover {
   background-color: white;
 }
-.playGameButton:active {
+.resetGameButton:active {
   color: black;
 }
 
