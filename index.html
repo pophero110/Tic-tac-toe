@@ -13,12 +13,11 @@
       <h1 class="title">Tic Tac Toe</h1>
       <div class="scoreboard">
         <div class="scoreboard__player">
-          <p class="scoreboard__player__name">David:</p>
+          <p class="scoreboard__player__name">Anonymous</p>
           <p class="scoreboard__player__score">0</p>
         </div>
-        <div class="scoreboard__vs">VS</div>
         <div class="scoreboard__player">
-          <p class="scoreboard__player__name">Jack:</p>
+          <p class="scoreboard__player__name">P2</p>
           <p class="scoreboard__player__score">0</p>
         </div>
       </div>
@@ -35,12 +34,22 @@
       <div class="board__cell" id="8"></div>
       <div class="board__cell" id="9"></div>
     </div>
+
     <div class="message"></div>
     <div class="playGameButton">Play Game</div>
-    <img src="#" alt="" />
-    <input type="file" id="fileInput" />
-    <button id="saveButton">Save Image</button>
 
+    <form action="#" class="form">
+      <label for="name">name</label>
+      <input type="text" id="name" />
+
+      <label for="marker">marker</label>
+      <input type="text" id="marker" />
+
+      <label for="uploadImage">Background image</label>
+      <input type="file" name="uploadImage" id="uploadImage" />
+
+      <button>Submit</button>
+    </form>
     <script src="./dist/main.js"></script>
   </body>
 </html>

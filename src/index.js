@@ -3,7 +3,7 @@ const board = document.querySelector(".board");
 const playGameButton = document.querySelector(".playGameButton");
 const message = document.querySelector(".message");
 const scoreboardPlayers = document.querySelectorAll(".scoreboard__player");
-let game;
+const game = new Game();
 
 function clearBoard() {
   board.addEventListener("click", boardClickEventHandler);
@@ -14,10 +14,11 @@ function clearBoard() {
 
 function updateBoard(clickedCell) {
   const markEle = document.createElement("div");
-  markEle.innerText = game.whoseTurn;
+  markEle.innerText = game.currentPlayerMarker();
   markEle.classList.add("board__cell-marked");
   clickedCell.appendChild(markEle);
 }
+
 function updateScoreboard() {
   scoreboardPlayers.forEach((playerEle, index) => {
     playerEle.children[1].innerText =
@@ -32,7 +33,7 @@ function checkGameOver(clickedCell) {
     board.removeEventListener("click", boardClickEventHandler);
     updateScoreboard();
   } else {
-    message.innerText = "Turn: " + game.whoseTurn;
+    message.innerText = "Turn: " + game.currentPlayerMarker();
   }
 }
 
@@ -45,23 +46,29 @@ function boardClickEventHandler(event) {
 }
 
 playGameButton.addEventListener("click", (event) => {
-  game ||= new Game();
   clearBoard();
   game.resetBoard();
 });
 
-// const fileInput = document.getElementById("fileInput");
-// const saveButton = document.getElementById("saveButton");
-// const image = document.querySelector("img");
-// image.src = localStorage.getItem("myImage");
-// saveButton.addEventListener("click", () => {
-//   const file = fileInput.files[0];
-//   const reader = new FileReader();
+const form = document.querySelector(".form");
+const inputs = form.querySelectorAll("input");
+const body = document.body;
+const reader = new FileReader();
+function updatePlayerCustomziation() {
+  const name = inputs[0].value;
+  const marker = inputs[1].value;
+  const file = inputs[2].files[0];
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    const imgData = reader.result;
+    game.customizePlayer(name, marker);
+    scoreboardPlayers[0].children[0].innerText = name;
+    body.style.backgroundImage = `url(${imgData})`;
+    body.style.backgroundSize = "cover";
+  };
+}
 
-//   reader.readAsDataURL(file);
-//   reader.onload = () => {
-//     const imgData = reader.result;
-//     localStorage.setItem("myImage", imgData);
-//     alert("Image saved successfully!");
-//   };
-// });
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updatePlayerCustomziation();
+});

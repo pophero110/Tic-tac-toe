@@ -10,15 +10,19 @@ class Game {
     [3, 5, 7],
   ];
   #board;
-  #player1;
-  #player2;
+  #player1Marker;
+  #player2Marker;
+  #player1Name;
+  #player2Name;
   constructor() {
     this.#board = {};
-    this.#player1 = "X";
-    this.#player2 = "O";
+    this.#player1Marker = "X";
+    this.#player2Marker = "O";
+    this.#player1Name = "Anonymous";
+    this.#player2Name = "P2";
     this.player1WinCount = 0;
     this.player2WinCount = 0;
-    this.whoseTurn = this.#player1;
+    this.whoseTurn = true; // true means player 1, false means player2
   }
   /**
    * Determines whether the game is over based on the marked cells on board.
@@ -31,8 +35,12 @@ class Game {
    * @returns {string} - A message indicating the winner of the game, a tie, or that the game is not over.
    */
   checkGameOver(positionOfMarkedCell) {
-    const messages = [`${this.whoseTurn} Won!`, "Tie Game", ""];
-    this.#updateBoard(this.whoseTurn, positionOfMarkedCell);
+    const messages = [
+      `${this.whoseTurn === 0 ? this.#player2Name : this.#player1Name} Won!`,
+      "Tie Game",
+      "",
+    ];
+    this.#updateBoard(positionOfMarkedCell);
     if (this.#isCurrentPlayerWinning()) {
       this.#updateScoreboard();
       return messages[0];
@@ -44,7 +52,16 @@ class Game {
 
   resetBoard() {
     this.#board = {};
-    this.whoseTurn = this.#player1;
+    this.whoseTurn = true;
+  }
+
+  customizePlayer(name, marker) {
+    this.#player1Marker = marker;
+    this.#player1Name = name;
+  }
+
+  currentPlayerMarker() {
+    return this.whoseTurn ? this.#player1Marker : this.#player2Marker;
   }
 
   #isTieGame() {
@@ -52,6 +69,7 @@ class Game {
   }
 
   #isCurrentPlayerWinning() {
+    console.log(this.#board);
     for (const condition of this.#winningCondition) {
       let matchWinningCondition = condition.every(
         (cell) => this.#board[cell] === this.whoseTurn
@@ -62,19 +80,16 @@ class Game {
   }
 
   // save the player and position of marked cell to board
-  #updateBoard(player, positionOfMarkedCell) {
-    this.#board[positionOfMarkedCell] = player;
+  #updateBoard(positionOfMarkedCell) {
+    this.#board[positionOfMarkedCell] = this.whoseTurn;
   }
 
   #switchTurn() {
-    this.whoseTurn =
-      this.whoseTurn === this.#player1 ? this.#player2 : this.#player1;
+    this.whoseTurn = !this.whoseTurn;
   }
 
   #updateScoreboard() {
-    this.whoseTurn === this.#player1
-      ? this.player1WinCount++
-      : this.player2WinCount++;
+    this.whoseTurn ? this.player1WinCount++ : this.player2WinCount++;
   }
 }
 

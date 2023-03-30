@@ -34,9 +34,9 @@ body {
   grid-gap: 0.5rem;
   justify-content: center;
   padding: 0 20%;
-  cursor: pointer;
 }
 .board__cell {
+  cursor: pointer;
   width: 10rem;
   height: 10rem;
   background-color: white;
@@ -74,16 +74,38 @@ header .scoreboard {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 25rem;
+  width: 30rem;
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 header .scoreboard__player {
   display: flex;
-  padding: 1rem;
 }
 header .scoreboard__player__name {
   margin-right: 1rem;
+}
+
+main {
+  display: flex;
+}
+
+.form {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.form label {
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+.form input {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+.form button {
+  padding: 1rem;
 }
 
 /*# sourceMappingURL=main.css.map */

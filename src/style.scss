@@ -34,8 +34,8 @@ body {
   grid-gap: 0.5rem;
   justify-content: center;
   padding: 0 20%;
-  cursor: pointer;
   &__cell {
+    cursor: pointer;
     width: 10rem;
     height: 10rem;
     background-color: white;
@@ -74,15 +74,36 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 25rem;
+    width: 30rem;
     font-size: 2rem;
     margin-bottom: 1rem;
     &__player {
       display: flex;
-      padding: 1rem;
       &__name {
         margin-right: 1rem;
       }
     }
+  }
+}
+main {
+  display: flex;
+}
+.form {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  label {
+    font-size: 2rem;
+    text-transform: capitalize;
+  }
+  input {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+  button {
+    padding: 1rem;
   }
 }

@@ -107,6 +107,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 #### JS
 
 - create a function to update the name, marker and image in the HTML
+- create a function to update the name and marker in the game instance
 
 </details>
 
@@ -134,3 +135,4 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 # TODO
 
 1. add page title and icon
+2. create folder to organize files
