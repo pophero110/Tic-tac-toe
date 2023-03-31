@@ -86,9 +86,8 @@ class Game {
 
   loadGameDate() {
     const gameData = JSON.parse(localStorage.getItem("gameData"));
-    console.log("load game", gameData);
     if (!gameData) return;
-    console.log("load", this.player1, this.player2);
+    console.log("load game", gameData);
     const player1 = gameData.player1;
     const player2 = gameData.player2;
     this.player1.update({ ...player1 });
@@ -100,7 +99,6 @@ class Game {
   #updateScore() {
     if (this.gameState === GameState.WIN) this.player1.score += 1;
     if (this.gameState === GameState.LOSE) this.player2.score += 1;
-    console.log("updateScore", this.player1, this.player2);
   }
 
   #switchTurn() {
