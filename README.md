@@ -37,7 +37,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
   - Add a class 'cell' to each div
 - Create a header for the title 'Tic-Tac-Toe'
 - Create a 'Play game' button
-  - Add class 'playGameButton'
+  - Add class 'resetGameButton'
 - Create a div to display a message
   - Add class 'message'
 
@@ -67,7 +67,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 #### Add the following event listeners to the UI:
 
-- A click event listener to the .playGameButton element that creates a new instance of the Game class and starts the game.
+- A click event listener to the .resetGameButton element that reset the game.
 - A click event listener to the .board element that calls the checkGameOver method of the current Game instance and updates the UI accordingly.
 
 # MVP - Silver
