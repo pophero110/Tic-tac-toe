@@ -124,7 +124,16 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 #### JS:
 
-- create a function 'selectCellByAI' returns the position of the selected cell
+- How does AI mark the cell?
+  - if nextTurnPlayer is AI
+    - remove the board click event to prevent it from player clicking
+    - call completeTurn() function
+    - add board click event back
+- How does AI select the cell?
+  - if AI plays second
+    - always start with one of the corner cells
+    - check if player has any potential winning combination and block it or randomly select empty cell
+- create a function 'selectCell' returns the position of the selected cell
   - if AI plays first
     - first round
       - select the '5' cell

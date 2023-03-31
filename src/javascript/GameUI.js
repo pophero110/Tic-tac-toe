@@ -1,5 +1,6 @@
 import { Game, GameState } from "./Game";
-import { Player, TYPE } from "./Player";
+import { Player, PLAYER_TYPE } from "./Player";
+import { AI } from "./AI";
 // Game UI Element
 const board = document.querySelector(".board");
 const resetGameButton = document.querySelector(".resetGameButton");
@@ -10,14 +11,8 @@ const player2Scoreboard = scoreboardPlayers[1].children;
 const body = document.body;
 
 // Game Assets
-const player1 = new Player({
-  name: "You",
-  marker: "X",
-  type: TYPE.HUMAN,
-  score: 0,
-  image: null,
-});
-const aiPlayer = new Player();
+const player1 = new Player();
+const aiPlayer = new AI();
 const game = new Game(player1, aiPlayer);
 const clickSound = new Audio("./resources/click.wav");
 const resetGameSound = new Audio("./resources/reset_game.wav");
@@ -27,6 +22,8 @@ const tieGameSound = new Audio("./resources/tie_game.wav");
 
 // Board
 function boardClickEventHandler(event) {
+  // disable player to mark cell until ai player has finished the turn
+  board.removeEventListener("click", boardClickEventHandler);
   const clickedCell = event.target;
   // disable user to click on same cell twice or to click any cell after game is over
   if (
@@ -37,9 +34,29 @@ function boardClickEventHandler(event) {
   }
 
   clickSound.play();
+  completeTurn(clickedCell);
+  aiCompleteTurn();
+}
+
+function completeTurn(clickedCell) {
   updateBoard(clickedCell);
   updateGameState();
   updateScore();
+}
+function aiCompleteTurn() {
+  const player = game.currentTurnPlayer();
+  if (
+    player.type === PLAYER_TYPE.AI &&
+    game.gameState === GameState.NOT_GAME_OVER
+  ) {
+    setTimeout(() => {
+      clickSound.play();
+      const positionOfCell = player.selectCell(game);
+      const selectedCell = document.getElementById(positionOfCell);
+      completeTurn(selectedCell);
+      board.addEventListener("click", boardClickEventHandler);
+    }, 500);
+  }
 }
 
 function resetBoard() {
@@ -122,11 +139,10 @@ playerForm.addEventListener("submit", (event) => {
 });
 
 // Start game
-const gameData = JSON.parse(localStorage.getItem("gameData"));
 
 function loadBoard(board) {
-  if (Object.keys(gameData.board)) {
-    Object.entries(gameData.board).forEach(([positionOfMarkedCell, player]) => {
+  if (Object.keys(board)) {
+    Object.entries(board).forEach(([positionOfMarkedCell, player]) => {
       const cell = document.getElementById(`${positionOfMarkedCell}`);
       const markEle = document.createElement("div");
       markEle.innerText = game.findPlayerBywhoseTurn(player).marker;
@@ -136,6 +152,7 @@ function loadBoard(board) {
   }
 }
 function loadGameData() {
+  const gameData = JSON.parse(localStorage.getItem("gameData"));
   game.loadGameDate();
   if (!gameData) return;
   const player1 = gameData.player1;

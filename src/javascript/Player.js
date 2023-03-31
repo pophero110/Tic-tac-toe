@@ -1,13 +1,24 @@
-const TYPE = {
+const WINNING_COMBINATIONS = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+  [1, 4, 7],
+  [2, 5, 8],
+  [3, 6, 9],
+  [1, 5, 9],
+  [3, 5, 7],
+];
+
+const PLAYER_TYPE = {
   HUMAN: "human",
   AI: "ai",
 };
 class Player {
   constructor(
     { name, marker, score, image, type } = {
-      name: "Unbeatable AI",
-      marker: "🤖",
-      type: TYPE.HUMAN,
+      name: "You",
+      marker: "X",
+      type: PLAYER_TYPE.HUMAN,
       score: 0,
       image: null,
     }
@@ -29,5 +40,6 @@ class Player {
 
 module.exports = {
   Player,
-  TYPE,
+  PLAYER_TYPE,
+  WINNING_COMBINATIONS,
 };
