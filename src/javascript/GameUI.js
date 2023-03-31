@@ -35,9 +35,9 @@ function loadGame() {
       "Turn: " + (playerData.whoseTurn ? playerData.name : "P2");
     body.style.backgroundImage = `url(${playerData.image})`;
   }
-  board.addEventListener("click", boardClickEventHandler);
 }
 loadGame();
+board.addEventListener("click", boardClickEventHandler);
 
 function boardClickEventHandler(event) {
   const clickedCell = event.target;
