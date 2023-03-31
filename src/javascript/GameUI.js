@@ -41,9 +41,9 @@ board.addEventListener("click", boardClickEventHandler);
 
 function boardClickEventHandler(event) {
   const clickedCell = event.target;
-  clickSound.play();
   // disable user to click on same cell twice
   if (clickedCell.childNodes.length) return;
+  clickSound.play();
   updateBoard(clickedCell);
   checkGameOver(clickedCell);
 }

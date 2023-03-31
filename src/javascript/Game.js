@@ -1,3 +1,7 @@
+const winSound = new Audio("./resources/win.wav");
+const loseSound = new Audio("./resources/lose.wav");
+const tieGameSound = new Audio("./resources/tie_game.wav");
+
 class Game {
   #winningCondition = [
     [1, 2, 3],
@@ -38,16 +42,20 @@ class Game {
    */
   checkGameOver(positionOfMarkedCell) {
     const messages = [
-      `${this.whoseTurn === 0 ? this.#player2Name : this.#player1Name} Won!`,
+      `${this.whoseTurn ? this.#player1Name : this.#player2Name} Won!`,
       "Tie Game",
       "",
     ];
     this.#updateBoard(positionOfMarkedCell);
     if (this.#isCurrentPlayerWinning()) {
+      this.whoseTurn ? winSound.play() : loseSound.play();
       this.#updateScoreboard();
       return messages[0];
     }
-    if (this.#isTieGame()) return messages[1];
+    if (this.#isTieGame()) {
+      tieGameSound.play();
+      return messages[1];
+    }
     this.#switchTurn();
     this.saveGameData();
     return messages[2];
