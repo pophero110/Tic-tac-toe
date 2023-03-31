@@ -92,7 +92,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 </details>
 
 <details>
-<summary>As a player, I want to be able to customize my game token (X, O, name, picture, etc.) so that I can personalize my gaming experience and make it more enjoyable.</summary>
+<summary>As a player, I want to be able to customize my game token (X, O, name, picture, etc.) so that I can personalize my gaming experience and make it more enjoyable. ✅</summary>
 
 ### Pseudocode
 
@@ -112,10 +112,10 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 </details>
 
 <details>
-<summary>As a player, I want my game data to be saved locally using localStorage so that I can continue playing even if I lose internet connectivity or refresh the page.</summary>
+<summary>As a player, I want my game data to be saved locally using localStorage so that I can continue playing even if I lose internet connectivity or refresh the page. ✅</summary>
 </details>
 <details>
-<summary>As a player, I want audio to be included in the game so that I can have an immersive and enjoyable gaming experience.</summary>
+<summary>As a player, I want audio to be included in the game so that I can have an immersive and enjoyable gaming experience. ✅</summary>
 </details>
 <details>
 <summary>As a player, I want to be able to play against an AI opponent that is programmed to play an unbeatable game so that I can challenge myself and improve my skills.</summary>
