@@ -12,8 +12,8 @@ const body = document.body;
 // Game Assets
 const game = new Game();
 const playerData = JSON.parse(localStorage.getItem("player1"));
-const clickSound = new Audio("./resources/click_sound.wav");
-const resetGame = new Audio("");
+const clickSound = new Audio("./resources/click.wav");
+const resetGameSound = new Audio("./resources/reset_game.wav");
 
 // Board
 function loadGame() {
@@ -82,6 +82,7 @@ function checkGameOver(clickedCell) {
 }
 
 resetGameButton.addEventListener("click", (event) => {
+  resetGameSound.play();
   clearBoard();
   game.resetBoard();
 });
