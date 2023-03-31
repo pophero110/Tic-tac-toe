@@ -1,19 +1,24 @@
 import { Game, GameState } from "./Game";
-import Player from "./Player";
+import { Player, TYPE } from "./Player";
 // Game UI Element
 const board = document.querySelector(".board");
 const resetGameButton = document.querySelector(".resetGameButton");
 const message = document.querySelector(".message");
 const scoreboardPlayers = document.querySelectorAll(".scoreboard__player");
-const playerNameTextBox = scoreboardPlayers[0].children[0];
-const playerScoreText = scoreboardPlayers[0].children[1];
+const player1Scoreboard = scoreboardPlayers[0].children;
+const player2Scoreboard = scoreboardPlayers[1].children;
 const body = document.body;
 
 // Game Assets
-const player1 = new Player("You", "X", "human");
+const player1 = new Player({
+  name: "You",
+  marker: "X",
+  type: TYPE.HUMAN,
+  score: 0,
+  image: null,
+});
 const aiPlayer = new Player();
 const game = new Game(player1, aiPlayer);
-const gameData = JSON.parse(localStorage.getItem("gameData"));
 const clickSound = new Audio("./resources/click.wav");
 const resetGameSound = new Audio("./resources/reset_game.wav");
 const winSound = new Audio("./resources/win.wav");
@@ -21,22 +26,6 @@ const loseSound = new Audio("./resources/lose.wav");
 const tieGameSound = new Audio("./resources/tie_game.wav");
 
 // Board
-function loadGameData() {
-  console.log("load game ui", gameData);
-  if (!gameData) return;
-  const player1 = gameData.player1;
-  const player2 = gameData.player2;
-  if (Object.keys(gameData.board)) {
-    Object.entries(gameData.board).forEach(([positionOfMarkedCell, player]) => {
-      const cell = document.getElementById(`${positionOfMarkedCell}`);
-      updateBoard(cell);
-    });
-    message.innerText =
-      "Turn: " + (gameData.whoseTurn ? player1.name : player2.name);
-    body.style.backgroundImage = `url(${gameData.image})`;
-  }
-}
-
 function boardClickEventHandler(event) {
   const clickedCell = event.target;
   // disable user to click on same cell twice or to click any cell after game is over
@@ -50,6 +39,7 @@ function boardClickEventHandler(event) {
   clickSound.play();
   updateBoard(clickedCell);
   updateGameState();
+  updateScore();
 }
 
 function resetBoard() {
@@ -67,12 +57,14 @@ function updateBoard(clickedCell) {
   clickedCell.appendChild(markEle);
 }
 
-function updateScoreboard() {
-  game.updateScoreboard();
-  scoreboardPlayers.forEach((playerEle, index) => {
-    playerEle.children[1].innerText =
-      index === 0 ? game.player1.score : game.player2.score;
-  });
+function updateScore() {
+  player1Scoreboard[1].innerText = game.player1.score;
+  player2Scoreboard[1].innerText = game.player2.score;
+}
+
+function updatePlayerName() {
+  player1Scoreboard[0].innerText = game.player1.name;
+  player2Scoreboard[0].innerText = game.player2.name;
 }
 
 function updateGameState() {
@@ -80,12 +72,10 @@ function updateGameState() {
   switch (gameState) {
     case GameState.WIN:
       message.innerText = "You WIN!";
-      updateScoreboard();
       winSound.play();
       break;
     case GameState.LOSE:
       message.innerText = "You LOSE!";
-      updateScoreboard();
       loseSound.play();
       break;
     case GameState.TIE:
@@ -122,9 +112,8 @@ function updatePlayerCustomziation() {
     };
   } else {
     player1.update({ name, marker });
-    name, marker;
   }
-  playerNameTextBox.innerText = name;
+  player1Scoreboard[0].innerText = name;
 }
 
 playerForm.addEventListener("submit", (event) => {
@@ -133,5 +122,34 @@ playerForm.addEventListener("submit", (event) => {
 });
 
 // Start game
+const gameData = JSON.parse(localStorage.getItem("gameData"));
+
+function loadBoard(board) {
+  if (Object.keys(gameData.board)) {
+    Object.entries(gameData.board).forEach(([positionOfMarkedCell, player]) => {
+      const cell = document.getElementById(`${positionOfMarkedCell}`);
+      const markEle = document.createElement("div");
+      markEle.innerText = game.findPlayerBywhoseTurn(player).marker;
+      markEle.classList.add("board__cell-marked");
+      cell.appendChild(markEle);
+    });
+  }
+}
+function loadGameData() {
+  game.loadGameDate();
+  if (!gameData) return;
+  const player1 = gameData.player1;
+  const player2 = gameData.player2;
+  loadBoard(gameData.board);
+  updateScore();
+  updatePlayerName();
+
+  // display next turn player
+  message.innerText =
+    "Turn: " + (gameData.whoseTurn === 1 ? player1.name : player2.name);
+  // display background image
+  body.style.backgroundImage = `url(${gameData.image})`;
+}
+
 loadGameData();
 board.addEventListener("click", boardClickEventHandler);

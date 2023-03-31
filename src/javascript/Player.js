@@ -1,14 +1,16 @@
 const TYPE = {
-  human: "human",
-  ai: "ai",
+  HUMAN: "human",
+  AI: "ai",
 };
 class Player {
   constructor(
-    name = "Unbeatable AI",
-    marker = "🤖",
-    type = TYPE["human"],
-    score = 0,
-    image = null
+    { name, marker, score, image, type } = {
+      name: "Unbeatable AI",
+      marker: "🤖",
+      type: TYPE.HUMAN,
+      score: 0,
+      image: null,
+    }
   ) {
     this.name = name;
     this.marker = marker;
@@ -17,13 +19,15 @@ class Player {
     this.image = image;
   }
 
-  update(attributes) {
-    const { name, marker, score, image } = attributes;
-    this.name = name;
-    this.marker = marker;
-    this.score ||= score;
-    this.image = image;
+  update({ name, marker, score, image }) {
+    if (name) this.name = name;
+    if (marker) this.marker = marker;
+    if (score !== 0) this.score = score;
+    if (image) this.image = image;
   }
 }
 
-module.exports = Player;
+module.exports = {
+  Player,
+  TYPE,
+};
