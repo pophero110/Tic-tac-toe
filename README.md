@@ -119,6 +119,35 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 </details>
 <details>
 <summary>As a player, I want to be able to play against an AI opponent that is programmed to play an unbeatable game so that I can challenge myself and improve my skills.</summary>
+
+### Pseudocode
+
+#### JS:
+
+- create a function 'selectCellByAI' returns the position of the selected cell
+  - if AI plays first
+    - first round
+      - select the '5' cell
+    - second round
+      - if the player selects the one of side cells '2 4 6 8'
+        - if the player selects 2 or 8
+          - ai selects 4
+        - else
+          - ai select 2
+    - third round
+      - select the cell at the position of the previous cell - 3
+      - if the player selects the corner cells '1 3 7 9'
+    - fourth round
+      - selects 9 or 6
+  - if AI plays second
+    - first round
+      - select one of the corner cells
+    - second round
+      - block player winning combination
+    - third round
+      - block player
+- create a boolean 'game_mode' to determine play against a player or an ai
+- create a boolean 'whoPlayFirst' to determine who plays first
 </details>
 <details>
 <summary>As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.</summary>
@@ -137,3 +166,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 1. add page title and icon
 2. create folders to organize files
 3. draw a workflow chart
+
+# Hurdle
+
+1. refactor code - GameUI and Game => Game, Player and GameUI

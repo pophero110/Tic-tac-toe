@@ -1,5 +1,5 @@
-import Game from "./Game";
-
+import { Game, GameState } from "./Game";
+import Player from "./Player";
 // Game UI Element
 const board = document.querySelector(".board");
 const resetGameButton = document.querySelector(".resetGameButton");
@@ -10,45 +10,49 @@ const playerScoreText = scoreboardPlayers[0].children[1];
 const body = document.body;
 
 // Game Assets
-const game = new Game();
-const playerData = JSON.parse(localStorage.getItem("player1"));
+const player1 = new Player("You", "X", "human");
+const aiPlayer = new Player();
+const game = new Game(player1, aiPlayer);
+const gameData = JSON.parse(localStorage.getItem("gameData"));
 const clickSound = new Audio("./resources/click.wav");
 const resetGameSound = new Audio("./resources/reset_game.wav");
+const winSound = new Audio("./resources/win.wav");
+const loseSound = new Audio("./resources/lose.wav");
+const tieGameSound = new Audio("./resources/tie_game.wav");
 
 // Board
-function loadGame() {
-  if (!playerData) return;
-  playerNameTextBox.innerText = playerData.name;
-  playerScoreText.innerText = playerData.score;
-  console.log("load game ui", playerData);
-  if (Object.keys(playerData.board)) {
-    Object.entries(playerData.board).forEach(
-      ([positionOfMarkedCell, player]) => {
-        const cell = document.getElementById(`${positionOfMarkedCell}`);
-        const markEle = document.createElement("div");
-        markEle.innerText = player ? playerData.marker : "O";
-        markEle.classList.add("board__cell-marked");
-        cell.appendChild(markEle);
-      }
-    );
+function loadGameData() {
+  console.log("load game ui", gameData);
+  if (!gameData) return;
+  const player1 = gameData.player1;
+  const player2 = gameData.player2;
+  if (Object.keys(gameData.board)) {
+    Object.entries(gameData.board).forEach(([positionOfMarkedCell, player]) => {
+      const cell = document.getElementById(`${positionOfMarkedCell}`);
+      updateBoard(cell);
+    });
     message.innerText =
-      "Turn: " + (playerData.whoseTurn ? playerData.name : "P2");
-    body.style.backgroundImage = `url(${playerData.image})`;
+      "Turn: " + (gameData.whoseTurn ? player1.name : player2.name);
+    body.style.backgroundImage = `url(${gameData.image})`;
   }
 }
-loadGame();
-board.addEventListener("click", boardClickEventHandler);
 
 function boardClickEventHandler(event) {
   const clickedCell = event.target;
-  // disable user to click on same cell twice
-  if (clickedCell.childNodes.length) return;
+  // disable user to click on same cell twice or to click any cell after game is over
+  if (
+    clickedCell.childNodes.length ||
+    game.gameState !== GameState.NOT_GAME_OVER
+  ) {
+    return;
+  }
+
   clickSound.play();
   updateBoard(clickedCell);
-  checkGameOver(clickedCell);
+  updateGameState();
 }
 
-function clearBoard() {
+function resetBoard() {
   board.addEventListener("click", boardClickEventHandler);
   const markedCells = document.querySelectorAll(".board__cell-marked");
   markedCells.forEach((cell) => cell.remove());
@@ -56,40 +60,53 @@ function clearBoard() {
 }
 
 function updateBoard(clickedCell) {
+  game.updateBoard(clickedCell.id);
   const markEle = document.createElement("div");
-  markEle.innerText = game.currentPlayerMarker();
+  markEle.innerText = game.currentTurnPlayer().marker;
   markEle.classList.add("board__cell-marked");
   clickedCell.appendChild(markEle);
 }
 
 function updateScoreboard() {
+  game.updateScoreboard();
   scoreboardPlayers.forEach((playerEle, index) => {
     playerEle.children[1].innerText =
-      index === 0 ? game.player1WinCount : game.player2WinCount;
+      index === 0 ? game.player1.score : game.player2.score;
   });
 }
 
-function checkGameOver(clickedCell) {
-  let gameOverMessage = game.checkGameOver(clickedCell.id);
-  if (gameOverMessage) {
-    message.innerText = gameOverMessage;
-    board.removeEventListener("click", boardClickEventHandler);
-    updateScoreboard();
-    game.saveGameData(true);
-  } else {
-    message.innerText = "Turn: " + game.currentPlayerName();
+function updateGameState() {
+  let gameState = game.updateGameState();
+  switch (gameState) {
+    case GameState.WIN:
+      message.innerText = "You WIN!";
+      updateScoreboard();
+      winSound.play();
+      break;
+    case GameState.LOSE:
+      message.innerText = "You LOSE!";
+      updateScoreboard();
+      loseSound.play();
+      break;
+    case GameState.TIE:
+      message.innerText = "TIE GAME!";
+      tieGameSound.play();
+      break;
+    default:
+      message.innerText = "Turn: " + game.nextTurnPlayer().name;
+      break;
   }
 }
 
 resetGameButton.addEventListener("click", (event) => {
   resetGameSound.play();
-  clearBoard();
+  resetBoard();
   game.resetBoard();
 });
 
-// Customziation Form
-const form = document.querySelector(".form");
-const inputs = form.querySelectorAll("input");
+// Player Form
+const playerForm = document.querySelector(".player_form");
+const inputs = playerForm.querySelectorAll("input");
 const reader = new FileReader();
 function updatePlayerCustomziation() {
   const name = inputs[0].value;
@@ -98,20 +115,23 @@ function updatePlayerCustomziation() {
   if (file) {
     reader.readAsDataURL(file);
     reader.onload = () => {
-      const imgData = reader.result;
-      console.log({ file, imgData });
-      game.customizePlayer(name, marker, imgData);
-      body.style.backgroundImage = `url(${imgData})`;
+      const image = reader.result;
+      player1.update({ name, marker, image });
+      body.style.backgroundImage = `url(${image})`;
       body.style.backgroundSize = "cover";
     };
   } else {
-    game.customizePlayer(name, marker);
+    player1.update({ name, marker });
+    name, marker;
   }
-  console.log(playerData);
   playerNameTextBox.innerText = name;
 }
 
-form.addEventListener("submit", (event) => {
+playerForm.addEventListener("submit", (event) => {
   event.preventDefault();
   updatePlayerCustomziation();
 });
+
+// Start game
+loadGameData();
+board.addEventListener("click", boardClickEventHandler);

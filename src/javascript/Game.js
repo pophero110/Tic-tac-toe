@@ -1,6 +1,9 @@
-const winSound = new Audio("./resources/win.wav");
-const loseSound = new Audio("./resources/lose.wav");
-const tieGameSound = new Audio("./resources/tie_game.wav");
+const GameState = {
+  NOT_GAME_OVER: "not_game_over",
+  WIN: "win",
+  LOSE: "lose",
+  TIE: "tie",
+};
 
 class Game {
   #winningCondition = [
@@ -14,19 +17,14 @@ class Game {
     [3, 5, 7],
   ];
   #board;
-  #player1Marker;
-  #player2Marker;
-  #player1Name;
-  #player2Name;
-  constructor() {
+  #whoseTurn;
+
+  constructor(player1, player2) {
     this.#board = {};
-    this.#player1Marker = "X";
-    this.#player2Marker = "O";
-    this.#player1Name = "Anonymous";
-    this.#player2Name = "P2";
-    this.player1WinCount = 0;
-    this.player2WinCount = 0;
-    this.whoseTurn = true; // true means player 1, false means player2
+    this.#whoseTurn = false; // true means player 1, false means player2
+    this.gameState = GameState.NOT_GAME_OVER;
+    this.player1 = player1;
+    this.player2 = player2;
 
     this.#loadGameDate();
   }
@@ -40,87 +38,77 @@ class Game {
    * @param {number} positionOfMarkedCell - The position of the newly marked cell, must be a number between 1 and 9 (inclusive).
    * @returns {string} - A message indicating the winner of the game, a tie, or that the game is not over.
    */
-  checkGameOver(positionOfMarkedCell) {
-    const messages = [
-      `${this.whoseTurn ? this.#player1Name : this.#player2Name} Won!`,
-      "Tie Game",
-      "",
-    ];
-    this.#updateBoard(positionOfMarkedCell);
-    if (this.#isCurrentPlayerWinning()) {
-      this.whoseTurn ? winSound.play() : loseSound.play();
-      this.#updateScoreboard();
-      return messages[0];
-    }
-    if (this.#isTieGame()) {
-      tieGameSound.play();
-      return messages[1];
-    }
-    this.#switchTurn();
+  updateGameState() {
+    if (this.#isTieGame()) this.gameState = GameState.TIE;
+    if (this.#isCurrentPlayerWinning())
+      this.gameState = this.whoseTurn ? GameState.WIN : GameState.LOSE;
+
     this.saveGameData();
-    return messages[2];
+    return this.gameState;
+  }
+
+  // save the player and position of marked cell to board
+  // and swtich the turn
+  updateBoard(positionOfMarkedCell) {
+    this.#board[positionOfMarkedCell] = this.#whoseTurn;
+    this.#switchTurn();
   }
 
   resetBoard() {
     this.#board = {};
-    this.whoseTurn = true;
-    this.saveGameData(true);
+    this.#whoseTurn = false;
+    this.gameState = GameState.NOT_GAME_OVER;
+    this.saveGameData();
   }
 
-  customizePlayer(name, marker, image = null) {
-    this.#player1Marker = marker;
-    this.#player1Name = name;
-    this.saveGameData(false, image);
+  currentTurnPlayer() {
+    return this.#whoseTurn ? this.player1 : this.player2;
+  }
+  nextTurnPlayer() {
+    return this.#whoseTurn ? this.player2 : this.player1;
   }
 
-  currentPlayerMarker() {
-    return this.whoseTurn ? this.#player1Marker : this.#player2Marker;
-  }
-
-  currentPlayerName() {
-    return this.whoseTurn ? this.#player1Name : this.#player2Name;
-  }
-
-  saveGameData(resetBoard = false, image = null) {
-    if (resetBoard) {
-      localStorage.setItem(
-        "player1",
-        JSON.stringify({
-          name: this.#player1Name,
-          marker: this.#player1Marker,
-          score: this.player1WinCount,
-          board: {},
-          whoseTurn: true,
-          image: image,
-        })
-      );
-    } else {
-      localStorage.setItem(
-        "player1",
-        JSON.stringify({
-          name: this.#player1Name,
-          marker: this.#player1Marker,
-          score: this.player1WinCount,
-          board: this.#board,
-          whoseTurn: this.whoseTurn,
-          image: image,
-        })
-      );
-    }
-
-    console.log("save game", JSON.parse(localStorage.getItem("player1")));
+  saveGameData(image = null) {
+    localStorage.setItem(
+      "gameData",
+      JSON.stringify({
+        board: this.gameState === GameState.NOT_GAME_OVER ? this.#board : {},
+        whoseTurn: this.whoseTurn,
+        image: image,
+        player1: this.player1,
+        player2: this.player2,
+      })
+    );
+    console.log("save game", JSON.parse(localStorage.getItem("gameData")));
   }
 
   #loadGameDate() {
-    const player = JSON.parse(localStorage.getItem("player1"));
-    console.log("load game", player);
-    if (!player) return;
-    this.whoseTurn = player.whoseTurn;
-    if (player.name) this.#player1Name = player.name;
-    if (player.marker) this.#player1Marker = player.marker;
-    if (player.score) this.player1WinCount = player.score;
-    if (Object.keys(player.board)) this.#board = player.board;
+    const gameData = JSON.parse(localStorage.getItem("gameData"));
+    console.log("load game", gameData);
+    if (!gameData) return;
+    const player1 = gameData.player1;
+    const player2 = gameData.player2;
+    this.player1.update({
+      name: player1.name,
+      marker: player1.marker,
+      socre: player1.score,
+      image: player1.image,
+    });
+    this.player2.update({
+      name: player2.name,
+      marker: player2.marker,
+      socre: player2.score,
+      image: player2.image,
+    });
+    this.#whoseTurn = gameData.whoseTurn;
+    if (Object.keys(gameData.board)) this.#board = gameData.board;
   }
+
+  updateScoreboard() {
+    if (this.gameState === GameState.WIN) this.player1.score++;
+    if (this.gameState === GameState.LOSE) this.player2.score++;
+  }
+
   #isTieGame() {
     return Object.keys(this.#board).length === 9;
   }
@@ -128,25 +116,19 @@ class Game {
   #isCurrentPlayerWinning() {
     for (const condition of this.#winningCondition) {
       let matchWinningCondition = condition.every(
-        (cell) => this.#board[cell] === this.whoseTurn
+        (cell) => this.#board[cell] === this.#whoseTurn
       );
       if (matchWinningCondition) return true;
     }
     return false;
   }
 
-  // save the player and position of marked cell to board
-  #updateBoard(positionOfMarkedCell) {
-    this.#board[positionOfMarkedCell] = this.whoseTurn;
-  }
-
   #switchTurn() {
-    this.whoseTurn = !this.whoseTurn;
-  }
-
-  #updateScoreboard() {
-    this.whoseTurn ? this.player1WinCount++ : this.player2WinCount++;
+    this.#whoseTurn = !this.#whoseTurn;
   }
 }
 
-module.exports = Game;
+module.exports = {
+  Game,
+  GameState,
+};

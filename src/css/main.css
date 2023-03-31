@@ -89,22 +89,22 @@ main {
   display: flex;
 }
 
-.form {
+.player_form {
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.form label {
+.player_form label {
   font-size: 2rem;
   text-transform: capitalize;
 }
-.form input {
+.player_form input {
   padding: 0.5rem 1rem;
   margin-bottom: 1rem;
 }
-.form button {
+.player_form button {
   padding: 1rem;
 }
 
