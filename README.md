@@ -130,11 +130,18 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
     - call completeTurn() function
     - add board click event back
 - How does AI select the cell?
-  - create a function 'selectCell' returns the position of the selected cell - if AI plays first - first round - select the '5' cell - second round - if the player selects the one of side cells '2 4 6 8' - if the player selects 2 or 8 - ai selects 4 - else - ai select 2 - third round - select the cell at the position of the previous cell - 3 - if the player selects the corner cells '1 3 7 9' - fourth round - selects 9 or 6 - if AI plays second 1. always select one of corner cell at first round 2. block any potential winning combination made by human 3. select the cell that can win the game 4. randomly select empty cell
-  </details>
-  <details>
-  <summary>As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.</summary>
-  </details>
+  - create a function 'selectCell' returns the position of the selected cell
+    - if AI plays second
+      - always select one of corner cells if human player marked center else select center cell
+      - block any potential winning combination made by human
+      - select the cell that can win the game
+      - randomly select empty cell
+
+</details>
+
+<details>
+    <summary>As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.</summary>
+</details>
 
 ## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
 

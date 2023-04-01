@@ -15,13 +15,13 @@ export class AI extends Player {
     return this.#selectCellIfAIComeFirst(game);
   }
   /**
-   * 1. always select one of corner cell at first round
+   * 1. always select one of corner cells if human player marked center else select center cell
    * 2. block any potential winning combination made by human
    * 3. select the cell that can win the game
    * 4. randomly select empty cell
    */
   #selectCellIfAIComeFirst(game) {
-    const cornerCells = [1, 3, 7, 9];
+    const cells = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     const board = game.board;
     let selectedCell = 0;
     let humanPotentialCombinations = this.#checkPotentialWinningCombination(
@@ -41,7 +41,17 @@ export class AI extends Player {
     });
     if (selectedCell) return selectedCell;
 
-    cornerCells.forEach((cell) => {
+    // check if it is second round
+    if (Object.keys(board).length === 1) {
+      if (board[5]) {
+        selectedCell = 1;
+      } else {
+        selectedCell = 5;
+      }
+      return selectedCell;
+    }
+
+    cells.forEach((cell) => {
       if (!board[cell]) selectedCell = cell;
     });
 

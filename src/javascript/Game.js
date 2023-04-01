@@ -62,6 +62,18 @@ class Game {
     return whoseTurn === 1 ? this.player1 : this.player2;
   }
 
+  loadGameDate() {
+    const gameData = JSON.parse(localStorage.getItem("gameData"));
+    if (!gameData) return;
+    console.log("load game", gameData);
+    const player1 = gameData.player1;
+    const player2 = gameData.player2;
+    this.player1.update({ ...player1 });
+    this.player2.update({ ...player2 });
+    this.#whoseTurn = gameData.whoseTurn;
+    if (Object.keys(gameData.board)) this.board = gameData.board;
+  }
+
   #saveGameData(image = null) {
     localStorage.setItem(
       "gameData",
@@ -74,18 +86,6 @@ class Game {
       })
     );
     console.log("save game", JSON.parse(localStorage.getItem("gameData")));
-  }
-
-  loadGameDate() {
-    const gameData = JSON.parse(localStorage.getItem("gameData"));
-    if (!gameData) return;
-    console.log("load game", gameData);
-    const player1 = gameData.player1;
-    const player2 = gameData.player2;
-    this.player1.update({ ...player1 });
-    this.player2.update({ ...player2 });
-    this.#whoseTurn = gameData.whoseTurn;
-    if (Object.keys(gameData.board)) this.board = gameData.board;
   }
 
   #updateScore() {

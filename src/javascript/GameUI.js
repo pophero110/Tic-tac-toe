@@ -98,6 +98,7 @@ function updateGameState() {
     case GameState.TIE:
       message.innerText = "TIE GAME!";
       tieGameSound.play();
+      console.log("Tie game");
       break;
     default:
       message.innerText = "Turn: " + game.nextTurnPlayer().name;
