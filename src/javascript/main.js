@@ -58,7 +58,7 @@ eval("const WINNING_COMBINATIONS = [\n  [1, 2, 3],\n  [4, 5, 6],\n  [7, 8, 9],\n
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GameUI__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameUI */ \"./src/javascript/GameUI.js\");\n\n\n\n//# sourceURL=webpack:///./src/javascript/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _GameUI__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameUI */ \"./src/javascript/GameUI.js\");\n\n\nconst roomForm = document.querySelector(\".roomForm\");\nconst roomNumberInput = document.getElementById(\"roomNumber\");\nconst socket = io();\n\nroomForm.addEventListener(\"submit\", (event) => {\n  event.preventDefault();\n  socket.emit(\n    \"join\",\n    { name: \"test\", room: roomNumberInput.value },\n    (error) => {\n      if (error) {\n        alert(error);\n      }\n    }\n  );\n});\n\nsocket.on(\"message\", (message) => {\n  console.log(message);\n});\n\n\n//# sourceURL=webpack:///./src/javascript/index.js?");
 
 /***/ })
 

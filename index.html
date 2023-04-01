@@ -43,6 +43,12 @@
     <div class="resetGameButton">Reset Game</div>
     <div class="switchPlayer">Play with another player</div>
 
+    <form class="roomForm" action="#">
+      <label for="roomNumber"></label>
+      <input required minlength="3" type="text" id="roomNumber" />
+      <button>Join Room</button>
+    </form>
+
     <form action="#" class="player_form">
       <label for="name">name (Max length 10)</label>
       <input type="text" id="name" maxlength="10" />
@@ -55,6 +61,7 @@
 
       <button>Submit</button>
     </form>
-    <script src="./src/javascript/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../src/javascript/main.js"></script>
   </body>
 </html>
