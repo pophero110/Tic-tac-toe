@@ -1,3 +1,6 @@
+/**
+ * express is a web framework that runs on top of http, and socket.io requires an HTTP server to initiate WebSocket connections
+ */
 const path = require("path");
 const express = require("express");
 const http = require("http");
@@ -10,13 +13,12 @@ const pulicDirectoryPath = path.join(__dirname, "../../");
 app.use(express.static(pulicDirectoryPath));
 io.on("connection", (socket) => {
   socket.on("join", (options, callback) => {
+    const { room, name } = options;
     console.log({ id: socket.id, options });
 
-    socket.join(options.room);
-    socket.emit("message", { text: "Welcome", room: options.room });
-    socket.broadcast
-      .to(options.room)
-      .emit("message", `${options.name} has joined!`);
+    socket.join(room);
+    socket.emit("message", { text: "Welcome", room: room });
+    socket.broadcast.to(room).emit("message", `${name} has joined!`);
   });
 });
 

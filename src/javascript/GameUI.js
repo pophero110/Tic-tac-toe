@@ -222,3 +222,25 @@ function loadGameData() {
 
 loadGameData();
 board.addEventListener("click", boardClickEventHandler);
+
+// WebSocket Client
+const roomForm = document.querySelector(".roomForm");
+const roomNumberInput = document.getElementById("roomNumber");
+const socket = io();
+
+roomForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  socket.emit(
+    "join",
+    { name: game.player1.name, room: roomNumberInput.value },
+    (error) => {
+      if (error) {
+        alert(error);
+      }
+    }
+  );
+});
+
+socket.on("message", (message) => {
+  console.log(message);
+});

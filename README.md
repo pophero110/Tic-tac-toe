@@ -147,15 +147,23 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 ![sliver_ui_wireframe](./resources/sliver_ui_wireframe.png)
 
-## Silver Pseudocode
-
 # MVP - Gold
+
+## User stories
+
+- As a player, I want to be able to play the game online with another player
+  - As a player, I can join a room
+  - As a player, I'm not able to mark until it is my turn
+  - As a player, my board should be synced with my component's
+  - As a player, I can see the current list of rooms
+
+### UI Wireframe
 
 # TODO
 
 1. add page title and icon
 2. create folders to organize files
-3. draw a workflow chart
+3. add global scoreboard
 
 # Hurdle
 
