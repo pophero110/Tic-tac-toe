@@ -108,8 +108,8 @@ function updateGameState() {
     case GameState.WIN:
       message.innerText =
         playerType === PLAYER_TYPE.HUMAN
-          ? "You Win!"
-          : game.nextTurnPlayer().name + " Win!";
+          ? game.nextTurnPlayer().name + " Win!"
+          : "You Win!";
       winSound.play();
       break;
     case GameState.LOSE:
