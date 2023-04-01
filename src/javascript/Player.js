@@ -33,7 +33,7 @@ class Player {
   update({ name, marker, score, image }) {
     if (name) this.name = name;
     if (marker) this.marker = marker;
-    if (score !== 0) this.score = score;
+    if (score) this.score = score;
     if (image) this.image = image;
   }
 }
