@@ -12,55 +12,89 @@ const port = process.env.PORT || 3000;
 const pulicDirectoryPath = path.join(__dirname, "../../");
 app.use(express.static(pulicDirectoryPath));
 
+const { addPlayer, removePlayer } = require("./player");
 const numberOfPlayerInRoom = {};
-const users = [];
+const players = [];
 
 io.on("connection", (socket) => {
   socket.on("join", (options, callback) => {
-    const { room, name } = options;
-    if (room && numberOfPlayerInRoom[room] === 2) {
-      callback("Opps, the room is full.");
-    } else {
-      numberOfPlayerInRoom[room] = (numberOfPlayerInRoom[room] || 0) + 1;
+    const { room, player } = options;
+    if (players.find((p) => p.id === player.id)) {
+      callback("You're already in a room");
+      return;
     }
-    users.push({ id: socket.id, room, name });
+    if (!room) {
+      callback("Invalid room number");
+      return;
+    }
+    if (numberOfPlayerInRoom[room] === 2) {
+      callback("Opps, the room is full");
+      return;
+    }
+
+    /**
+     * if there is a player in the room already, send message to first player
+     */
+    if (numberOfPlayerInRoom[room]) {
+      const firstPlayer = players.find((p) => p.room === room);
+      io.to(firstPlayer.socketId).emit(
+        "secondPlayerJoined",
+        `${player.name} has joined!`
+      );
+    }
+
+    socket.emit("message", {
+      message: "Welcome " + player.name,
+    });
+
+    numberOfPlayerInRoom[room] = (numberOfPlayerInRoom[room] || 0) + 1;
+    players.push({ socketId: socket.id, room, ...player });
+    socket.join(room);
+
     console.log("Join Romm", {
       id: socket.id,
       options,
       numberOfPlayerInRoom,
-      users,
+      players,
     });
-
-    socket.join(room);
-    socket.emit("message", { text: "Welcome", room: room, id: socket.id });
-    socket.broadcast.to(room).emit("message", `${name} has joined!`);
   });
 
   socket.on("markCell", (options, callback) => {
     console.log("Mark Cell", { id: socket.id, options });
     const { cellPosition } = options;
-    const user = users.find((user) => user.id === socket.id);
-    const opponent = users.find(
-      (ele) => ele.room === user.room && ele.id !== user.id
+    const player = players.find((player) => player.socketId === socket.id);
+    const opponent = players.find(
+      (ele) => ele.room === player.room && ele.id !== player.id
     );
-    if (user) {
-      socket.join(user.room);
-      socket.broadcast
-        .to(user.room)
-        .emit("markCell", { cellPosition, nextTurnUser: opponent });
+    if (player) {
+      io.to(opponent.socketId).emit("markCell", {
+        cellPosition,
+        nextTurnPlayer: opponent,
+      });
+    }
+  });
+
+  socket.on("gameOver", (options, callback) => {
+    console.log("Game Over", { id: socket.id, options });
+    const player = players.find((player) => player.socketId === socket.id);
+    if (player) {
+      socket.broadcast.to(player.room).emit("gameOver");
     }
   });
 
   socket.on("disconnect", (options, callback) => {
-    const user = users.find((user) => user.id === socket.id);
-    if (user) {
-      numberOfPlayerInRoom[user.room]--;
+    const playerIndex = players.findIndex(
+      (player) => player.socketId === socket.id
+    );
+    if (playerIndex !== -1) {
+      const player = players.splice(playerIndex, 1)[0];
+      numberOfPlayerInRoom[player.room]--;
     }
     console.log("Leave room", {
       id: socket.id,
       options,
       numberOfPlayerInRoom,
-      users,
+      players,
     });
   });
 });

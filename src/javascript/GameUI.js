@@ -15,14 +15,14 @@ let onlineMode = false;
 
 // Game Assets
 const player1 = new Player({
-  id: 1,
+  id: Math.floor(Math.random() * 10000000),
   name: "P1",
   marker: "X",
   type: PLAYER_TYPE.HUMAN,
   score: 0,
 });
 const player2 = new Player({
-  id: 2,
+  id: Math.floor(Math.random() * 10000000),
   name: "P2",
   marker: "O",
   type: PLAYER_TYPE.HUMAN,
@@ -147,6 +147,12 @@ function updateMarker() {
   });
 }
 
+function emitGameOverToServer() {
+  setTimeout(() => {
+    socket.emit("gameOver");
+  }, 1000);
+}
+
 /**
  * check if game is over or switch turn
  */
@@ -156,16 +162,19 @@ function updateGameState() {
     case GameState.WIN:
       displayMessage(game.nextTurnPlayer().name + " Win!");
       winSound.play();
+      emitGameOverToServer();
       break;
     case GameState.LOSE:
       displayMessage(game.nextTurnPlayer().name + " Win!");
       playerType === PLAYER_TYPE.HUMAN || onlineMode
         ? winSound.play()
         : loseSound.play();
+      emitGameOverToServer();
       break;
     case GameState.TIE:
       displayMessage("TIE GAME!");
       tieGameSound.play();
+      emitGameOverToServer();
       break;
     default:
       displayMessage("Turn: " + game.nextTurnPlayer().name);
@@ -277,7 +286,6 @@ const roomNumberInput = document.getElementById("roomNumber");
 function goOnline() {
   playerType = PLAYER_TYPE.HUMAN;
   onlineMode = true;
-  roomNumber = roomNumberInput.value;
 }
 
 joinRoomForm.addEventListener("submit", (event) => {
@@ -285,7 +293,7 @@ joinRoomForm.addEventListener("submit", (event) => {
   goOnline();
   socket.emit(
     "join",
-    { name: game.player1.name, room: roomNumberInput.value },
+    { player: player1, room: roomNumberInput.value },
     (error) => alert(error)
   );
 });
@@ -296,10 +304,9 @@ joinRoomForm.addEventListener("submit", (event) => {
 socket.on(
   "markCell",
   (data) => {
+    const { cellPosition, nextTurnPlayer } = data;
     console.log("Mark Cell", data);
-    const { cellPosition, user } = data;
-    if (user.id !== player1)
-      completeTurn(document.getElementById(cellPosition));
+    completeTurn(document.getElementById(cellPosition));
     board.addEventListener("click", boardClickEventHandler);
   },
   (error) => alert(error)
@@ -310,9 +317,18 @@ socket.on(
  */
 socket.on(
   "message",
-  (message) => {
-    userId = message.id;
+  (data) => {
+    const { message } = data;
     console.log(message);
   },
   (error) => alert(error)
 );
+
+socket.on("secondPlayerJoined", (data) => {
+  console.log(data);
+});
+
+socket.on("gameOver", (data) => {
+  console.log(data);
+  resetGame();
+});
