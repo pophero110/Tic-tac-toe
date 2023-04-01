@@ -14,15 +14,7 @@ const PLAYER_TYPE = {
   AI: "ai",
 };
 class Player {
-  constructor(
-    { name, marker, score, image, type } = {
-      name: "You",
-      marker: "X",
-      type: PLAYER_TYPE.HUMAN,
-      score: 0,
-      image: null,
-    }
-  ) {
+  constructor({ name, marker, score, image, type }) {
     this.name = name;
     this.marker = marker;
     this.score = score;

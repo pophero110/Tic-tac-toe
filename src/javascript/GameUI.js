@@ -9,11 +9,26 @@ const scoreboardPlayers = document.querySelectorAll(".scoreboard__player");
 const player1Scoreboard = scoreboardPlayers[0].children;
 const player2Scoreboard = scoreboardPlayers[1].children;
 const body = document.body;
+const switchPlayerButton = document.querySelector(".switchPlayer");
+let playerType = PLAYER_TYPE.AI;
 
 // Game Assets
-const player1 = new Player();
+const player1 = new Player({
+  name: "P1",
+  marker: "X",
+  type: PLAYER_TYPE.HUMAN,
+  score: 0,
+  image: null,
+});
+const player2 = new Player({
+  name: "P2",
+  marker: "O",
+  type: PLAYER_TYPE.HUMAN,
+  score: 0,
+  image: null,
+});
 const aiPlayer = new AI();
-const game = new Game(player1, aiPlayer);
+let game = new Game(player1, aiPlayer);
 const clickSound = new Audio("./resources/click.wav");
 const resetGameSound = new Audio("./resources/reset_game.wav");
 const winSound = new Audio("./resources/win.wav");
@@ -23,7 +38,8 @@ const tieGameSound = new Audio("./resources/tie_game.wav");
 // Board
 function boardClickEventHandler(event) {
   // disable player to mark cell until ai player has finished the turn
-  board.removeEventListener("click", boardClickEventHandler);
+  if (playerType === PLAYER_TYPE.AI)
+    board.removeEventListener("click", boardClickEventHandler);
   const clickedCell = event.target;
   // disable user to click on same cell twice or to click any cell after game is over
   if (
@@ -35,7 +51,7 @@ function boardClickEventHandler(event) {
 
   clickSound.play();
   completeTurn(clickedCell);
-  aiCompleteTurn();
+  if (playerType === PLAYER_TYPE.AI) aiCompleteTurn();
 }
 
 function completeTurn(clickedCell) {
@@ -88,12 +104,18 @@ function updateGameState() {
   let gameState = game.updateGameState();
   switch (gameState) {
     case GameState.WIN:
-      message.innerText = "You WIN!";
+      message.innerText =
+        playerType === PLAYER_TYPE.HUMAN
+          ? "You Win!"
+          : game.nextTurnPlayer().name + " Win!";
       winSound.play();
       break;
     case GameState.LOSE:
-      message.innerText = "You LOSE!";
-      loseSound.play();
+      message.innerText =
+        playerType === PLAYER_TYPE.HUMAN
+          ? game.nextTurnPlayer().name + " Win!"
+          : "You Lose!";
+      playerType === PLAYER_TYPE.HUMAN ? winSound.play() : loseSound.play();
       break;
     case GameState.TIE:
       message.innerText = "TIE GAME!";
@@ -105,12 +127,13 @@ function updateGameState() {
       break;
   }
 }
-
-resetGameButton.addEventListener("click", (event) => {
+function resetGame() {
   resetGameSound.play();
   resetBoard();
   game.resetBoard();
-});
+}
+
+resetGameButton.addEventListener("click", resetGame);
 
 // Player Form
 const playerForm = document.querySelector(".player_form");
@@ -139,8 +162,24 @@ playerForm.addEventListener("submit", (event) => {
   updatePlayerCustomziation();
 });
 
-// Start game
+// swtich player between huamn and AI
+function switchPlayerHandler(event) {
+  if (playerType === PLAYER_TYPE.AI) {
+    playerType = PLAYER_TYPE.HUMAN;
+    game = new Game(player1, player2);
+    event.currentTarget.innerText = "Play with AI";
+  } else {
+    playerType = PLAYER_TYPE.AI;
+    game = new Game(player1, aiPlayer);
+    event.currentTarget.innerText = "Play with another player";
+  }
+  updatePlayerName();
+  updateScore();
+  resetGame();
+}
+switchPlayerButton.addEventListener("click", switchPlayerHandler);
 
+// Start game
 function loadBoard(board) {
   if (Object.keys(board)) {
     Object.entries(board).forEach(([positionOfMarkedCell, player]) => {
@@ -152,6 +191,7 @@ function loadBoard(board) {
     });
   }
 }
+
 function loadGameData() {
   const gameData = JSON.parse(localStorage.getItem("gameData"));
   game.loadGameDate();

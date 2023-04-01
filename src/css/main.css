@@ -14,7 +14,7 @@ body {
 
 .resetGameButton {
   color: red;
-  margin: 3rem auto;
+  margin: 1rem auto;
   font-size: 2rem;
   padding: 1rem;
   cursor: pointer;
@@ -106,6 +106,21 @@ main {
 }
 .player_form button {
   padding: 1rem;
+}
+
+.switchPlayer {
+  color: green;
+  padding: 1rem;
+  font-size: 2rem;
+  margin: 1rem auto;
+  width: fit-content;
+  cursor: pointer;
+}
+.switchPlayer:hover {
+  background-color: white;
+}
+.switchPlayer:active {
+  color: black;
 }
 
 /*# sourceMappingURL=main.css.map */
