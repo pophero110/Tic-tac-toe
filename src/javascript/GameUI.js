@@ -4,22 +4,25 @@ import { AI } from "./AI";
 // Game UI Element
 const board = document.querySelector(".board");
 const resetGameButton = document.querySelector(".resetGameButton");
-const message = document.querySelector(".message");
+const messageBox = document.querySelector(".message");
 const scoreboardPlayers = document.querySelectorAll(".scoreboard__player");
 const player1Scoreboard = scoreboardPlayers[0].children;
 const player2Scoreboard = scoreboardPlayers[1].children;
-const body = document.body;
 const switchPlayerButton = document.querySelector(".switchPlayer");
+const body = document.body;
 let playerType = PLAYER_TYPE.AI;
+let onlineMode = false;
 
 // Game Assets
 const player1 = new Player({
+  id: 1,
   name: "P1",
   marker: "X",
   type: PLAYER_TYPE.HUMAN,
   score: 0,
 });
 const player2 = new Player({
+  id: 2,
   name: "P2",
   marker: "O",
   type: PLAYER_TYPE.HUMAN,
@@ -33,10 +36,20 @@ const winSound = new Audio("./resources/win.wav");
 const loseSound = new Audio("./resources/lose.wav");
 const tieGameSound = new Audio("./resources/tie_game.wav");
 
-// Board
+// WebSocket Client
+const socket = io();
+
+/**
+ * complete the turn with clicked cell
+ * @param {Event Object} event
+ * @returns
+ */
 function boardClickEventHandler(event) {
-  // disable player to mark cell until ai player has finished the turn
-  if (playerType === PLAYER_TYPE.AI) {
+  /**
+   * disable player to mark cell until ai player has finished the turn
+   * or if the game is online
+   */
+  if (playerType === PLAYER_TYPE.AI || onlineMode) {
     board.removeEventListener("click", boardClickEventHandler);
   }
 
@@ -49,16 +62,21 @@ function boardClickEventHandler(event) {
     return;
   }
 
-  clickSound.play();
+  socket.emit("markCell", { cellPosition: clickedCell.id });
   completeTurn(clickedCell);
   if (playerType === PLAYER_TYPE.AI) aiCompleteTurn();
 }
 
+board.addEventListener("click", boardClickEventHandler);
+
 function completeTurn(clickedCell) {
+  clickSound.play();
   updateBoard(clickedCell);
   updateGameState();
+  if (!onlineMode) game.saveGameData();
   updateScore();
 }
+
 function aiCompleteTurn() {
   const player = game.currentTurnPlayer();
   if (
@@ -66,7 +84,6 @@ function aiCompleteTurn() {
     game.gameState === GameState.NOT_GAME_OVER
   ) {
     setTimeout(() => {
-      clickSound.play();
       const positionOfCell = player.selectCell(game);
       const selectedCell = document.getElementById(positionOfCell);
       completeTurn(selectedCell);
@@ -75,19 +92,40 @@ function aiCompleteTurn() {
   }
 }
 
+/**
+ * add click event to board
+ * remove all marked cell on board
+ * display emtpy message
+ */
 function resetBoard() {
   board.addEventListener("click", boardClickEventHandler);
-  const markedCells = document.querySelectorAll(".board__cell-marked");
-  markedCells.forEach((cell) => cell.remove());
-  message.innerText = "";
+  removeCells();
+  // displayMessage("");
 }
 
+/**
+ * update the board in the game object
+ * mark the clickedCell in UI
+ * @param {DOM element} clickedCell
+ */
 function updateBoard(clickedCell) {
   game.updateBoard(clickedCell.id);
   const markEle = document.createElement("div");
   markEle.innerText = game.currentTurnPlayer().marker;
   markEle.classList.add("board__cell-marked");
   clickedCell.appendChild(markEle);
+}
+
+function removeCells() {
+  const markedCells = document.querySelectorAll(".board__cell-marked");
+  markedCells.forEach((cell) => cell.remove());
+}
+
+function displayMessage(text) {
+  messageBox.innerText = text;
+}
+function displayImage(imageUrl) {
+  body.style.backgroundImage = `url(${imageUrl})`;
 }
 
 function updateScore() {
@@ -99,6 +137,7 @@ function updatePlayerName() {
   player1Scoreboard[0].innerText = game.player1.name;
   player2Scoreboard[0].innerText = game.player2.name;
 }
+
 function updateMarker() {
   const player1Marker = game.player1.marker;
   Object.entries(game.board).forEach(([cell, player]) => {
@@ -107,45 +146,52 @@ function updateMarker() {
     }
   });
 }
+
+/**
+ * check if game is over or switch turn
+ */
 function updateGameState() {
   let gameState = game.updateGameState();
   switch (gameState) {
     case GameState.WIN:
-      message.innerText =
-        playerType === PLAYER_TYPE.HUMAN
-          ? game.nextTurnPlayer().name + " Win!"
-          : "You Win!";
+      displayMessage(game.nextTurnPlayer().name + " Win!");
       winSound.play();
       break;
     case GameState.LOSE:
-      message.innerText =
-        playerType === PLAYER_TYPE.HUMAN
-          ? game.nextTurnPlayer().name + " Win!"
-          : "You Lose!";
-      playerType === PLAYER_TYPE.HUMAN ? winSound.play() : loseSound.play();
+      displayMessage(game.nextTurnPlayer().name + " Win!");
+      playerType === PLAYER_TYPE.HUMAN || onlineMode
+        ? winSound.play()
+        : loseSound.play();
       break;
     case GameState.TIE:
-      message.innerText = "TIE GAME!";
+      displayMessage("TIE GAME!");
       tieGameSound.play();
-      console.log("Tie game");
       break;
     default:
-      message.innerText = "Turn: " + game.nextTurnPlayer().name;
+      displayMessage("Turn: " + game.nextTurnPlayer().name);
       break;
   }
 }
+
+/**
+ * reset both boards in game object and UI
+ */
 function resetGame() {
   resetGameSound.play();
   resetBoard();
   game.resetBoard();
+  if (!onlineMode) game.saveGameData();
 }
 
 resetGameButton.addEventListener("click", resetGame);
 
-// Player Form
+/**
+ * Allow player to customize their game token such as: name, marker, and background image
+ */
 const playerForm = document.querySelector(".player_form");
 const inputs = playerForm.querySelectorAll("input");
 const reader = new FileReader();
+
 function updatePlayer() {
   const name = inputs[0].value;
   const marker = inputs[1].value;
@@ -155,12 +201,11 @@ function updatePlayer() {
     reader.onload = () => {
       const image = reader.result;
       localStorage.setItem("backgroundImage", image);
-      body.style.backgroundImage = `url(${image})`;
-      body.style.backgroundSize = "cover";
+      displayImage(image);
     };
   }
   player1.update({ name, marker });
-  if (name) player1Scoreboard[0].innerText = name;
+  if (name) updatePlayerName();
   if (marker) updateMarker();
 }
 
@@ -169,7 +214,7 @@ playerForm.addEventListener("submit", (event) => {
   updatePlayer();
 });
 
-// swtich player between huamn and AI
+// switch player between huamn and AI
 function switchPlayerHandler(event) {
   if (playerType === PLAYER_TYPE.AI) {
     playerType = PLAYER_TYPE.HUMAN;
@@ -186,7 +231,10 @@ function switchPlayerHandler(event) {
 }
 switchPlayerButton.addEventListener("click", switchPlayerHandler);
 
-// Start game
+/**
+ * mark cells based on board object
+ * @param {object} board
+ */
 function loadBoard(board) {
   if (Object.keys(board)) {
     Object.entries(board).forEach(([positionOfMarkedCell, player]) => {
@@ -199,6 +247,9 @@ function loadBoard(board) {
   }
 }
 
+/**
+ * load player's board, name, marker, score from previous saved game
+ */
 function loadGameData() {
   const gameData = JSON.parse(localStorage.getItem("gameData"));
   game.loadGameDate();
@@ -211,36 +262,57 @@ function loadGameData() {
   updateScore();
   updatePlayerName();
 
-  // display next turn player
-  message.innerText =
-    "Turn: " + (gameData.whoseTurn === 1 ? player1.name : player2.name);
-  // display background image
-  body.style.backgroundImage = `url(${localStorage.getItem(
-    "backgroundImage"
-  )})`;
+  displayMessage(
+    "Turn: " + (gameData.whoseTurn === 1 ? player1.name : player2.name)
+  );
+  displayImage(localStorage.getItem("backgroundImage"));
 }
 
-loadGameData();
-board.addEventListener("click", boardClickEventHandler);
+// loadGameData();
 
-// WebSocket Client
-const roomForm = document.querySelector(".roomForm");
+// WebSocket client
+const joinRoomForm = document.querySelector(".roomForm");
 const roomNumberInput = document.getElementById("roomNumber");
-const socket = io();
 
-roomForm.addEventListener("submit", (event) => {
+function goOnline() {
+  playerType = PLAYER_TYPE.HUMAN;
+  onlineMode = true;
+  roomNumber = roomNumberInput.value;
+}
+
+joinRoomForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  goOnline();
   socket.emit(
     "join",
     { name: game.player1.name, room: roomNumberInput.value },
-    (error) => {
-      if (error) {
-        alert(error);
-      }
-    }
+    (error) => alert(error)
   );
 });
 
-socket.on("message", (message) => {
-  console.log(message);
-});
+/**
+ * listen to opponent's move, update the board and switch turn
+ */
+socket.on(
+  "markCell",
+  (data) => {
+    console.log("Mark Cell", data);
+    const { cellPosition, user } = data;
+    if (user.id !== player1)
+      completeTurn(document.getElementById(cellPosition));
+    board.addEventListener("click", boardClickEventHandler);
+  },
+  (error) => alert(error)
+);
+
+/**
+ * listen to message from server
+ */
+socket.on(
+  "message",
+  (message) => {
+    userId = message.id;
+    console.log(message);
+  },
+  (error) => alert(error)
+);
