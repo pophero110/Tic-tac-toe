@@ -38,8 +38,10 @@ const tieGameSound = new Audio("./resources/tie_game.wav");
 // Board
 function boardClickEventHandler(event) {
   // disable player to mark cell until ai player has finished the turn
-  if (playerType === PLAYER_TYPE.AI)
+  if (playerType === PLAYER_TYPE.AI) {
     board.removeEventListener("click", boardClickEventHandler);
+  }
+
   const clickedCell = event.target;
   // disable user to click on same cell twice or to click any cell after game is over
   if (
@@ -198,6 +200,8 @@ function loadGameData() {
   if (!gameData) return;
   const player1 = gameData.player1;
   const player2 = gameData.player2;
+  playerType =
+    player2.type === PLAYER_TYPE.AI ? PLAYER_TYPE.AI : PLAYER_TYPE.HUMAN;
   loadBoard(gameData.board);
   updateScore();
   updatePlayerName();
