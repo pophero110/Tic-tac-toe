@@ -74,13 +74,12 @@ class Game {
     if (Object.keys(gameData.board)) this.board = gameData.board;
   }
 
-  #saveGameData(image = null) {
+  #saveGameData() {
     localStorage.setItem(
       "gameData",
       JSON.stringify({
         board: this.gameState === GameState.NOT_GAME_OVER ? this.board : {},
         whoseTurn: this.#whoseTurn,
-        image: image,
         player1: this.player1,
         player2: this.player2,
       })

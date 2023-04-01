@@ -18,14 +18,12 @@ const player1 = new Player({
   marker: "X",
   type: PLAYER_TYPE.HUMAN,
   score: 0,
-  image: null,
 });
 const player2 = new Player({
   name: "P2",
   marker: "O",
   type: PLAYER_TYPE.HUMAN,
   score: 0,
-  image: null,
 });
 const aiPlayer = new AI();
 let game = new Game(player1, aiPlayer);
@@ -101,7 +99,14 @@ function updatePlayerName() {
   player1Scoreboard[0].innerText = game.player1.name;
   player2Scoreboard[0].innerText = game.player2.name;
 }
-
+function updateMarker() {
+  const player1Marker = game.player1.marker;
+  Object.entries(game.board).forEach(([cell, player]) => {
+    if (player === 1) {
+      document.getElementById(cell).children[0].innerText = player1Marker;
+    }
+  });
+}
 function updateGameState() {
   let gameState = game.updateGameState();
   switch (gameState) {
@@ -141,7 +146,7 @@ resetGameButton.addEventListener("click", resetGame);
 const playerForm = document.querySelector(".player_form");
 const inputs = playerForm.querySelectorAll("input");
 const reader = new FileReader();
-function updatePlayerCustomziation() {
+function updatePlayer() {
   const name = inputs[0].value;
   const marker = inputs[1].value;
   const file = inputs[2].files[0];
@@ -149,19 +154,19 @@ function updatePlayerCustomziation() {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const image = reader.result;
-      player1.update({ name, marker, image });
+      localStorage.setItem("backgroundImage", image);
       body.style.backgroundImage = `url(${image})`;
       body.style.backgroundSize = "cover";
     };
-  } else {
-    player1.update({ name, marker });
   }
-  player1Scoreboard[0].innerText = name;
+  player1.update({ name, marker });
+  if (name) player1Scoreboard[0].innerText = name;
+  if (marker) updateMarker();
 }
 
 playerForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  updatePlayerCustomziation();
+  updatePlayer();
 });
 
 // swtich player between huamn and AI
@@ -210,7 +215,9 @@ function loadGameData() {
   message.innerText =
     "Turn: " + (gameData.whoseTurn === 1 ? player1.name : player2.name);
   // display background image
-  body.style.backgroundImage = `url(${gameData.image})`;
+  body.style.backgroundImage = `url(${localStorage.getItem(
+    "backgroundImage"
+  )})`;
 }
 
 loadGameData();

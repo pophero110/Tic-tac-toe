@@ -14,19 +14,17 @@ const PLAYER_TYPE = {
   AI: "ai",
 };
 class Player {
-  constructor({ name, marker, score, image, type }) {
+  constructor({ name, marker, score, type }) {
     this.name = name;
     this.marker = marker;
     this.score = score;
     this.type = type;
-    this.image = image;
   }
 
-  update({ name, marker, score, image }) {
+  update({ name, marker, score }) {
     if (name) this.name = name;
     if (marker) this.marker = marker;
     if (score) this.score = score;
-    if (image) this.image = image;
   }
 }
 

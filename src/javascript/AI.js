@@ -6,7 +6,6 @@ export class AI extends Player {
       marker: "🤖",
       type: PLAYER_TYPE.AI,
       score: 0,
-      image: null,
     });
     this.comeFirst = false;
   }
