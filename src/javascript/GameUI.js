@@ -11,7 +11,7 @@ const player2Scoreboard = scoreboard[1].children;
 const playerTypeButton = document.querySelector(".playerTypeButton");
 const onlineButton = document.querySelector(".onlineButton");
 const customizeButton = document.querySelector(".customizeButton");
-const resetPlayerButton = document.querySelector(".resetPlayerButton");
+const resetDataButton = document.querySelector(".resetDataButton");
 const joinRoomForm = document.querySelector(".roomForm");
 const roomNumberInput = document.getElementById("roomNumber");
 const modalBackDrop = document.querySelector(".modal--backdrop");
@@ -79,9 +79,9 @@ customizeButton.addEventListener("click", (event) => {
   updatePlayerForm(player1);
 });
 
-resetPlayerButton.addEventListener("click", (event) => {
+resetDataButton.addEventListener("click", (event) => {
   localStorage.clear();
-  resetGameSound.play();
+  location.reload();
 });
 
 modalBackDrop.addEventListener("click", (event) => {
@@ -399,6 +399,9 @@ socket.on(
     if (opponent && whoseTurn) {
       game.player2.update({ ...opponent });
       game.updateWhoseTurn(whoseTurn);
+      if (whoseTurn === 2) {
+        board.removeEventListener("click", boardClickEventHandler);
+      }
       updateScore();
       updatePlayerName();
     }
