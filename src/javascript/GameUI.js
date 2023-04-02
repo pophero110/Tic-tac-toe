@@ -224,15 +224,15 @@ playerForm.addEventListener("submit", (event) => {
 });
 
 // switch player between huamn and AI
-function switchPlayerHandler(event) {
+function switchPlayerHandler() {
   if (playerType === PLAYER_TYPE.AI) {
     playerType = PLAYER_TYPE.HUMAN;
     game = new Game(player1, player2);
-    event.currentTarget.innerText = "Play with AI";
+    switchPlayerButton.innerText = "Play with AI";
   } else {
     playerType = PLAYER_TYPE.AI;
     game = new Game(player1, aiPlayer);
-    event.currentTarget.innerText = "Play with another player";
+    switchPlayerButton.innerText = "Two Players";
   }
   updatePlayerName();
   updateScore();
@@ -304,7 +304,7 @@ joinRoomForm.addEventListener("submit", (event) => {
 socket.on(
   "markCell",
   (data) => {
-    const { cellPosition, nextTurnPlayer } = data;
+    const { cellPosition } = data;
     console.log("Mark Cell", data);
     completeTurn(document.getElementById(cellPosition));
     board.addEventListener("click", boardClickEventHandler);
@@ -323,10 +323,6 @@ socket.on(
   },
   (error) => alert(error)
 );
-
-socket.on("secondPlayerJoined", (data) => {
-  console.log(data);
-});
 
 socket.on("gameOver", (data) => {
   console.log(data);

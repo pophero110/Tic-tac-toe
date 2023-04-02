@@ -69,7 +69,6 @@ io.on("connection", (socket) => {
     if (player) {
       io.to(opponent.socketId).emit("markCell", {
         cellPosition,
-        nextTurnPlayer: opponent,
       });
     }
   });

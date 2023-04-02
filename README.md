@@ -152,11 +152,11 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 ## User stories
 
 - As a player, I want to be able to play the game online with another player
-  - As a player, I can join a room to play with another player
-  - As a player, I'm not able to mark until it is my turn
-  - As a player, my board should be synced with my opponent's
-  - As a player, the game should be automatically reset after the game is over and switch sides
-  - As an admin, I want each room can only contain at most 2 players
+  - As a player, I can join a room to play with another player ✅
+  - As a player, I'm not able to mark until it is my turn ✅
+  - As a player, my board should be synced with my opponent's ✅
+  - As a player, the game should be automatically reset after the game is over and switch sides ✅
+  - As an admin, I want each room can only contain at most 2 players ✅
 
 ### UI Wireframe
 
