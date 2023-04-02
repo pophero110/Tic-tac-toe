@@ -10,40 +10,55 @@
       href="./resources//board_with_id.png"
       type="image/x-icon"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <title>Tic-tac-toe</title>
   </head>
   <body>
-    <header>
-      <h1 class="title">Tic Tac Toe</h1>
-      <div class="scoreboard">
-        <div class="scoreboard__player">
-          <p class="scoreboard__player__name">P1</p>
-          <p class="scoreboard__player__score">0</p>
+    <main>
+      <div class="messageBar">P1 TURN</div>
+      <div class="sidebar sidebar--left">
+        <div class="scoreboard scoreboard--left marginBottom">
+          <p class="scoreboard__name">P1</p>
+          <p class="scoreboard__score">0</p>
         </div>
-        <div class="scoreboard__player">
-          <p class="scoreboard__player__name">Unbeatable AI</p>
-          <p class="scoreboard__player__score">0</p>
+        <div class="options options--left">
+          <div class="button customizeButton">Customize</div>
         </div>
       </div>
-    </header>
 
-    <div class="board">
-      <div class="board__cell" id="1"></div>
-      <div class="board__cell" id="2"></div>
-      <div class="board__cell" id="3"></div>
-      <div class="board__cell" id="4"></div>
-      <div class="board__cell" id="5"></div>
-      <div class="board__cell" id="6"></div>
-      <div class="board__cell" id="7"></div>
-      <div class="board__cell" id="8"></div>
-      <div class="board__cell" id="9"></div>
-    </div>
+      <div class="sidebar sidebar--right">
+        <div class="scoreboard scoreboard--right marginBottom">
+          <p class="scoreboard__name">AI</p>
+          <p class="scoreboard__score">0</p>
+        </div>
+        <div class="options options--right">
+          <div class="button customizeButton marginBottom">Customize</div>
+          <div class="button playModeButton marginBottom">Play with P2</div>
+          <div class="button onlineBtn marginBottom">Play Online</div>
+        </div>
+      </div>
 
-    <div class="message">Turn: P1</div>
-    <div class="resetGameButton">Reset Game</div>
-    <div class="switchPlayer">Two Players</div>
+      <div class="board">
+        <div class="board__cell" id="1"></div>
+        <div class="board__cell" id="2"></div>
+        <div class="board__cell" id="3"></div>
+        <div class="board__cell" id="4"></div>
+        <div class="board__cell" id="5"></div>
+        <div class="board__cell" id="6"></div>
+        <div class="board__cell" id="7"></div>
+        <div class="board__cell" id="8"></div>
+        <div class="board__cell" id="9"></div>
+      </div>
 
-    <form class="roomForm" action="#">
+      <div class="button resetGameButton">Reset Game</div>
+    </main>
+
+    <!-- <form class="roomForm" action="#">
       <label for="roomNumber"></label>
       <input required minlength="3" type="text" id="roomNumber" />
       <button>Join Room</button>
@@ -60,7 +75,7 @@
       <input type="file" name="uploadImage" id="uploadImage" />
 
       <button>Submit</button>
-    </form>
+    </form> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="../src/javascript/main.js"></script>
   </body>

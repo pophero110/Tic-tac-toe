@@ -1,6 +1,48 @@
+// Typography
+$primary-font: "Roboto", sans-serif;
+$accent-font: "Press Start 2P", cursive;
+$font-size-xl: 3.2rem;
+$font-size-lg: 2.4rem;
+$font-size-md: 2rem;
+$font-size-sm: 1.6rem;
+$font-size-xs: 1.2rem;
+
+// Color
+$primary-color: #3bd1d8;
+$font-color: #565656;
+$secondary-color: #b1f5f8;
+
+// Decoration
+$shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+$border-radius: 4px;
+
+@mixin background {
+  background-color: white;
+  color: $font-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+}
+
+.marginBottom {
+  margin-bottom: 1rem;
+}
+
+.button {
+  @include background;
+  font-size: 1.6rem;
+  cursor: pointer;
+  text-align: center;
+  padding: 1rem;
+  &:hover {
+    background-color: $secondary-color;
+    color: white;
+  }
+}
+
 :root {
   // 1rem = 10px
   font-size: 10px;
+  font-family: $primary-font;
 }
 * {
   box-sizing: border-box;
@@ -8,42 +50,87 @@
   margin: 0;
 }
 
+// Layout
 body {
-  background-color: black;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.resetGameButton {
-  color: red;
-  margin: 1rem auto;
-  font-size: 2rem;
-  padding: 1rem;
-  cursor: pointer;
-  width: fit-content;
-  &:hover {
-    background-color: white;
+main {
+  display: grid;
+  grid-template-columns: repeat(3, fit-content);
+  grid-template-rows: repeat(3, fit-content);
+  grid-row-gap: 0.5rem;
+  grid-column-gap: 1rem;
+  grid-template-areas:
+    ". messageBar ."
+    "sidebarLeft board sidebarRight"
+    ". resetGameButton .";
+}
+
+.messageBar {
+  @include background;
+  grid-area: messageBar;
+  font-family: $accent-font;
+  text-align: center;
+  font-size: $font-size-sm;
+  background-color: rgba(255, 255, 255, 0.43);
+  text-transform: uppercase;
+  padding: 1.4rem 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  &--left {
+    grid-area: sidebarLeft;
   }
-  &:active {
-    color: black;
+  &--right {
+    grid-area: sidebarRight;
+  }
+}
+
+.scoreboard {
+  @include background;
+  width: 12rem;
+  color: white;
+  background-color: $primary-color;
+  padding: 2rem 2rem;
+  text-align: center;
+  &__name {
+    font-size: $font-size-md;
+    margin-bottom: 0.5rem;
+  }
+  &__score {
+    font-size: 5rem;
   }
 }
 
 .board {
+  @include background;
+  background-color: $primary-color;
+  padding: 1.4rem;
+  grid-area: board;
   display: grid;
   grid-template-rows: repeat(3, 10rem);
   grid-template-columns: repeat(3, 10rem);
   grid-gap: 0.5rem;
   justify-content: center;
-  padding: 0 20%;
   &__cell {
+    @include background;
     cursor: pointer;
     width: 10rem;
     height: 10rem;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: $border-radius;
     display: flex;
     justify-content: center;
     align-items: center;
     &:hover {
-      background-color: gray;
+      background-color: $secondary-color;
     }
     &-marked {
       font-size: 10rem;
@@ -51,43 +138,15 @@ body {
   }
 }
 
-.message {
-  color: white;
+.resetGameButton {
+  grid-area: resetGameButton;
+  width: 100%;
   text-align: center;
-  font-size: 3rem;
-  margin-top: 1rem;
+  padding: 1.4rem 0;
+  font-size: $font-size-md;
 }
 
-header {
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 4rem;
-  .title {
-    margin-bottom: 2rem;
-    font-size: 4rem;
-  }
-
-  .scoreboard {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 30rem;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    &__player {
-      display: flex;
-      &__name {
-        margin-right: 1rem;
-      }
-    }
-  }
-}
-main {
-  display: flex;
-}
+// Modal
 .player_form {
   color: white;
   display: flex;

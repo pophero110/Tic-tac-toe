@@ -4,10 +4,10 @@ import { AI } from "./AI";
 // Game UI Element
 const board = document.querySelector(".board");
 const resetGameButton = document.querySelector(".resetGameButton");
-const messageBox = document.querySelector(".message");
-const scoreboardPlayers = document.querySelectorAll(".scoreboard__player");
-const player1Scoreboard = scoreboardPlayers[0].children;
-const player2Scoreboard = scoreboardPlayers[1].children;
+const messageBar = document.querySelector(".messageBar");
+const scoreboard = document.querySelectorAll(".scoreboard");
+const player1Scoreboard = scoreboard[0].children;
+const player2Scoreboard = scoreboard[1].children;
 const switchPlayerButton = document.querySelector(".switchPlayer");
 const body = document.body;
 let playerType = PLAYER_TYPE.AI;
@@ -122,20 +122,20 @@ function removeCells() {
 }
 
 function displayMessage(text) {
-  messageBox.innerText = text;
+  messageBar.innerText = text;
 }
 function displayImage(imageUrl) {
   body.style.backgroundImage = `url(${imageUrl})`;
 }
 
-function updateScore() {
-  player1Scoreboard[1].innerText = game.player1.score;
-  player2Scoreboard[1].innerText = game.player2.score;
-}
-
 function updatePlayerName() {
   player1Scoreboard[0].innerText = game.player1.name;
   player2Scoreboard[0].innerText = game.player2.name;
+}
+
+function updateScore() {
+  player1Scoreboard[1].innerText = game.player1.score;
+  player2Scoreboard[1].innerText = game.player2.score;
 }
 
 function updateMarker() {
