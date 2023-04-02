@@ -22,10 +22,12 @@ class Player {
     this.type = type;
   }
 
-  update({ name, marker, score }) {
+  update({ name, marker, score, id, type }) {
     if (name) this.name = name;
     if (marker) this.marker = marker;
     if (score) this.score = score;
+    if (id) this.id = id;
+    if (type) this.type = type;
   }
 }
 

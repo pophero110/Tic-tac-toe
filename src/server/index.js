@@ -33,16 +33,27 @@ io.on("connection", (socket) => {
     }
 
     /**
-     * if there is a player in the room already, send message to first player
+     * if there is a player in the room already, send message and second player data to first player
+     * and send first player data to second player
      */
+    let firstPlayer;
     if (numberOfPlayerInRoom[room]) {
-      const firstPlayer = players.find((p) => p.room === room);
-      io.to(firstPlayer.socketId).emit("message", `${player.name} has joined!`);
+      firstPlayer = players.find((p) => p.room === room);
+      io.to(firstPlayer.socketId).emit("message", {
+        opponent: player,
+        message: `${player.name} has joined!`,
+        whoseTurn: 1,
+      });
+      socket.emit("message", {
+        message: "Welcome " + player.name,
+        opponent: firstPlayer,
+        whoseTurn: 2,
+      });
+    } else {
+      socket.emit("message", {
+        message: "Welcome " + player.name,
+      });
     }
-
-    socket.emit("message", {
-      message: "Welcome " + player.name,
-    });
 
     numberOfPlayerInRoom[room] = (numberOfPlayerInRoom[room] || 0) + 1;
     players.push({ socketId: socket.id, room, ...player });

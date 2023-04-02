@@ -82,6 +82,10 @@ class Game {
     console.log("save game", JSON.parse(localStorage.getItem("gameData")));
   }
 
+  updateWhoseTurn(whoseTurn) {
+    this.whoseTurn = whoseTurn;
+  }
+
   #updateScore() {
     if (this.gameState === GameState.WIN) this.player1.score += 1;
     if (this.gameState === GameState.LOSE) this.player2.score += 1;

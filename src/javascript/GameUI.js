@@ -178,20 +178,18 @@ function displayImage(imageUrl) {
 }
 
 function updatePlayerName() {
-  console.log({ game });
+  console.log({ player1, player2 });
   player1Scoreboard[0].innerText = game.player1.name;
   player2Scoreboard[0].innerText = game.player2.name;
 }
 
 function updateScore() {
-  console.log(player1Scoreboard[1].innerText, game.player1);
-  console.log(player2Scoreboard[1].innerText, game.player2);
   player1Scoreboard[1].innerText = game.player1.score;
   player2Scoreboard[1].innerText = game.player2.score;
 }
 
 function updateMarker() {
-  const player1Marker = game.player1.marker;
+  const player1Marker = player1.marker;
   Object.entries(game.board).forEach(([cell, player]) => {
     if (player === 1) {
       document.getElementById(cell).children[0].innerText = player1Marker;
@@ -268,8 +266,9 @@ function updatePlayerForm(player) {
 togglePlayerButton.addEventListener("change", (event) => {
   // true means player1, false means player2
   const whichPlayer = togglePlayerButton.checked;
-  updatePlayerForm(whichPlayer ? player1 : player2);
+  updatePlayerForm(whichPlayer ? game.player1 : game.player2);
 });
+
 function updatePlayer() {
   // true means player1, false means player2
   const whichPlayer = playerInputs[0].checked;
@@ -285,8 +284,8 @@ function updatePlayer() {
     };
   }
   whichPlayer
-    ? player1.update({ name, marker })
-    : player2.update({ name, marker });
+    ? game.player1.update({ name, marker })
+    : game.player2.update({ name, marker });
 
   if (name) updatePlayerName();
   if (marker) updateMarker();
@@ -352,7 +351,8 @@ function loadGameData() {
   updatePlayerName();
 
   displayMessage(
-    "Turn: " + (gameData.whoseTurn === 1 ? player1.name : player2.name)
+    "Turn: " +
+      (gameData.whoseTurn === 1 ? game.player1.name : game.player2.name)
   );
   displayImage(localStorage.getItem("backgroundImage"));
 }
@@ -394,8 +394,14 @@ socket.on(
 socket.on(
   "message",
   (data) => {
-    const { message } = data;
+    const { message, opponent, whoseTurn } = data;
     displayMessage(message);
+    if (opponent && whoseTurn) {
+      game.player2.update({ ...opponent });
+      game.updateWhoseTurn(whoseTurn);
+      updateScore();
+      updatePlayerName();
+    }
   },
   (error) => alert(error)
 );
