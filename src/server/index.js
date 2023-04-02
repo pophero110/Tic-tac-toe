@@ -37,10 +37,7 @@ io.on("connection", (socket) => {
      */
     if (numberOfPlayerInRoom[room]) {
       const firstPlayer = players.find((p) => p.room === room);
-      io.to(firstPlayer.socketId).emit(
-        "secondPlayerJoined",
-        `${player.name} has joined!`
-      );
+      io.to(firstPlayer.socketId).emit("message", `${player.name} has joined!`);
     }
 
     socket.emit("message", {

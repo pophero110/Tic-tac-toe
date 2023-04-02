@@ -11,6 +11,7 @@ const player2Scoreboard = scoreboard[1].children;
 const playerTypeButton = document.querySelector(".playerTypeButton");
 const onlineButton = document.querySelector(".onlineButton");
 const customizeButton = document.querySelector(".customizeButton");
+const resetPlayerButton = document.querySelector(".resetPlayerButton");
 const joinRoomForm = document.querySelector(".roomForm");
 const roomNumberInput = document.getElementById("roomNumber");
 const modalBackDrop = document.querySelector(".modal--backdrop");
@@ -51,19 +52,38 @@ function toggleModal() {
   modalBackDrop.style.display =
     modalBackDrop.style.display === "block" ? "none" : "block";
 }
+const FORM_TYPE = {
+  ROOM_FORM: "room_form",
+  PLAYER_FORM: "player_form",
+};
+
+function changeForm(formType) {
+  if (FORM_TYPE.ROOM_FORM === formType) {
+    joinRoomForm.style.display = "flex";
+    playerForm.style.display = "none";
+  }
+  if (FORM_TYPE.PLAYER_FORM === formType) {
+    joinRoomForm.style.display = "none";
+    playerForm.style.display = "flex";
+  }
+}
 
 onlineButton.addEventListener("click", (event) => {
   toggleModal();
-  joinRoomForm.style.display = "flex";
-  playerForm.style.display = "none";
+  changeForm(FORM_TYPE.ROOM_FORM);
 });
 
 customizeButton.addEventListener("click", (event) => {
   toggleModal();
-  joinRoomForm.style.display = "none";
-  playerForm.style.display = "flex";
+  changeForm(FORM_TYPE.PLAYER_FORM);
   updatePlayerForm(player1);
 });
+
+resetPlayerButton.addEventListener("click", (event) => {
+  localStorage.clear();
+  resetGameSound.play();
+});
+
 modalBackDrop.addEventListener("click", (event) => {
   toggleModal();
 });
@@ -164,6 +184,8 @@ function updatePlayerName() {
 }
 
 function updateScore() {
+  console.log(player1Scoreboard[1].innerText, game.player1);
+  console.log(player2Scoreboard[1].innerText, game.player2);
   player1Scoreboard[1].innerText = game.player1.score;
   player2Scoreboard[1].innerText = game.player2.score;
 }
@@ -324,8 +346,8 @@ function loadGameData() {
       : new Player({ ...gameData.player2 });
   playerType = player2.type;
   game.loadGameDate({ ...gameData, player1, player2 });
-  updatePlayerTypeButtonText();
   loadBoard(gameData.board);
+  updatePlayerTypeButtonText();
   updateScore();
   updatePlayerName();
 
@@ -373,7 +395,7 @@ socket.on(
   "message",
   (data) => {
     const { message } = data;
-    console.log(message);
+    displayMessage(message);
   },
   (error) => alert(error)
 );

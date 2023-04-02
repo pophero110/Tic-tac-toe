@@ -1,12 +1,14 @@
 import { Player, PLAYER_TYPE, WINNING_COMBINATIONS } from "./Player";
 export class AI extends Player {
-  constructor() {
-    super({
+  constructor(
+    { score, name, marker, type } = {
       name: "AI",
       marker: "🤖",
       type: PLAYER_TYPE.AI,
       score: 0,
-    });
+    }
+  ) {
+    super({ name, marker, type, score });
     this.comeFirst = false;
   }
 
@@ -56,6 +58,7 @@ export class AI extends Player {
 
     return selectedCell;
   }
+
   #checkPotentialWinningCombination(board, player) {
     let count = 0;
     let positionOfCell = 0;
