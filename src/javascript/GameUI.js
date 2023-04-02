@@ -9,6 +9,14 @@ const scoreboard = document.querySelectorAll(".scoreboard");
 const player1Scoreboard = scoreboard[0].children;
 const player2Scoreboard = scoreboard[1].children;
 const playTypeButton = document.querySelector(".playTypeButton");
+const onlineButton = document.querySelector(".onlineButton");
+const playerForm = document.querySelector(".player_form");
+const customizeButton = document.querySelector(".customizeButton");
+const inputs = playerForm.querySelectorAll("input");
+const joinRoomForm = document.querySelector(".roomForm");
+const roomNumberInput = document.getElementById("roomNumber");
+const modalBackDrop = document.querySelector(".modal--backdrop");
+const modal = document.querySelector(".modal");
 const body = document.body;
 let playerType = PLAYER_TYPE.AI;
 let onlineMode = false;
@@ -38,6 +46,28 @@ const tieGameSound = new Audio("./resources/tie_game.wav");
 
 // WebSocket Client
 const socket = io();
+
+// Modal
+function toggleModal() {
+  modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+  modalBackDrop.style.display =
+    modalBackDrop.style.display === "block" ? "none" : "block";
+}
+
+onlineButton.addEventListener("click", (event) => {
+  toggleModal();
+  joinRoomForm.style.display = "flex";
+  playerForm.style.display = "none";
+});
+
+customizeButton.addEventListener("click", (event) => {
+  toggleModal();
+  joinRoomForm.style.display = "none";
+  playerForm.style.display = "flex";
+});
+modalBackDrop.addEventListener("click", (event) => {
+  toggleModal();
+});
 
 /**
  * complete the turn with clicked cell
@@ -198,8 +228,6 @@ resetGameButton.addEventListener("click", resetGame);
 /**
  * Allow player to customize their game token such as: name, marker, and background image
  */
-const playerForm = document.querySelector(".player_form");
-const inputs = playerForm.querySelectorAll("input");
 const reader = new FileReader();
 
 function updatePlayer() {
@@ -279,11 +307,6 @@ function loadGameData() {
 }
 
 // loadGameData();
-
-// WebSocket client
-const joinRoomForm = document.querySelector(".roomForm");
-const roomNumberInput = document.getElementById("roomNumber");
-
 function goOnline() {
   playerType = PLAYER_TYPE.HUMAN;
   onlineMode = true;
