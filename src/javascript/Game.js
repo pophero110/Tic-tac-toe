@@ -58,19 +58,18 @@ class Game {
     return whoseTurn === 1 ? this.player1 : this.player2;
   }
 
-  loadGameDate() {
-    const gameData = JSON.parse(localStorage.getItem("gameData"));
-    if (!gameData) return;
-    console.log("load game", gameData);
+  loadGameDate(gameData) {
+    if (!gameData) throw new Error("Missing Game Data");
     const player1 = gameData.player1;
     const player2 = gameData.player2;
-    this.player1.update({ ...player1 });
-    this.player2.update({ ...player2 });
+    this.player1 = player1;
+    this.player2 = player2;
     this.whoseTurn = gameData.whoseTurn;
-    if (Object.keys(gameData.board)) this.board = gameData.board;
+    if (Object.keys(gameData.board).length) this.board = gameData.board;
   }
 
   saveGameData() {
+    console.log({ player1: this.player1, player2: this.player2 });
     localStorage.setItem(
       "gameData",
       JSON.stringify({

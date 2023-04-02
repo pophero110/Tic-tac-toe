@@ -8,7 +8,7 @@ const messageBar = document.querySelector(".messageBar");
 const scoreboard = document.querySelectorAll(".scoreboard");
 const player1Scoreboard = scoreboard[0].children;
 const player2Scoreboard = scoreboard[1].children;
-const playTypeButton = document.querySelector(".playTypeButton");
+const playerTypeButton = document.querySelector(".playerTypeButton");
 const onlineButton = document.querySelector(".onlineButton");
 const playerForm = document.querySelector(".player_form");
 const customizeButton = document.querySelector(".customizeButton");
@@ -22,21 +22,21 @@ let playerType = PLAYER_TYPE.AI;
 let onlineMode = false;
 
 // Game Assets
-const player1 = new Player({
+let player1 = new Player({
   id: Math.floor(Math.random() * 10000000),
   name: "P1",
   marker: "X",
   type: PLAYER_TYPE.HUMAN,
   score: 0,
 });
-const player2 = new Player({
+let player2 = new Player({
   id: Math.floor(Math.random() * 10000000),
   name: "P2",
   marker: "O",
   type: PLAYER_TYPE.HUMAN,
   score: 0,
 });
-const aiPlayer = new AI();
+let aiPlayer = new AI();
 let game = new Game(player1, aiPlayer);
 const clickSound = new Audio("./resources/click.wav");
 const resetGameSound = new Audio("./resources/reset_game.wav");
@@ -159,6 +159,7 @@ function displayImage(imageUrl) {
 }
 
 function updatePlayerName() {
+  console.log({ game });
   player1Scoreboard[0].innerText = game.player1.name;
   player2Scoreboard[0].innerText = game.player2.name;
 }
@@ -175,6 +176,11 @@ function updateMarker() {
       document.getElementById(cell).children[0].innerText = player1Marker;
     }
   });
+}
+
+function updatePlayerTypeButtonText() {
+  playerTypeButton.innerText =
+    playerType === PLAYER_TYPE.AI ? "Play with P2" : "Play with AI";
 }
 
 function emitGameOverToServer() {
@@ -253,21 +259,22 @@ playerForm.addEventListener("submit", (event) => {
 });
 
 // switch player between huamn and AI
-function playTypeButtonHandler() {
+function playerTypeButtonHandler() {
   if (playerType === PLAYER_TYPE.AI) {
     playerType = PLAYER_TYPE.HUMAN;
     game = new Game(player1, player2);
-    playTypeButton.innerText = "Play with AI";
+    console.log(player2);
   } else {
     playerType = PLAYER_TYPE.AI;
     game = new Game(player1, aiPlayer);
-    playTypeButton.innerText = "Play with P2";
+    console.log(aiPlayer);
   }
+  resetGame();
+  updatePlayerTypeButtonText();
   updatePlayerName();
   updateScore();
-  resetGame();
 }
-playTypeButton.addEventListener("click", playTypeButtonHandler);
+playerTypeButton.addEventListener("click", playerTypeButtonHandler);
 
 /**
  * mark cells based on board object
@@ -290,12 +297,16 @@ function loadBoard(board) {
  */
 function loadGameData() {
   const gameData = JSON.parse(localStorage.getItem("gameData"));
-  game.loadGameDate();
+  console.log("load game", gameData);
   if (!gameData) return;
-  const player1 = gameData.player1;
-  const player2 = gameData.player2;
-  playerType =
-    player2.type === PLAYER_TYPE.AI ? PLAYER_TYPE.AI : PLAYER_TYPE.HUMAN;
+  player1 = new Player({ ...gameData.player1 });
+  player2 =
+    gameData.player2.type === PLAYER_TYPE.AI
+      ? new AI({ ...gameData.player2 })
+      : new Player({ ...gameData.player2 });
+  playerType = player2.type;
+  game.loadGameDate({ ...gameData, player1, player2 });
+  updatePlayerTypeButtonText();
   loadBoard(gameData.board);
   updateScore();
   updatePlayerName();
