@@ -36,16 +36,22 @@
       </form>
 
       <form action="#" class="player_form">
-        <label for="name">name (Max length 10)</label>
-        <input type="text" id="name" maxlength="10" />
+        <input class="togglePlayer" type="checkbox" />
 
-        <label for="marker">marker (Max length 1)</label>
-        <input type="text" id="marker" maxlength="1" />
+        <div class="player_form__inputBox">
+          <label for="name">Name</label>
+          <input type="text" id="name" maxlength="10" />
+        </div>
 
-        <label for="uploadImage">Background image</label>
-        <input type="file" name="uploadImage" id="uploadImage" />
-
-        <button>Submit</button>
+        <div class="player_form__inputBox">
+          <label for="marker">Marker</label>
+          <input type="text" id="marker" maxlength="1" />
+        </div>
+        <div class="player_form__inputBox">
+          <label for="uploadImage">Background</label>
+          <input type="file" name="uploadImage" id="uploadImage" />
+        </div>
+        <div class="button">Submit</div>
       </form>
     </div>
     <main>

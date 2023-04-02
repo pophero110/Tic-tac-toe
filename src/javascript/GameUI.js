@@ -306,7 +306,8 @@ function loadGameData() {
   displayImage(localStorage.getItem("backgroundImage"));
 }
 
-// loadGameData();
+loadGameData();
+
 function goOnline() {
   playerType = PLAYER_TYPE.HUMAN;
   onlineMode = true;

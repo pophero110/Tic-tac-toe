@@ -178,6 +178,11 @@ main {
 }
 .roomForm .button {
   width: 100%;
+  color: white;
+  background-color: #20ed78;
+}
+.roomForm .button:hover {
+  background-color: #17c964;
 }
 
 .player_form {
@@ -186,16 +191,63 @@ main {
   justify-content: center;
   align-items: center;
 }
-.player_form label {
-  font-size: 2rem;
-  text-transform: capitalize;
+.player_form__inputBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  margin-bottom: 1.6rem;
 }
-.player_form input {
-  padding: 0.5rem 1rem;
-  margin-bottom: 1rem;
+.player_form__inputBox label {
+  width: 5rem;
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
 }
-.player_form button {
-  padding: 1rem;
+.player_form__inputBox input {
+  width: 100%;
+  background-color: white;
+  color: #565656;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: none;
+  padding: 1rem 0.5rem;
+}
+.player_form__inputBox input:focus-visible {
+  outline: 1px solid black;
+}
+.player_form .button {
+  color: white;
+  width: 100%;
+  background-color: #20ed78;
+}
+.player_form .button:hover {
+  background-color: #17c964;
+}
+.player_form .togglePlayer:before {
+  content: "P1 P2";
+  display: block;
+  position: absolute;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  font: 10px/28px Helvetica;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-indent: -22px;
+  word-spacing: 37px;
+  color: #fff;
+  text-shadow: -1px -1px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+}
+.player_form .togglePlayer:checked:before {
+  left: 32px;
 }
 
 .switchPlayer {
@@ -211,6 +263,23 @@ main {
 }
 .switchPlayer:active {
   color: black;
+}
+
+.togglePlayer {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 62px;
+  height: 32px;
+  display: inline-block;
+  position: relative;
+  border-radius: 50px;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: #707070;
+  transition: background-color ease 0.3s;
 }
 
 /*# sourceMappingURL=main.css.map */
