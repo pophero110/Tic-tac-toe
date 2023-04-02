@@ -8,7 +8,7 @@ const messageBar = document.querySelector(".messageBar");
 const scoreboard = document.querySelectorAll(".scoreboard");
 const player1Scoreboard = scoreboard[0].children;
 const player2Scoreboard = scoreboard[1].children;
-const switchPlayerButton = document.querySelector(".switchPlayer");
+const playTypeButton = document.querySelector(".playTypeButton");
 const body = document.body;
 let playerType = PLAYER_TYPE.AI;
 let onlineMode = false;
@@ -189,6 +189,7 @@ function resetGame() {
   resetGameSound.play();
   resetBoard();
   game.resetBoard();
+  displayMessage(game.player1.name + " TURN");
   if (!onlineMode) game.saveGameData();
 }
 
@@ -224,21 +225,21 @@ playerForm.addEventListener("submit", (event) => {
 });
 
 // switch player between huamn and AI
-function switchPlayerHandler() {
+function playTypeButtonHandler() {
   if (playerType === PLAYER_TYPE.AI) {
     playerType = PLAYER_TYPE.HUMAN;
     game = new Game(player1, player2);
-    switchPlayerButton.innerText = "Play with AI";
+    playTypeButton.innerText = "Play with AI";
   } else {
     playerType = PLAYER_TYPE.AI;
     game = new Game(player1, aiPlayer);
-    switchPlayerButton.innerText = "Two Players";
+    playTypeButton.innerText = "Play with P2";
   }
   updatePlayerName();
   updateScore();
   resetGame();
 }
-switchPlayerButton.addEventListener("click", switchPlayerHandler);
+playTypeButton.addEventListener("click", playTypeButtonHandler);
 
 /**
  * mark cells based on board object

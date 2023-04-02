@@ -38,7 +38,7 @@
         </div>
         <div class="options options--right">
           <div class="button customizeButton marginBottom">Customize</div>
-          <div class="button playModeButton marginBottom">Play with P2</div>
+          <div class="button playTypeButton marginBottom">Play with P2</div>
           <div class="button onlineBtn marginBottom">Play Online</div>
         </div>
       </div>
@@ -58,24 +58,26 @@
       <div class="button resetGameButton">Reset Game</div>
     </main>
 
-    <!-- <form class="roomForm" action="#">
-      <label for="roomNumber"></label>
-      <input required minlength="3" type="text" id="roomNumber" />
-      <button>Join Room</button>
-    </form>
+    <div>
+      <form class="roomForm" action="#">
+        <label for="roomNumber"></label>
+        <input required minlength="3" type="text" id="roomNumber" />
+        <button>Join Room</button>
+      </form>
 
-    <form action="#" class="player_form">
-      <label for="name">name (Max length 10)</label>
-      <input type="text" id="name" maxlength="10" />
+      <form action="#" class="player_form">
+        <label for="name">name (Max length 10)</label>
+        <input type="text" id="name" maxlength="10" />
 
-      <label for="marker">marker (Max length 1)</label>
-      <input type="text" id="marker" maxlength="1" />
+        <label for="marker">marker (Max length 1)</label>
+        <input type="text" id="marker" maxlength="1" />
 
-      <label for="uploadImage">Background image</label>
-      <input type="file" name="uploadImage" id="uploadImage" />
+        <label for="uploadImage">Background image</label>
+        <input type="file" name="uploadImage" id="uploadImage" />
 
-      <button>Submit</button>
-    </form> -->
+        <button>Submit</button>
+      </form>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="../src/javascript/main.js"></script>
   </body>

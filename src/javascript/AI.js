@@ -2,7 +2,7 @@ import { Player, PLAYER_TYPE, WINNING_COMBINATIONS } from "./Player";
 export class AI extends Player {
   constructor() {
     super({
-      name: "Unbeatable AI",
+      name: "AI",
       marker: "🤖",
       type: PLAYER_TYPE.AI,
       score: 0,
