@@ -39,10 +39,9 @@ let aiPlayer = new AI();
 let game = new Game(player1, aiPlayer);
 const clickSound = new Audio("./resources/click.wav");
 const resetGameSound = new Audio("./resources/reset_game.wav");
-const winSound = new Audio("./resources/win.wav");
+const winSound = new Audio("./resources/niceMeme.mp3");
 const loseSound = new Audio("./resources/lose.wav");
-const tieGameSound = new Audio("./resources/tie_game.wav");
-
+const tieGameSound = new Audio("./resources/tie.wav");
 // WebSocket Client
 const socket = io();
 
