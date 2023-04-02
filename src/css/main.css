@@ -37,6 +37,11 @@ body {
   height: 100vh;
 }
 
+button {
+  outline: none;
+  border: none;
+}
+
 main {
   display: grid;
   grid-template-columns: repeat(3, fit-content);
@@ -185,13 +190,13 @@ main {
   background-color: #17c964;
 }
 
-.player_form {
+.playerForm {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.player_form__inputBox {
+.playerForm__inputBox {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -199,12 +204,12 @@ main {
   justify-content: start;
   margin-bottom: 1.6rem;
 }
-.player_form__inputBox label {
+.playerForm__inputBox label {
   width: 5rem;
   font-size: 1.6rem;
   margin-bottom: 0.4rem;
 }
-.player_form__inputBox input {
+.playerForm__inputBox input {
   width: 100%;
   background-color: white;
   color: #565656;
@@ -213,18 +218,18 @@ main {
   border: none;
   padding: 1rem 0.5rem;
 }
-.player_form__inputBox input:focus-visible {
+.playerForm__inputBox input:focus-visible {
   outline: 1px solid black;
 }
-.player_form .button {
+.playerForm .button {
   color: white;
   width: 100%;
   background-color: #20ed78;
 }
-.player_form .button:hover {
+.playerForm .button:hover {
   background-color: #17c964;
 }
-.player_form .togglePlayer:before {
+.playerForm .togglePlayer:before {
   content: "P1 P2";
   display: block;
   position: absolute;
@@ -246,7 +251,7 @@ main {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
 }
-.player_form .togglePlayer:checked:before {
+.playerForm .togglePlayer:checked:before {
   left: 32px;
 }
 

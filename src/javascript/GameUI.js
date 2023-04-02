@@ -10,9 +10,7 @@ const player1Scoreboard = scoreboard[0].children;
 const player2Scoreboard = scoreboard[1].children;
 const playerTypeButton = document.querySelector(".playerTypeButton");
 const onlineButton = document.querySelector(".onlineButton");
-const playerForm = document.querySelector(".player_form");
 const customizeButton = document.querySelector(".customizeButton");
-const inputs = playerForm.querySelectorAll("input");
 const joinRoomForm = document.querySelector(".roomForm");
 const roomNumberInput = document.getElementById("roomNumber");
 const modalBackDrop = document.querySelector(".modal--backdrop");
@@ -64,6 +62,7 @@ customizeButton.addEventListener("click", (event) => {
   toggleModal();
   joinRoomForm.style.display = "none";
   playerForm.style.display = "flex";
+  updatePlayerForm(player1);
 });
 modalBackDrop.addEventListener("click", (event) => {
   toggleModal();
@@ -235,11 +234,26 @@ resetGameButton.addEventListener("click", resetGame);
  * Allow player to customize their game token such as: name, marker, and background image
  */
 const reader = new FileReader();
+const playerForm = document.querySelector(".playerForm");
+const playerInputs = playerForm.querySelectorAll("input");
+const togglePlayerButton = playerInputs[0];
 
+function updatePlayerForm(player) {
+  playerInputs[1].value = player.name;
+  playerInputs[2].value = player.marker;
+}
+
+togglePlayerButton.addEventListener("change", (event) => {
+  // true means player1, false means player2
+  const whichPlayer = togglePlayerButton.checked;
+  updatePlayerForm(whichPlayer ? player1 : player2);
+});
 function updatePlayer() {
-  const name = inputs[0].value;
-  const marker = inputs[1].value;
-  const file = inputs[2].files[0];
+  // true means player1, false means player2
+  const whichPlayer = playerInputs[0].checked;
+  const name = playerInputs[1].value;
+  const marker = playerInputs[2].value;
+  const file = playerInputs[3].files[0];
   if (file) {
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -248,7 +262,10 @@ function updatePlayer() {
       displayImage(image);
     };
   }
-  player1.update({ name, marker });
+  whichPlayer
+    ? player1.update({ name, marker })
+    : player2.update({ name, marker });
+
   if (name) updatePlayerName();
   if (marker) updateMarker();
 }
@@ -256,6 +273,7 @@ function updatePlayer() {
 playerForm.addEventListener("submit", (event) => {
   event.preventDefault();
   updatePlayer();
+  toggleModal();
 });
 
 // switch player between huamn and AI
