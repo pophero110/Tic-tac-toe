@@ -37,11 +37,20 @@ let player2 = new Player({
 });
 let aiPlayer = new AI();
 let game = new Game(player1, aiPlayer);
-const clickSound = new Audio("./resources/click.wav");
-const resetGameSound = new Audio("./resources/reset_game.wav");
-const winSound = new Audio("./resources/niceMeme.mp3");
-const loseSound = new Audio("./resources/lose.wav");
-const tieGameSound = new Audio("./resources/tie.wav");
+const Sounds = {
+  normal: {
+    click: new Audio("./resources/click.wav"),
+    reset: new Audio("./resources/reset_game.wav"),
+    win: new Audio("./resources/niceMeme.mp3"),
+    lose: new Audio("./resources/lose.wav"),
+    tie: new Audio("./resources/tie.wav"),
+  },
+  funny: {
+    win: new Audio("./resources/niceMeme.mp3"),
+    tie: new Audio("./resources/tucoTight.mp3"),
+  },
+};
+
 // WebSocket Client
 const socket = io();
 
@@ -118,7 +127,7 @@ function boardClickEventHandler(event) {
 board.addEventListener("click", boardClickEventHandler);
 
 function completeTurn(clickedCell) {
-  clickSound.play();
+  Sounds.normal.click.play();
   updateBoard(clickedCell);
   updateGameState();
   if (!onlineMode) game.saveGameData();
@@ -215,19 +224,19 @@ function updateGameState() {
   switch (gameState) {
     case GameState.WIN:
       displayMessage(game.nextTurnPlayer().name + " Win!");
-      winSound.play();
+      Sounds.normal.win.play();
       emitGameOverToServer();
       break;
     case GameState.LOSE:
       displayMessage(game.nextTurnPlayer().name + " Win!");
       playerType === PLAYER_TYPE.HUMAN || onlineMode
-        ? winSound.play()
-        : loseSound.play();
+        ? Sounds.normal.win.play()
+        : Sounds.normal.lose.play();
       emitGameOverToServer();
       break;
     case GameState.TIE:
       displayMessage("TIE GAME!");
-      tieGameSound.play();
+      Sounds.funny.tie.play();
       emitGameOverToServer();
       break;
     default:
@@ -240,7 +249,7 @@ function updateGameState() {
  * reset both boards in game object and UI
  */
 function resetGame() {
-  resetGameSound.play();
+  Sounds.normal.reset.play();
   resetBoard();
   game.resetBoard();
   displayMessage(game.player1.name + " TURN");
