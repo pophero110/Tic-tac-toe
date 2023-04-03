@@ -108,6 +108,7 @@ main {
   grid-template-columns: repeat(3, 10rem);
   grid-gap: 0.5rem;
   justify-content: center;
+  user-select: none;
 }
 .board__cell {
   background-color: white;

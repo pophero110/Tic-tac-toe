@@ -99,7 +99,7 @@ Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
 ### JS:
 
-#### Create [a Game class](./src/Game.js) with the following private instance variables:
+#### Create [a Game class](./src/javascript/Game.js) with the following private instance variables:
 
 - board: an empty object to represent the 3 x 3 board, where the key represents the position of the marked cell and the value (_1 means player1; 2 means player 2_) represents the player; ex: `{1: 1, 2: 2, ...}`.
 - player1 and player2: object representing the markers for each player.
@@ -316,20 +316,22 @@ main {
 <details>
 <summary>Sequence diagram</summary>
 
-![sequence_digram]('./resources/diagrams/sequence_diagram.png')
-
 </details>
 
-# Credits
-
-- A huge thanks to [Kevin](https://github.com/dayjyun) and [Dominique](https://github.com/Dommy99) who share their feedback and insights about my project so I can make the game better!
-- Shout-out to my instructors and classmates for their kindness and patience with me and especially Suresh Sigera for his helpful suggestions and advice during the game development.
+![sequence_digram]('./resources/gold_ui_design.png')
 
 # TODO
 
 1. add page title and icon ✅
 2. create folders to organize files ✅
 3. fix tieGameSound load error on production ✅
-4. add a footer that includes GitHub repo, LinkedIn and copyright
+4. add a footer that includes the GitHub repo and LinkedIn
 5. display room number and online status
-6. remove text select on cell
+6. remove text select on cell ✅
+7. add Postcss and Autoprefixer for vendor prefixs
+8. add animation
+
+# Credits
+
+- A huge thanks to [Kevin](https://github.com/dayjyun) and [Dominique](https://github.com/Dommy99) who share their feedback and insights about my project so I can make the game better!
+- Shout-out to my instructors and classmates for their kindness and patience with me and especially Suresh Sigera for his helpful suggestions and advice during the game development.

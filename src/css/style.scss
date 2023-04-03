@@ -125,6 +125,7 @@ main {
   grid-template-columns: repeat(3, 10rem);
   grid-gap: 0.5rem;
   justify-content: center;
+  user-select: none;
   &__cell {
     @include background;
     cursor: pointer;
