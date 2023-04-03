@@ -107,7 +107,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 #### JS
 
 - update name, marker and image in UI
-- update name, marker and image in player instance
+- update name, marker and image in the player instance
 
 </details>
 
@@ -152,12 +152,35 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
               IF the combination has two cells filled by the AI and one empty cell:
                 select the empty cell
       randomly select empty cell
+  IF AI plays first
+    SET winning = false
+    SET previousMove;
+    IF it is AI's first turn
+      select center cell
+    ELSE
+      block any potential winning combination made by human OR
+      select any potential winning combination OR
+      If corner cells are unmarked and !winning
+        SET winning = true
+        If humanMove === 2 or humanMove === 8
+          select 4
+          SET previousMove = 4
+        ELSE IF humanMove === 4 or humanMove === 6
+          select 2
+          SET previousMove = 2
+      ELSE IF winning
+        IF previousMove === 4
+          select 7
+        ELSE
+          select 1
+      ELSE
+        randomly select empty cell
 ```
 
 </details>
 
 <details>
-    <summary>As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience.</summary>
+    <summary>As a player, I want the game to be fully responsive so that I can play it on my mobile phone without any issues, and I want the styling to be creative and engaging, using hover effects or animations to enhance the gaming experience. ✅</summary>
 </details>
 
 ## [UI Wireframe](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
@@ -199,6 +222,8 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 2. create folders to organize files ✅
 3. add global scoreboard
 4. fix tieGameSound load error on production ✅
+5. add a footer that includes GitHub repo, LinkedIn and copyright
+6. testing what happen if there is more than one room
 
 # Hurdle
 

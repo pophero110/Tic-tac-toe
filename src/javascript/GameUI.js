@@ -20,6 +20,7 @@ const modal = document.querySelector(".modal");
 const body = document.body;
 let playerType = PLAYER_TYPE.AI;
 let onlineMode = false;
+let defaultWhoseTurn = 1; // 1 means player1 go first and 2 means player2 go first
 
 // Game Assets
 let player1 = new Player({
