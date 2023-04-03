@@ -3,13 +3,13 @@
 Developer: Jeff Ou  
 Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web development
 
-# Technologies
+# MVP - Bronze
+
+## Technologies
 
 - **Webpack**: to combine multiple JS files into one JS file 'main.js'
 - **Sass**: improves the workflow and efficiency of CSS development, also combines multiple CSS files into one CSS file 'main.css'
 - **Figma**: Design [UI wireframes](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
-
-# MVP - Bronze
 
 ## User stories
 
@@ -55,14 +55,14 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 - board: an empty object to represent the 3 x 3 board, where the key represents the position of the marked cell and the value represents the player; ex: `{1: 'O', 2: 'X', ...}`.
 - player1 and player2: strings representing the markers for each player.
 - whoseTurn: a string representing the current player's marker, with a default value of player1.
-- winningCondition: an array containing 8 sub-arrays, each representing a possible winning combination in the game. Each sub-array contains 3 values that represent the positions of the cells that need to be marked in order to win; ex: `[[1,2,3], [4,5,6], ...]`.
+- winningCombination: an array containing 8 sub-arrays, each representing a possible winning combination in the game. Each sub-array contains 3 values that represent the positions of the cells that need to be marked in order to win; ex: `[[1,2,3], [4,5,6], ...]`.
 
 #### The Game class should also have the following public instance methods:
 
 - checkGameOver(positionOfMarkedCell: number): string: a method that checks if the game is over after a player marks a cell. It takes a number representing the position of the newly marked cell and returns a message indicating the winner of the game, a tie, or that the game is not over. The method does the following:
   - Switches turn to the next player.
-  - Saves the player and position of the marked cell to board.
-  - Checks if there is a winning, losing, or tie condition based on the current state of the board and returns the appropriate message.
+  - Saves the player and position of the marked cell to the board.
+  - Checks if there is a winning, losing, or tie condition based on the current state of the board and return the appropriate message.
 - resetBoard(): void: a method that resets the game board by emptying the board object and clearing any messages and marked cells.
 
 #### Add the following event listeners to the UI:
@@ -106,8 +106,8 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 #### JS
 
-- create a function to update the name, marker and image in the HTML
-- create a function to update the name and marker in the game instance
+- update name, marker and image in UI
+- update name, marker and image in player instance
 
 </details>
 
@@ -125,17 +125,34 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 #### JS:
 
 - How does AI mark the cell?
-  - if nextTurnPlayer is AI
-    - remove the board click event to prevent it from player clicking
-    - call completeTurn() function
-    - add board click event back
+
+```
+ WHEN it is AI's turn
+  prevent player from marking cell
+  complete the turn
+  switch turn
+```
+
 - How does AI select the cell?
-  - create a function 'selectCell' returns the position of the selected cell
-    - if AI plays second
-      - always select one of corner cells if human player marked center else select center cell
-      - block any potential winning combination made by human
-      - select the cell that can win the game
-      - randomly select empty cell
+
+```
+  IF AI plays second
+    IF it is AI's first turn
+      IF center cell is marked
+        select corner cell
+      ELSE
+        select center cell
+    ELSE
+      block any potential winning combination made by human OR
+            FOR each winning combination in the game:
+              IF the combination has two cells filled by the human and one empty cell:
+                select the empty cell
+      select any potential winning combination OR
+            FOR each winning combination in the game:
+              IF the combination has two cells filled by the AI and one empty cell:
+                select the empty cell
+      randomly select empty cell
+```
 
 </details>
 
@@ -149,6 +166,13 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 # MVP - Gold
 
+## Technologies
+
+- Express.js
+- Socket.io
+- Heroku
+- Nodemon
+
 ## User stories
 
 - As a player, I want to be able to play the game online with another player
@@ -156,16 +180,19 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
   - As a player, I'm not able to mark until it is my turn ✅
   - As a player, my board should be synced with my opponent's ✅
   - As a player, the game should be automatically reset after the game is over and switch sides ✅
+  - As a player, I should able to see the opponent's name, score and marker. ✅
   - As an admin, I want each room can only contain at most 2 players ✅
 
-### UI Wireframe
+# Final UI
+
+![gold_ui_wireframe](./resources/final_ui.png)
 
 # TODO
 
-1. add page title and icon
-2. create folders to organize files
+1. add page title and icon ✅
+2. create folders to organize files ✅
 3. add global scoreboard
-4. fix tieGameSound load error on production
+4. fix tieGameSound load error on production ✅
 
 # Hurdle
 
