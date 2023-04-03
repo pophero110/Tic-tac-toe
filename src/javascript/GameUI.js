@@ -98,7 +98,7 @@ modalBackDrop.addEventListener("click", (event) => {
  */
 function boardClickEventHandler(event) {
   /**
-   * disable player to mark cell until ai player has finished the turn
+   * disable player to mark cell until ai player has completed the turn
    * or if the game is online
    */
   if (playerType === PLAYER_TYPE.AI || onlineMode) {
@@ -175,6 +175,12 @@ function removeCells() {
 function displayMessage(text) {
   messageBar.innerText = text;
 }
+
+function displayTurnMessage(player) {
+  console.log("turn", { player, game });
+  messageBar.innerText = player.name + " TURN";
+}
+
 function displayImage(imageUrl) {
   body.style.backgroundImage = `url(${imageUrl})`;
 }
@@ -233,7 +239,7 @@ function updateGameState() {
       emitGameOverToServer();
       break;
     default:
-      displayMessage("Turn: " + game.nextTurnPlayer().name);
+      displayTurnMessage(game.currentTurnPlayer());
       break;
   }
   if (gameState !== GameState.NOT_GAME_OVER && !onlineMode) {
@@ -248,7 +254,7 @@ function resetGame() {
   Sounds.reset.play();
   resetBoard();
   game.resetBoard();
-  displayMessage(game.player1.name + " TURN");
+  displayTurnMessage(game.player1);
   if (!onlineMode) game.saveGameData();
   if (window.innerWidth <= 600) {
     resetGameButton.style.display = "none";
@@ -403,19 +409,19 @@ socket.on(
     displayMessage(message);
     if (opponent && whoseTurn) {
       resetBoard();
+      game.gameState = GameState.NOT_GAME_OVER;
       game.board = {};
       game.updateWhoseTurn(whoseTurn);
       resetGameButton.style.display = "none";
       Array.from(options).forEach((option) => (option.style.display = "none"));
-      game.player2.update({ ...opponent });
+      game.player2 = new Player({ ...opponent });
       if (whoseTurn === 2) {
-        displayMessage(game.player2.name + " TURN");
+        displayTurnMessage(game.player2);
         board.removeEventListener("click", boardClickEventHandler);
       } else {
-        displayMessage(game.player1.name + " TURN");
+        displayTurnMessage(game.player1);
       }
 
-      updateScore();
       updatePlayerName();
     }
   },
@@ -423,7 +429,13 @@ socket.on(
 );
 
 socket.on("gameOver", (data) => {
+  board.removeEventListener("click", boardClickEventHandler);
   setTimeout(() => {
-    resetGame();
+    removeCells();
+    game.gameState = GameState.NOT_GAME_OVER;
+    game.board = {};
+    game.switchTurn();
+    if (game.whoseTurn === 1)
+      board.addEventListener("click", boardClickEventHandler);
   }, 2000);
 });

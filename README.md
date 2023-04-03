@@ -185,7 +185,13 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 
 # Final UI
 
-![gold_ui_wireframe](./resources/final_ui.png)
+### Desktop Screen
+
+![final_ui_desktop](./resources/final_ui_desktop.png)
+
+### Mobile Screen (smaller than 601px)
+
+![final_ui_desktop](./resources/final_ui_mobile.png)
 
 # TODO
 

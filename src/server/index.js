@@ -12,11 +12,14 @@ const port = process.env.PORT || 3000;
 const pulicDirectoryPath = path.join(__dirname, "../../");
 app.use(express.static(pulicDirectoryPath));
 
-const { addPlayer, removePlayer } = require("./player");
 const numberOfPlayerInRoom = {};
 const players = [];
 
 io.on("connection", (socket) => {
+  /**
+   * when player join room , save the player and increase the number of player in the room by 1
+   * each room has at most 2 playes and can not contain duplicate player
+   */
   socket.on("join", (options, callback) => {
     const { room, player } = options;
     if (players.find((p) => p.id === player.id)) {
@@ -35,6 +38,7 @@ io.on("connection", (socket) => {
     /**
      * if there is a player in the room already, send message and second player data to first player
      * and send first player data to second player
+     * whoseTurn = 1 means will go first in turn, and whoseTurn = 2 will go second in turn.
      */
     let firstPlayer;
     if (numberOfPlayerInRoom[room]) {
@@ -58,29 +62,27 @@ io.on("connection", (socket) => {
     numberOfPlayerInRoom[room] = (numberOfPlayerInRoom[room] || 0) + 1;
     players.push({ socketId: socket.id, room, ...player });
     socket.join(room);
-
-    console.log("Join Romm", {
-      id: socket.id,
-      options,
-      numberOfPlayerInRoom,
-      players,
-    });
   });
 
+  /**
+   * when player mark cell, send position of marked cell to the opponent
+   */
   socket.on("markCell", (options, callback) => {
-    console.log("Mark Cell", { id: socket.id, options });
     const { cellPosition } = options;
     const player = players.find((player) => player.socketId === socket.id);
     const opponent = players.find(
       (ele) => ele.room === player.room && ele.id !== player.id
     );
-    if (player) {
+    if (opponent) {
       io.to(opponent.socketId).emit("markCell", {
         cellPosition,
       });
     }
   });
 
+  /**
+   * when game is over, send event to both players to reset the game
+   */
   socket.on("gameOver", (options, callback) => {
     console.log("Game Over", { id: socket.id, options });
     const player = players.find((player) => player.socketId === socket.id);
@@ -89,6 +91,10 @@ io.on("connection", (socket) => {
     }
   });
 
+  /**
+   * when player disconnect, decrease the number of player in the room by 1
+   * and remove player
+   */
   socket.on("disconnect", (options, callback) => {
     const playerIndex = players.findIndex(
       (player) => player.socketId === socket.id
@@ -97,12 +103,6 @@ io.on("connection", (socket) => {
       const player = players.splice(playerIndex, 1)[0];
       numberOfPlayerInRoom[player.room]--;
     }
-    console.log("Leave room", {
-      id: socket.id,
-      options,
-      numberOfPlayerInRoom,
-      players,
-    });
   });
 });
 

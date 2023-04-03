@@ -31,7 +31,7 @@ class Game {
       this.#updateScore();
     }
 
-    this.#switchTurn();
+    this.switchTurn();
     return this.gameState;
   }
 
@@ -90,7 +90,7 @@ class Game {
     if (this.gameState === GameState.LOSE) this.player2.score += 1;
   }
 
-  #switchTurn() {
+  switchTurn() {
     this.whoseTurn = this.whoseTurn === 1 ? 2 : 1;
   }
 
