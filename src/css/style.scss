@@ -150,6 +150,11 @@ main {
   text-align: center;
   padding: 1.4rem 0;
   font-size: $font-size-md;
+  background-color: #ff0024;
+  color: white;
+  &:hover {
+    background-color: #f31260;
+  }
 }
 
 // Modal

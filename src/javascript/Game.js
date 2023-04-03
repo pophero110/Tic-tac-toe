@@ -69,7 +69,6 @@ class Game {
   }
 
   saveGameData() {
-    console.log({ player1: this.player1, player2: this.player2 });
     localStorage.setItem(
       "gameData",
       JSON.stringify({

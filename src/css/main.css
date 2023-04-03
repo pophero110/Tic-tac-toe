@@ -136,6 +136,11 @@ main {
   text-align: center;
   padding: 1.4rem 0;
   font-size: 2rem;
+  background-color: #ff0024;
+  color: white;
+}
+.resetGameButton:hover {
+  background-color: #f31260;
 }
 
 .modal {

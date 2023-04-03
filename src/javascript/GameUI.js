@@ -181,7 +181,6 @@ function displayImage(imageUrl) {
 }
 
 function updatePlayerName() {
-  console.log({ player1, player2 });
   player1Scoreboard[0].innerText = game.player1.name;
   player2Scoreboard[0].innerText = game.player2.name;
 }
@@ -238,6 +237,9 @@ function updateGameState() {
       displayMessage("Turn: " + game.nextTurnPlayer().name);
       break;
   }
+  if (gameState !== GameState.NOT_GAME_OVER) {
+    resetGameButton.style.display = "block";
+  }
 }
 
 /**
@@ -249,6 +251,9 @@ function resetGame() {
   game.resetBoard();
   displayMessage(game.player1.name + " TURN");
   if (!onlineMode) game.saveGameData();
+  if (window.innerWidth <= 600) {
+    resetGameButton.style.display = "none";
+  }
 }
 
 resetGameButton.addEventListener("click", resetGame);
@@ -305,11 +310,9 @@ function playerTypeButtonHandler() {
   if (playerType === PLAYER_TYPE.AI) {
     playerType = PLAYER_TYPE.HUMAN;
     game = new Game(player1, player2);
-    console.log(player2);
   } else {
     playerType = PLAYER_TYPE.AI;
     game = new Game(player1, aiPlayer);
-    console.log(aiPlayer);
   }
   resetGame();
   updatePlayerTypeButtonText();
@@ -385,7 +388,6 @@ socket.on(
   "markCell",
   (data) => {
     const { cellPosition } = data;
-    console.log("Mark Cell", data);
     completeTurn(document.getElementById(cellPosition));
     board.addEventListener("click", boardClickEventHandler);
   },
@@ -402,10 +404,7 @@ socket.on(
     displayMessage(message);
     if (opponent && whoseTurn) {
       resetGameButton.style.display = "none";
-      Array.from(options).forEach((option) => {
-        console.log(option);
-        option.style.display = "none";
-      });
+      Array.from(options).forEach((option) => (option.style.display = "none"));
       game.player2.update({ ...opponent });
       game.updateWhoseTurn(whoseTurn);
       if (whoseTurn === 2) {
@@ -420,7 +419,6 @@ socket.on(
 );
 
 socket.on("gameOver", (data) => {
-  console.log(data);
   setTimeout(() => {
     resetGame();
   }, 2000);
