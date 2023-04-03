@@ -152,7 +152,6 @@ function aiCompleteTurn() {
 function resetBoard() {
   board.addEventListener("click", boardClickEventHandler);
   removeCells();
-  // displayMessage("");
 }
 
 /**
@@ -237,7 +236,7 @@ function updateGameState() {
       displayMessage("Turn: " + game.nextTurnPlayer().name);
       break;
   }
-  if (gameState !== GameState.NOT_GAME_OVER) {
+  if (gameState !== GameState.NOT_GAME_OVER && !onlineMode) {
     resetGameButton.style.display = "block";
   }
 }
@@ -403,16 +402,17 @@ socket.on(
     const { message, opponent, whoseTurn } = data;
     displayMessage(message);
     if (opponent && whoseTurn) {
+      resetBoard();
+      game.board = {};
+      game.updateWhoseTurn(whoseTurn);
       resetGameButton.style.display = "none";
       Array.from(options).forEach((option) => (option.style.display = "none"));
       game.player2.update({ ...opponent });
-      game.updateWhoseTurn(whoseTurn);
       if (whoseTurn === 2) {
         board.removeEventListener("click", boardClickEventHandler);
       }
       updateScore();
       updatePlayerName();
-      resetGame();
     }
   },
   (error) => alert(error)
