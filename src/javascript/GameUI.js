@@ -42,10 +42,15 @@ let game = new Game(player1, aiPlayer);
 const Sounds = {
   click: new Audio("./resources/sounds/click.wav"),
   reset: new Audio("./resources/sounds/reset_game.wav"),
-  win: new Audio("./resources/sounds/niceMeme.mp3"),
+  win: new Audio("./resources/sounds/win.mp3"),
   lose: new Audio("./resources/sounds/lose.wav"),
   tie: new Audio("./resources/sounds/tie.wav"),
   matchReady: new Audio("./resources/sounds/match_ready.mp3"),
+};
+
+const FORM_TYPE = {
+  ROOM_FORM: "room_form",
+  PLAYER_FORM: "player_form",
 };
 
 // WebSocket Client
@@ -57,10 +62,6 @@ function toggleModal() {
   modalBackDrop.style.display =
     modalBackDrop.style.display === "block" ? "none" : "block";
 }
-const FORM_TYPE = {
-  ROOM_FORM: "room_form",
-  PLAYER_FORM: "player_form",
-};
 
 function changeForm(formType) {
   if (FORM_TYPE.ROOM_FORM === formType) {
@@ -73,6 +74,7 @@ function changeForm(formType) {
   }
 }
 
+// Option buttons
 onlineButton.addEventListener("click", (event) => {
   toggleModal();
   changeForm(FORM_TYPE.ROOM_FORM);
@@ -93,11 +95,6 @@ modalBackDrop.addEventListener("click", (event) => {
   toggleModal();
 });
 
-/**
- * complete the turn with clicked cell
- * @param {Event Object} event
- * @returns
- */
 function boardClickEventHandler(event) {
   /**
    * disable player to mark cell until ai player has completed the turn
@@ -123,6 +120,11 @@ function boardClickEventHandler(event) {
 
 board.addEventListener("click", boardClickEventHandler);
 
+/**
+ * complete the turn with clicked cell
+ * @param {DOM element} clickedCell
+ * @returns
+ */
 function completeTurn(clickedCell) {
   Sounds.click.play();
   updateBoard(clickedCell);
@@ -147,7 +149,6 @@ function aiCompleteTurn() {
 }
 
 /**
- * add click event to board
  * remove all marked cell on board
  * display emtpy message
  */
@@ -179,7 +180,6 @@ function displayMessage(text) {
 }
 
 function displayTurnMessage(player) {
-  console.log("turn", { player, game });
   messageBar.innerText = player.name + " TURN";
 }
 
@@ -311,7 +311,6 @@ playerForm.addEventListener("submit", (event) => {
   updatePlayer();
   toggleModal();
   game.saveGameData();
-  console.log("save game from update player");
 });
 
 // switch player between huamn and AI
@@ -351,7 +350,6 @@ function loadBoard(board) {
  */
 function loadGameData() {
   const gameData = JSON.parse(localStorage.getItem("gameData"));
-  console.log("load game", gameData);
   if (!gameData) return;
   player1 = new Player({ ...gameData.player1 });
   player2 =

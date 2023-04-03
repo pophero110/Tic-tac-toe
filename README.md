@@ -305,9 +305,9 @@ main {
   - As a player, I should be able to see the opponent's name, score and marker. ✅
   - As an admin, I want each room can only contain at most 2 players ✅
 
-## UI Design
+## Grid Layout
 
-![gold_ui_design](./resources/gold_ui_design.png)
+![grid](./resources/grid.png)
 
 </details>
 
@@ -328,8 +328,9 @@ main {
 4. add a footer that includes the GitHub repo and LinkedIn
 5. display room number and online status
 6. remove text select on cell ✅
-7. add Postcss and Autoprefixer for vendor prefixs
+7. add Postcss and Autoprefixer for vendor prefixes
 8. add animation
+9. add switch side feature
 
 # Credits
 

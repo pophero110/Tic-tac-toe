@@ -88,7 +88,6 @@ io.on("connection", (socket) => {
    * when game is over, send event to both players to reset the game
    */
   socket.on("gameOver", (options, callback) => {
-    console.log("Game Over", { id: socket.id, options });
     const player = players.find((player) => player.socketId === socket.id);
     if (player) {
       socket.broadcast.to(player.room).emit("gameOver");

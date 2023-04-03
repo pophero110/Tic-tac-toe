@@ -85,13 +85,13 @@ class Game {
     this.whoseTurn = whoseTurn;
   }
 
+  switchTurn() {
+    this.whoseTurn = this.whoseTurn === 1 ? 2 : 1;
+  }
+
   #updateScore() {
     if (this.gameState === GameState.WIN) this.player1.score += 1;
     if (this.gameState === GameState.LOSE) this.player2.score += 1;
-  }
-
-  switchTurn() {
-    this.whoseTurn = this.whoseTurn === 1 ? 2 : 1;
   }
 
   #isTieGame() {
