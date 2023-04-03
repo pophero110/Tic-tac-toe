@@ -40,12 +40,12 @@ let player2 = new Player({
 let aiPlayer = new AI();
 let game = new Game(player1, aiPlayer);
 const Sounds = {
-  click: new Audio("./resources/click.wav"),
-  reset: new Audio("./resources/reset_game.wav"),
-  win: new Audio("./resources/niceMeme.mp3"),
-  lose: new Audio("./resources/lose.wav"),
-  tie: new Audio("./resources/tie.wav"),
-  matchReady: new Audio("./resources/match_ready.mp3"),
+  click: new Audio("./resources/sounds/click.wav"),
+  reset: new Audio("./resources/sounds/reset_game.wav"),
+  win: new Audio("./resources/sounds/niceMeme.mp3"),
+  lose: new Audio("./resources/sounds/lose.wav"),
+  tie: new Audio("./resources/sounds/tie.wav"),
+  matchReady: new Audio("./resources/sounds/match_ready.mp3"),
 };
 
 // WebSocket Client

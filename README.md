@@ -53,7 +53,7 @@ Link to the game: https://my-tic-tac-toe.herokuapp.com/
 - The biggest win is that I'm able to fulfill all the user stories! Such a wonderful journey!
 - Another great win was that I learned the necessity of planning and pseudocode.
 
-# Planning
+# Project Breakdown
 
 <details>
   <summary>MVP - Bronze</summary>
@@ -304,9 +304,21 @@ main {
   - As a player, the game should be automatically reset after the game is over and switch sides ✅
   - As a player, I should be able to see the opponent's name, score and marker. ✅
   - As an admin, I want each room can only contain at most 2 players ✅
-  - </details>
 
-# Planning Charts
+## UI Design
+
+![gold_ui_design]('./resources/gold_ui_design.png')
+
+</details>
+
+# Planning diagram
+
+<details>
+<summary>Sequence diagram</summary>
+
+![sequence_digram]('./resources/diagrams/sequence_diagram.png')
+
+</details>
 
 # Credits
 
@@ -320,3 +332,4 @@ main {
 3. fix tieGameSound load error on production ✅
 4. add a footer that includes GitHub repo, LinkedIn and copyright
 5. display room number and online status
+6. remove text select on cell
