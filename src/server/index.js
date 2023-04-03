@@ -62,6 +62,7 @@ io.on("connection", (socket) => {
     numberOfPlayerInRoom[room] = (numberOfPlayerInRoom[room] || 0) + 1;
     players.push({ socketId: socket.id, room, ...player });
     socket.join(room);
+    console.log("Join Room", players);
   });
 
   /**
@@ -70,6 +71,7 @@ io.on("connection", (socket) => {
   socket.on("markCell", (options, callback) => {
     const { cellPosition } = options;
     const player = players.find((player) => player.socketId === socket.id);
+    console.log("Mark Cell", players);
     const opponent = players.find(
       (ele) => ele.room === player.room && ele.id !== player.id
     );

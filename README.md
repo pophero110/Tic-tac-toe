@@ -223,7 +223,7 @@ Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web dev
 3. add global scoreboard
 4. fix tieGameSound load error on production ✅
 5. add a footer that includes GitHub repo, LinkedIn and copyright
-6. testing what happen if there is more than one room
+6. testing what happens if there is more than one room
 
 # Hurdle
 
