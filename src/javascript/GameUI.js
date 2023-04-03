@@ -310,6 +310,8 @@ playerForm.addEventListener("submit", (event) => {
   event.preventDefault();
   updatePlayer();
   toggleModal();
+  game.saveGameData();
+  console.log("save game from update player");
 });
 
 // switch player between huamn and AI
