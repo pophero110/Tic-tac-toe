@@ -409,8 +409,12 @@ socket.on(
       Array.from(options).forEach((option) => (option.style.display = "none"));
       game.player2.update({ ...opponent });
       if (whoseTurn === 2) {
+        displayMessage(game.player2.name + " TURN");
         board.removeEventListener("click", boardClickEventHandler);
+      } else {
+        displayMessage(game.player1.name + " TURN");
       }
+
       updateScore();
       updatePlayerName();
     }
