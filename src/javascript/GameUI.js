@@ -44,6 +44,7 @@ const Sounds = {
   win: new Audio("./resources/niceMeme.mp3"),
   lose: new Audio("./resources/lose.wav"),
   tie: new Audio("./resources/tie.wav"),
+  matchReady: new Audio("./resources/match_ready.mp3"),
 };
 
 // WebSocket Client
@@ -408,6 +409,7 @@ socket.on(
     const { message, opponent, whoseTurn } = data;
     displayMessage(message);
     if (opponent && whoseTurn) {
+      Sounds.matchReady.play();
       resetBoard();
       game.gameState = GameState.NOT_GAME_OVER;
       game.board = {};
