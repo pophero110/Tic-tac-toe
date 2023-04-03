@@ -59,10 +59,12 @@ body {
   align-items: center;
   height: 100vh;
 }
+
 button {
   outline: none;
   border: none;
 }
+
 main {
   display: grid;
   grid-template-columns: repeat(3, fit-content);
@@ -301,4 +303,23 @@ main {
   cursor: pointer;
   background-color: #707070;
   transition: background-color ease 0.3s;
+}
+
+// Media queries
+@media screen and (max-width: 600px) {
+  main {
+    margin-top: 0.8rem;
+    grid-template-columns: repeat(2, fit-content);
+    grid-template-rows: repeat(3, fit-content);
+    grid-template-areas:
+      "messageBar messageBar"
+      "board board"
+      "sidebarLeft sidebarRight";
+  }
+  .scoreboard {
+    width: 100%;
+  }
+  .resetGameButton {
+    display: none;
+  }
 }
