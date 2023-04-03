@@ -1,7 +1,7 @@
 # _Tic-tac-toe_ Game
 
 Developer: Jeff Ou  
-Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web development
+Main goal: Make a tic-tac-toe game using all of my knowledge about web development
 Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
 # Technologies
@@ -26,14 +26,37 @@ Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
 # App Screenshots
 
+![new_game](./resources/app_screenshots/new_game.png)
 ![win_game](./resources/app_screenshots/win_game.png)
 ![ai_tie](./resources/app_screenshots/tie_game.png)
-![join_room_form](resources/app_screenshots/join_room_form.png)
-![player_form](resources/app_screenshots/player_form.png)
+![player_form](./resources/app_screenshots/player_form.png)
+![join_room_form](./resources/app_screenshots/join_room_form.png)
+
+### On Mobile
+
+![on_mobile](./resources/app_screenshots/on_mobile.png)
 
 ### Online Match
 
 ![online_match](resources/app_screenshots/online_match.png)
+
+# Project Hurdles
+
+- how to manage the code when adding a new feature
+  - refactor the code so it's easy to understand
+  - follow principles of KISS, DRY, separation of concerns, one function should do one thing and use meaningful names for variables and functions
+- how to manage the data flow
+  - draw a data flow chart to visualize it
+
+# Project Wins
+
+- The biggest win is that I'm able to fulfill all the user stories! Such a wonderful journey!
+- Another great win was that I learned the necessity of planning and pseudocode.
+
+# Planning
+
+<details>
+  <summary>MVP - Bronze</summary>
 
 # MVP - Bronze
 
@@ -95,10 +118,14 @@ Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
 - A click event listener to the .resetGameButton element that reset the game.
 - A click event listener to the .board element that calls the checkGameOver method and updates the UI accordingly.
+</details>
+
+<details>
+<summary>MVP - Silver</summary>
 
 # MVP - Silver
 
-## User stories (include Pseudocode)
+## User stories
 
 <details>
   <summary>As a player, I want to keep track of multiple game rounds so that I can see how many times I have won, lost, or tied, and keep track of my progress in the game. ✅</summary>
@@ -261,6 +288,11 @@ main {
 
 ![sliver_ui_wireframe](./resources/sliver_ui_wireframe.png)
 
+</details>
+
+<details>
+<summary>MVP - Gold </summary>
+
 # MVP - Gold
 
 ## User stories
@@ -272,16 +304,14 @@ main {
   - As a player, the game should be automatically reset after the game is over and switch sides ✅
   - As a player, I should be able to see the opponent's name, score and marker. ✅
   - As an admin, I want each room can only contain at most 2 players ✅
+  - </details>
 
-# Final UI
+# Planning Charts
 
-### Desktop Screen
+# Credits
 
-![final_ui_desktop](./resources/final_ui_desktop.png)
-
-### Mobile Screen (smaller than 601px)
-
-![final_ui_desktop](./resources/final_ui_mobile.png)
+- A huge thanks to [Kevin](https://github.com/dayjyun) and [Dominique](https://github.com/Dommy99) who share their feedback and insights about my project so I can make the game better!
+- Shout-out to my instructors and classmates for their kindness and patience with me and especially Suresh Sigera for his helpful suggestions and advice during the game development.
 
 # TODO
 
@@ -289,8 +319,4 @@ main {
 2. create folders to organize files ✅
 3. fix tieGameSound load error on production ✅
 4. add a footer that includes GitHub repo, LinkedIn and copyright
-
-# Hurdle
-
-- how to manage the complexity
-- how to manage data flow
+5. display room number and online status
