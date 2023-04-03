@@ -26,10 +26,12 @@ io.on("connection", (socket) => {
       callback("You're already in a room");
       return;
     }
+
     if (!room) {
       callback("Invalid room number");
       return;
     }
+
     if (numberOfPlayerInRoom[room] === 2) {
       callback("Opps, the room is full");
       return;
