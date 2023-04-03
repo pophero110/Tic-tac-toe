@@ -434,8 +434,11 @@ socket.on("gameOver", (data) => {
     removeCells();
     game.gameState = GameState.NOT_GAME_OVER;
     game.board = {};
-    game.switchTurn();
-    if (game.whoseTurn === 1)
+    if (game.whoseTurn === 1) {
+      displayTurnMessage(game.player1);
       board.addEventListener("click", boardClickEventHandler);
+    } else {
+      displayTurnMessage(game.player2);
+    }
   }, 2000);
 });
