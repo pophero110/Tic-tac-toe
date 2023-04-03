@@ -4,13 +4,38 @@ Developer: Jeff Ou
 Main goal: Make a fancy tic-tac-toe game using all of my knowledge about web development
 Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
-# MVP - Bronze
-
-## Technologies
+# Technologies
 
 - **Webpack**: to combine multiple JS files into one JS file 'main.js'
 - **Sass**: improves the workflow and efficiency of CSS development, also combines multiple CSS files into one CSS file 'main.css'
 - **Figma**: Design [UI wireframes](https://www.figma.com/file/pONrt65x6N0M6ISI2OpVKh/Tic-Tac-Toe-UI-Design?node-id=6%3A40&t=g5C6NvLxxihRRiIy-1)
+- **Socket.io**
+- **Heroku**
+
+# Technical Requirements
+
+- Render a game board in the browser
+- Switch turns between X and O (or whichever markers you select)
+- Visually display which side won if a player gets three in a row, or show a draw if neither player wins
+- Include separate HTML / CSS / JavaScript files
+  Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles
+- Use JavaScript for DOM manipulation
+- Deploy your game online, where the rest of the world can access it
+- Use semantic markup for HTML and CSS (adhere to best practices)
+- Have well-formatted, and well-commented code
+
+# App Screenshots
+
+![win_game](./resources/app_screenshots/win_game.png)
+![ai_tie](./resources/app_screenshots/tie_game.png)
+![join_room_form](resources/app_screenshots/join_room_form.png)
+![player_form](resources/app_screenshots/player_form.png)
+
+### Online Match
+
+![online_match](resources/app_screenshots/online_match.png)
+
+# MVP - Bronze
 
 ## User stories
 
@@ -237,13 +262,6 @@ main {
 ![sliver_ui_wireframe](./resources/sliver_ui_wireframe.png)
 
 # MVP - Gold
-
-## Technologies
-
-- Express.js
-- Socket.io
-- Heroku
-- Nodemon
 
 ## User stories
 
