@@ -1,7 +1,7 @@
 # _Tic-tac-toe_ Game
 
 Developer: Jeff Ou  
-Main goal: Make a tic-tac-toe game using all of my knowledge about web development
+Main goal: Make a tic-tac-toe game using all of my knowledge about web development  
 Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
 # Technologies
@@ -307,7 +307,7 @@ main {
 
 ## UI Design
 
-![gold_ui_design]('./resources/gold_ui_design.png')
+![gold_ui_design](./resources/gold_ui_design.png)
 
 </details>
 
@@ -316,9 +316,9 @@ main {
 <details>
 <summary>Sequence diagram</summary>
 
-</details>
+![image](./resources/diagrams/sequence_diagram.png)
 
-![sequence_digram]('./resources/gold_ui_design.png')
+</details>
 
 # TODO
 
