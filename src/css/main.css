@@ -291,8 +291,8 @@ main {
   main {
     margin-top: 0.8rem;
     grid-template-columns: repeat(2, fit-content);
-    grid-template-rows: repeat(3, fit-content);
-    grid-template-areas: "messageBar messageBar" "board board" "sidebarLeft sidebarRight";
+    grid-template-rows: repeat(4, fit-content);
+    grid-template-areas: "messageBar messageBar" "board board" "resetGameButton resetGameButton" "sidebarLeft sidebarRight";
   }
   .scoreboard {
     width: 100%;

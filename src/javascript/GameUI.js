@@ -8,6 +8,7 @@ const messageBar = document.querySelector(".messageBar");
 const scoreboard = document.querySelectorAll(".scoreboard");
 const player1Scoreboard = scoreboard[0].children;
 const player2Scoreboard = scoreboard[1].children;
+const options = document.querySelectorAll(".options");
 const playerTypeButton = document.querySelector(".playerTypeButton");
 const onlineButton = document.querySelector(".onlineButton");
 const customizeButton = document.querySelector(".customizeButton");
@@ -38,17 +39,11 @@ let player2 = new Player({
 let aiPlayer = new AI();
 let game = new Game(player1, aiPlayer);
 const Sounds = {
-  normal: {
-    click: new Audio("./resources/click.wav"),
-    reset: new Audio("./resources/reset_game.wav"),
-    win: new Audio("./resources/niceMeme.mp3"),
-    lose: new Audio("./resources/lose.wav"),
-    tie: new Audio("./resources/tie.wav"),
-  },
-  funny: {
-    win: new Audio("./resources/niceMeme.mp3"),
-    tie: new Audio("./resources/tucoTight.mp3"),
-  },
+  click: new Audio("./resources/click.wav"),
+  reset: new Audio("./resources/reset_game.wav"),
+  win: new Audio("./resources/niceMeme.mp3"),
+  lose: new Audio("./resources/lose.wav"),
+  tie: new Audio("./resources/tie.wav"),
 };
 
 // WebSocket Client
@@ -127,7 +122,7 @@ function boardClickEventHandler(event) {
 board.addEventListener("click", boardClickEventHandler);
 
 function completeTurn(clickedCell) {
-  Sounds.normal.click.play();
+  Sounds.click.play();
   updateBoard(clickedCell);
   updateGameState();
   if (!onlineMode) game.saveGameData();
@@ -224,19 +219,19 @@ function updateGameState() {
   switch (gameState) {
     case GameState.WIN:
       displayMessage(game.nextTurnPlayer().name + " Win!");
-      Sounds.normal.win.play();
+      Sounds.win.play();
       emitGameOverToServer();
       break;
     case GameState.LOSE:
       displayMessage(game.nextTurnPlayer().name + " Win!");
       playerType === PLAYER_TYPE.HUMAN || onlineMode
-        ? Sounds.normal.win.play()
-        : Sounds.normal.lose.play();
+        ? Sounds.win.play()
+        : Sounds.lose.play();
       emitGameOverToServer();
       break;
     case GameState.TIE:
       displayMessage("TIE GAME!");
-      Sounds.funny.tie.play();
+      Sounds.tie.play();
       emitGameOverToServer();
       break;
     default:
@@ -249,7 +244,7 @@ function updateGameState() {
  * reset both boards in game object and UI
  */
 function resetGame() {
-  Sounds.normal.reset.play();
+  Sounds.reset.play();
   resetBoard();
   game.resetBoard();
   displayMessage(game.player1.name + " TURN");
@@ -380,6 +375,7 @@ joinRoomForm.addEventListener("submit", (event) => {
     { player: player1, room: roomNumberInput.value },
     (error) => alert(error)
   );
+  toggleModal();
 });
 
 /**
@@ -405,6 +401,11 @@ socket.on(
     const { message, opponent, whoseTurn } = data;
     displayMessage(message);
     if (opponent && whoseTurn) {
+      resetGameButton.style.display = "none";
+      Array.from(options).forEach((option) => {
+        console.log(option);
+        option.style.display = "none";
+      });
       game.player2.update({ ...opponent });
       game.updateWhoseTurn(whoseTurn);
       if (whoseTurn === 2) {
@@ -412,6 +413,7 @@ socket.on(
       }
       updateScore();
       updatePlayerName();
+      resetGame();
     }
   },
   (error) => alert(error)
@@ -419,5 +421,7 @@ socket.on(
 
 socket.on("gameOver", (data) => {
   console.log(data);
-  resetGame();
+  setTimeout(() => {
+    resetGame();
+  }, 2000);
 });
