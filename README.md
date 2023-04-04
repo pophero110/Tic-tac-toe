@@ -211,13 +211,13 @@ const Sounds = {
       ELSE
         select center cell
     ELSE
-      block any potential winning combination made by human OR
-            FOR each winning combination in the game:
-              IF the combination has two cells filled by the human and one empty cell:
-                select the empty cell
       select any potential winning combination OR
             FOR each winning combination in the game:
               IF the combination has two cells filled by the AI and one empty cell:
+                select the empty cell
+      block any potential winning combination made by human OR
+            FOR each winning combination in the game:
+              IF the combination has two cells filled by the human and one empty cell:
                 select the empty cell
       randomly select empty cell
   IF AI plays first
@@ -226,8 +226,8 @@ const Sounds = {
     IF it is AI's first turn
       select center cell
     ELSE
-      block any potential winning combination made by human OR
       select any potential winning combination OR
+      block any potential winning combination made by human OR
       If corner cells are unmarked and !winning
         SET winning = true
         If humanMove === 2 or humanMove === 8

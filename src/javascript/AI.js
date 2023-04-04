@@ -10,66 +10,110 @@ export class AI extends Player {
   ) {
     super({ name, marker, type, score });
     this.comeFirst = false;
+    this.winning = false;
+    this.previousMove = 0;
+    this.countTurn = 0;
   }
 
   selectCell(game) {
-    return this.#selectCellIfAIComeFirst(game);
+    return this.comeFirst
+      ? this.#selectCellIfAIComeFirst(game)
+      : this.#selectCellIfAIComeSecond(game);
   }
   /**
    * 1. always select one of corner cells if human player marked center else select center cell
-   * 2. block any potential winning combination made by human
-   * 3. select the cell that can win the game
+   * 2. select the cell that can win the game OR
+   * 3. block any potential winning combination made by human OR
    * 4. randomly select empty cell
    */
-  #selectCellIfAIComeFirst(game) {
-    const cells = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  #selectCellIfAIComeSecond(game) {
     const board = game.board;
-    let selectedCell = 0;
-    let humanPotentialCombinations = this.#checkPotentialWinningCombination(
+    let huamnWinningCell = this.#checkEmptyPotentialWinningCombination(
       game.board,
       1
     );
-    let aiPotentialCombinations = this.#checkPotentialWinningCombination(
+    let aiWinningCell = this.#checkEmptyPotentialWinningCombination(
       game.board,
       2
     );
-    aiPotentialCombinations.forEach((cell) => {
-      if (!board[cell]) selectedCell = cell;
-    });
-    if (selectedCell) return selectedCell;
-    humanPotentialCombinations.forEach((cell) => {
-      if (!board[cell]) selectedCell = cell;
-    });
-    if (selectedCell) return selectedCell;
+    if (aiWinningCell) return aiWinningCell;
+    if (huamnWinningCell) return huamnWinningCell;
 
-    // check if it is second round
     if (Object.keys(board).length === 1) {
       if (board[5]) {
-        selectedCell = 1;
+        return 1;
       } else {
-        selectedCell = 5;
+        return 5;
       }
-      return selectedCell;
     }
 
-    cells.forEach((cell) => {
-      if (!board[cell]) selectedCell = cell;
-    });
-
-    return selectedCell;
+    const cells = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    return cells.find((cell) => !board[cell]);
   }
 
-  #checkPotentialWinningCombination(board, player) {
+  /**
+   * In the first turn, the AI should always select the center cell.
+   * If the human player selects a side cell, the AI should follow a pre-designed set of steps to win the game.
+   * Otherwise, the AI should select the cell that can win the game.
+   * Or block any potential winning combination made by human
+   * Or randomly select an empty cell.
+   */
+  #selectCellIfAIComeFirst(game) {
+    this.countTurn++;
+    if (this.countTurn === 1) {
+      this.previousMove = 5;
+      return 5;
+    }
+
+    if (this.countTurn === 2) {
+      const humanMove = parseInt(
+        Object.keys(game.board).find((cell) => cell != 5)
+      );
+      if (humanMove === 2 || humanMove === 8) {
+        this.winning = true;
+        this.previousMove = 4;
+        return 4;
+      } else if (humanMove === 4 || humanMove === 6) {
+        this.winning = true;
+        this.previousMove = 2;
+        return 2;
+      }
+    }
+
+    let huamnWinningCell = this.#checkEmptyPotentialWinningCombination(
+      game.board,
+      1
+    );
+    let aiWinningCell = this.#checkEmptyPotentialWinningCombination(
+      game.board,
+      2
+    );
+
+    if (aiWinningCell) return aiWinningCell;
+    if (huamnWinningCell) return huamnWinningCell;
+
+    if (this.winning) {
+      if (this.previousMove === 4) {
+        return 7;
+      } else if (this.previousMove === 2) {
+        return 1;
+      }
+    }
+
+    const cells = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    return cells.find((cell) => !game.board[cell]);
+  }
+
+  #checkEmptyPotentialWinningCombination(board, player) {
     let count = 0;
     let positionOfCell = 0;
-    let cells = [];
     for (const combination of WINNING_COMBINATIONS) {
       combination.forEach((cell) => {
         board[cell] === player ? count++ : (positionOfCell = cell);
       });
-      if (count === 2) cells.push(positionOfCell);
+      if (count === 2 && !board[positionOfCell]) return positionOfCell;
       count = 0;
     }
-    return cells;
+    return 0;
   }
 }

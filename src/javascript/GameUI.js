@@ -43,10 +43,10 @@ let game = new Game(player1, aiPlayer);
 const Sounds = {
   click: new Audio("./resources/sounds/click.wav"),
   reset: new Audio("./resources/sounds/reset_game.wav"),
-  win: new Audio("./resources/sounds/win.mp3"),
+  win: new Audio("./resources/sounds/win.wav"),
   lose: new Audio("./resources/sounds/lose.wav"),
   tie: new Audio("./resources/sounds/tie.wav"),
-  matchReady: new Audio("./resources/sounds/match_ready.mp3"),
+  matchReady: new Audio("./resources/sounds/match_ready.wav"),
 };
 
 const FORM_TYPE = {
@@ -101,7 +101,7 @@ switchTurnButton.addEventListener("click", (event) => {
   resetGame();
 });
 
-function emitMarkCellEvent() {
+function emitMarkCellEvent(clickedCell) {
   if (onlineMode) {
     socket.emit("markCell", { cellPosition: clickedCell.id }, (error) =>
       alert(error)
@@ -127,7 +127,7 @@ function boardClickEventHandler(event) {
     return;
   }
 
-  emitMarkCellEvent();
+  emitMarkCellEvent(clickedCell);
   completeTurn(clickedCell);
   if (playerType === PLAYER_TYPE.AI) aiCompleteTurn();
 }
@@ -276,6 +276,9 @@ function resetGame() {
     resetGameButton.style.display = "none";
   }
   if (defaultWhoseTurn === 2 && playerType === PLAYER_TYPE.AI) {
+    aiPlayer.comeFirst = true;
+    aiPlayer.previousMove = 0;
+    aiPlayer.countTurn = 0;
     aiCompleteTurn();
   }
 }
@@ -447,9 +450,11 @@ socket.on(
 
 socket.on("gameOver", (data) => {
   board.removeEventListener("click", boardClickEventHandler);
+  displayMessage("Resetting game");
   setTimeout(() => {
     removeCells();
     game.gameState = GameState.NOT_GAME_OVER;
+    Sounds.reset.play();
     game.board = {};
     if (game.whoseTurn === 1) {
       displayTurnMessage(game.player1);
@@ -457,5 +462,5 @@ socket.on("gameOver", (data) => {
     } else {
       displayTurnMessage(game.player2);
     }
-  }, 2000);
+  }, 3000);
 });
