@@ -4,6 +4,18 @@ Developer: Jeff Ou
 Main goal: Make a tic-tac-toe game using all of my knowledge about web development  
 Link to the game: https://my-tic-tac-toe.herokuapp.com/
 
+# Table of Contents
+
+- [Technologies](#technologies)
+- [Technical Requirements](#technical-requirements)
+- [App Screenshots](#app-screenshots)
+- [Project Breakdown](#project-breakdown)
+- [Project Hurdles](#project-hurdles)
+- [Projec Wins](#project-wins)
+- [Planning diagram](#planning-diagram)
+- [TODO](#todo)
+- [Credits](#credits)
+
 # Technologies
 
 - **Webpack**: to combine multiple JS files into one JS file 'main.js'
@@ -43,14 +55,14 @@ Link to the game: https://my-tic-tac-toe.herokuapp.com/
 # Project Hurdles
 
 - how to manage the code when adding a new feature
-  - refactor the code so it's easy to understand
+  - always refactor the code after adding a new feature so it's easy to understand and change later.
   - follow principles of KISS, DRY, separation of concerns, one function should do one thing and use meaningful names for variables and functions
 - how to manage the data flow
   - draw a data flow chart to visualize it
 
 # Project Wins
 
-- The biggest win is that I'm able to fulfill all the user stories! Such a wonderful journey!
+- The biggest win is that I'm able to fulfill all the user stories! and that made me feel so satisfied!
 - Another great win was that I learned the necessity of planning and pseudocode.
 
 # Project Breakdown
@@ -314,9 +326,18 @@ main {
 # Planning diagram
 
 <details>
-<summary>Sequence diagram</summary>
+<summary>Local Storage sequence chart</summary>
 
 ![image](./resources/diagrams/sequence_diagram.png)
+[Link to chart](https://drive.google.com/file/d/14rg_b02h7OBDsa5ZECp-IMLD1gSfvWJV/view?usp=sharing)
+
+</details>
+
+<details>
+<summary>Online game sequence chart</summary>
+
+![image](./resources/diagrams/online_game.png)
+[Link to chart](https://drive.google.com/file/d/1bfKOrame39ZxCFQLEWaMI99M4pYDVyu8/view?usp=sharing)
 
 </details>
 
