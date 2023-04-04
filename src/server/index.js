@@ -74,6 +74,11 @@ io.on("connection", (socket) => {
     const { cellPosition } = options;
     const player = players.find((player) => player.socketId === socket.id);
     console.log("Mark Cell", players);
+    if (!player) {
+      callback("Player not found, please refresh page and join room again");
+      return;
+    }
+
     const opponent = players.find(
       (ele) => ele.room === player.room && ele.id !== player.id
     );

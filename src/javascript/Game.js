@@ -81,10 +81,6 @@ class Game {
     console.log("save game", JSON.parse(localStorage.getItem("gameData")));
   }
 
-  updateWhoseTurn(whoseTurn) {
-    this.whoseTurn = whoseTurn;
-  }
-
   switchTurn() {
     this.whoseTurn = this.whoseTurn === 1 ? 2 : 1;
   }

@@ -129,8 +129,8 @@ function completeTurn(clickedCell) {
   Sounds.click.play();
   updateBoard(clickedCell);
   updateGameState();
-  if (!onlineMode) game.saveGameData();
   updateScore();
+  if (!onlineMode) game.saveGameData();
 }
 
 function aiCompleteTurn() {
@@ -414,7 +414,7 @@ socket.on(
       resetBoard();
       game.gameState = GameState.NOT_GAME_OVER;
       game.board = {};
-      game.updateWhoseTurn(whoseTurn);
+      game.whoseTurn = whoseTurn;
       resetGameButton.style.display = "none";
       Array.from(options).forEach((option) => (option.style.display = "none"));
       game.player2 = new Player({ ...opponent });
