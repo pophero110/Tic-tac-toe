@@ -353,6 +353,7 @@ main {
 8. add animation
 9. add switch side feature ✅
 10. add hover tooltip for options button
+11. add this project to my portfolio
 
 # Credits
 
