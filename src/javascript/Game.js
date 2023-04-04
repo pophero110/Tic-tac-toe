@@ -40,9 +40,9 @@ class Game {
     this.board[positionOfMarkedCell] = this.whoseTurn;
   }
 
-  resetBoard() {
+  resetBoard(whoseTurn = 1) {
     this.board = {};
-    this.whoseTurn = 1;
+    this.whoseTurn = whoseTurn;
     this.gameState = GameState.NOT_GAME_OVER;
   }
 
@@ -78,7 +78,6 @@ class Game {
         player2: this.player2,
       })
     );
-    console.log("save game", JSON.parse(localStorage.getItem("gameData")));
   }
 
   switchTurn() {

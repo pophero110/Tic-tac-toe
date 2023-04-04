@@ -11,6 +11,7 @@ const player2Scoreboard = scoreboard[1].children;
 const options = document.querySelectorAll(".options");
 const playerTypeButton = document.querySelector(".playerTypeButton");
 const onlineButton = document.querySelector(".onlineButton");
+const switchTurnButton = document.querySelector(".switchTurnButton");
 const customizeButton = document.querySelector(".customizeButton");
 const resetDataButton = document.querySelector(".resetDataButton");
 const joinRoomForm = document.querySelector(".roomForm");
@@ -95,6 +96,19 @@ modalBackDrop.addEventListener("click", (event) => {
   toggleModal();
 });
 
+switchTurnButton.addEventListener("click", (event) => {
+  defaultWhoseTurn = defaultWhoseTurn === 1 ? 2 : 1;
+  resetGame();
+});
+
+function emitMarkCellEvent() {
+  if (onlineMode) {
+    socket.emit("markCell", { cellPosition: clickedCell.id }, (error) =>
+      alert(error)
+    );
+  }
+}
+
 function boardClickEventHandler(event) {
   /**
    * disable player to mark cell until ai player has completed the turn
@@ -113,7 +127,7 @@ function boardClickEventHandler(event) {
     return;
   }
 
-  socket.emit("markCell", { cellPosition: clickedCell.id });
+  emitMarkCellEvent();
   completeTurn(clickedCell);
   if (playerType === PLAYER_TYPE.AI) aiCompleteTurn();
 }
@@ -213,7 +227,7 @@ function updatePlayerTypeButtonText() {
 
 function emitGameOverToServer() {
   setTimeout(() => {
-    socket.emit("gameOver");
+    socket.emit("gameOver", (error) => alert(error));
   }, 1000);
 }
 
@@ -255,11 +269,14 @@ function updateGameState() {
 function resetGame() {
   Sounds.reset.play();
   resetBoard();
-  game.resetBoard();
-  displayTurnMessage(game.player1);
+  game.resetBoard(defaultWhoseTurn);
+  displayTurnMessage(defaultWhoseTurn === 1 ? game.player1 : game.player2);
   if (!onlineMode) game.saveGameData();
   if (window.innerWidth <= 600) {
     resetGameButton.style.display = "none";
+  }
+  if (defaultWhoseTurn === 2 && playerType === PLAYER_TYPE.AI) {
+    aiCompleteTurn();
   }
 }
 
@@ -412,9 +429,7 @@ socket.on(
     if (opponent && whoseTurn) {
       Sounds.matchReady.play();
       resetBoard();
-      game.gameState = GameState.NOT_GAME_OVER;
-      game.board = {};
-      game.whoseTurn = whoseTurn;
+      game.resetBoard(whoseTurn);
       resetGameButton.style.display = "none";
       Array.from(options).forEach((option) => (option.style.display = "none"));
       game.player2 = new Player({ ...opponent });
@@ -424,7 +439,6 @@ socket.on(
       } else {
         displayTurnMessage(game.player1);
       }
-
       updatePlayerName();
     }
   },

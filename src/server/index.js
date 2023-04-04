@@ -38,8 +38,8 @@ io.on("connection", (socket) => {
     }
 
     /**
-     * if there is a player in the room already, send message and second player data to first player
-     * and send first player data to second player
+     * if there is a player in the room already, send message and second player data to the player
+     * and send the player data to second player
      * whoseTurn = 1 means will go first in turn, and whoseTurn = 2 will go second in turn.
      */
     let firstPlayer;
@@ -51,20 +51,19 @@ io.on("connection", (socket) => {
         whoseTurn: 1,
       });
       socket.emit("message", {
-        message: "Welcome " + player.name,
+        message: "Welcome to room " + room,
         opponent: firstPlayer,
         whoseTurn: 2,
       });
     } else {
       socket.emit("message", {
-        message: "Welcome " + player.name,
+        message: "Welcome to room " + room,
       });
     }
 
     numberOfPlayerInRoom[room] = (numberOfPlayerInRoom[room] || 0) + 1;
     players.push({ socketId: socket.id, room, ...player });
     socket.join(room);
-    console.log("Join Room", players);
   });
 
   /**
@@ -73,7 +72,6 @@ io.on("connection", (socket) => {
   socket.on("markCell", (options, callback) => {
     const { cellPosition } = options;
     const player = players.find((player) => player.socketId === socket.id);
-    console.log("Mark Cell", players);
     if (!player) {
       callback("Player not found, please refresh page and join room again");
       return;

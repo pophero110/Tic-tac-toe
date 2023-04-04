@@ -330,7 +330,8 @@ main {
 6. remove text select on cell ✅
 7. add Postcss and Autoprefixer for vendor prefixes
 8. add animation
-9. add switch side feature
+9. add switch side feature ✅
+10. add hover tooltip for options button
 
 # Credits
 
