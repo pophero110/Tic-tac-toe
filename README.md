@@ -58,7 +58,7 @@ Link to the game: https://my-tic-tac-toe.herokuapp.com/
   - always refactor the code after adding a new feature so it's easy to understand and change later.
   - follow principles of KISS, DRY, separation of concerns, one function should do one thing and use meaningful names for variables and functions
 - how to manage the data flow
-  - draw a data flow chart to visualize it
+  - use diagram to visualize it
 
 # Project Wins
 
