@@ -55,7 +55,7 @@ const FORM_TYPE = {
 };
 
 // WebSocket Client
-const socket = io();
+// const socket = io();
 
 // Modal
 function toggleModal() {
@@ -75,11 +75,11 @@ function changeForm(formType) {
   }
 }
 
-// Option buttons
-onlineButton.addEventListener("click", (event) => {
-  toggleModal();
-  changeForm(FORM_TYPE.ROOM_FORM);
-});
+// // Option buttons
+// onlineButton.addEventListener("click", (event) => {
+//   toggleModal();
+//   changeForm(FORM_TYPE.ROOM_FORM);
+// });
 
 customizeButton.addEventListener("click", (event) => {
   toggleModal();
@@ -411,56 +411,56 @@ joinRoomForm.addEventListener("submit", (event) => {
 /**
  * listen to opponent's move, update the board and switch turn
  */
-socket.on(
-  "markCell",
-  (data) => {
-    const { cellPosition } = data;
-    completeTurn(document.getElementById(cellPosition));
-    board.addEventListener("click", boardClickEventHandler);
-  },
-  (error) => alert(error)
-);
+// socket.on(
+//   "markCell",
+//   (data) => {
+//     const { cellPosition } = data;
+//     completeTurn(document.getElementById(cellPosition));
+//     board.addEventListener("click", boardClickEventHandler);
+//   },
+//   (error) => alert(error)
+// );
 
 /**
  * listen to message from server
  */
-socket.on(
-  "message",
-  (data) => {
-    const { message, opponent, whoseTurn } = data;
-    displayMessage(message);
-    if (opponent && whoseTurn) {
-      Sounds.matchReady.play();
-      resetBoard();
-      game.resetBoard(whoseTurn);
-      resetGameButton.style.display = "none";
-      Array.from(options).forEach((option) => (option.style.display = "none"));
-      game.player2 = new Player({ ...opponent });
-      if (whoseTurn === 2) {
-        displayTurnMessage(game.player2);
-        board.removeEventListener("click", boardClickEventHandler);
-      } else {
-        displayTurnMessage(game.player1);
-      }
-      updatePlayerName();
-    }
-  },
-  (error) => alert(error)
-);
+// socket.on(
+//   "message",
+//   (data) => {
+//     const { message, opponent, whoseTurn } = data;
+//     displayMessage(message);
+//     if (opponent && whoseTurn) {
+//       Sounds.matchReady.play();
+//       resetBoard();
+//       game.resetBoard(whoseTurn);
+//       resetGameButton.style.display = "none";
+//       Array.from(options).forEach((option) => (option.style.display = "none"));
+//       game.player2 = new Player({ ...opponent });
+//       if (whoseTurn === 2) {
+//         displayTurnMessage(game.player2);
+//         board.removeEventListener("click", boardClickEventHandler);
+//       } else {
+//         displayTurnMessage(game.player1);
+//       }
+//       updatePlayerName();
+//     }
+//   },
+//   (error) => alert(error)
+// );
 
-socket.on("gameOver", (data) => {
-  board.removeEventListener("click", boardClickEventHandler);
-  displayMessage("Resetting game");
-  setTimeout(() => {
-    removeCells();
-    game.gameState = GameState.NOT_GAME_OVER;
-    Sounds.reset.play();
-    game.board = {};
-    if (game.whoseTurn === 1) {
-      displayTurnMessage(game.player1);
-      board.addEventListener("click", boardClickEventHandler);
-    } else {
-      displayTurnMessage(game.player2);
-    }
-  }, 3000);
-});
+// socket.on("gameOver", (data) => {
+//   board.removeEventListener("click", boardClickEventHandler);
+//   displayMessage("Resetting game");
+//   setTimeout(() => {
+//     removeCells();
+//     game.gameState = GameState.NOT_GAME_OVER;
+//     Sounds.reset.play();
+//     game.board = {};
+//     if (game.whoseTurn === 1) {
+//       displayTurnMessage(game.player1);
+//       board.addEventListener("click", boardClickEventHandler);
+//     } else {
+//       displayTurnMessage(game.player2);
+//     }
+//   }, 3000);
+// });
